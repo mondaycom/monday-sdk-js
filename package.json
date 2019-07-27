@@ -1,8 +1,16 @@
 {
   "name": "monday-sdk",
   "version": "1.0.0",
-  "main": "index.js",
+  "private": true,
   "repository": "https://github.com/talharamati/monday-sdk.git",
   "author": "talharamati <tal@monday.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "loadash": "^1.0.0",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6"
+  }
 }
