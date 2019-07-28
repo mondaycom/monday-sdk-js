@@ -1,12 +1,32 @@
-import _ from "lodash";
+import mondayApi from "./monday-api-client";
 
-function component() {
-  const element = document.createElement("div");
+window.monday = {
+  init: client_id => {
+    window.monday.client_id = client_id;
+  },
+  token: token => {
+    window.monday.token = token;
+  },
+  api: query => {
+    console.log("api", query, window.monday.token);
+    return mondayApi({ query }, { token: window.monday.token });
+  },
+  localApi: (method, args) => {
+    return new Promise(function(resolve, reject) {
+      window.parent.postMessage({ method, args }, "*");
 
-  // Lodash, currently included via a script, is required for this line to work
-  element.innerHTML = _.join(["Hello", "webpack"], " ");
+      var receiveMessage = event => {
+        resolve(event.data);
+        window.removeEventListener("message", receiveMessage);
+      };
 
-  return element;
-}
-
-document.body.appendChild(component());
+      window.addEventListener("message", receiveMessage, false);
+    });
+  },
+  authenticate: () => {
+    var url = `http://auth.lvh.me/oauth/authorize?client_id=${
+      window.monday.client_id
+    }&scope=me:monday_service_session`;
+    window.location = url;
+  }
+};
