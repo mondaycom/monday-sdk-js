@@ -6,11 +6,14 @@
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
   "dependencies": {
-    "loadash": "^1.0.0",
-    "lodash": "^4.17.15"
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "webpack": "^4.38.0",
-    "webpack-cli": "^3.3.6"
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "scripts": {
+    "start": "webpack-dev-server"
   }
 }
