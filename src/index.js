@@ -7,29 +7,36 @@ window.monday = {
     window.addEventListener("message", window.monday.receiveMessage, false);
   },
   token: token => {
-    window.monday.token = token;
+    window.monday.apiToken = token;
   },
   api: query => {
-    console.log("api", query, window.monday.token);
-    return mondayApi({ query }, { token: window.monday.token });
+    if (window.monday.apiToken) {
+      return mondayApi({ query }, { token: window.monday.apiToken });
+    } else {
+      return new Promise(function(resolve, reject) {
+        window.monday.localApi("api", { query }).then(result => {
+          resolve(result.data);
+        });
+      });
+    }
   },
   localApi: (method, args) => {
     return new Promise(function(resolve, reject) {
-      window.parent.postMessage({ method, args }, "*");
-
-      var receiveMessage = event => {
-        if (event.data.method == method) {
-          resolve(event.data);
-          window.removeEventListener("message", receiveMessage);
-        }
-      };
-
-      window.addEventListener("message", receiveMessage, false);
+      const requestId = Math.random()
+        .toString(36)
+        .substr(2, 9);
+      window.parent.postMessage({ method, args, requestId }, "*");
+      window.monday.addListener(requestId, data => {
+        resolve(data);
+      });
     });
   },
-  receiveMessage: (event) => {
-    const { method } = event.data;
-    const listeners = window.monday.listeners[method];
+  receiveMessage: event => {
+    const { method, requestId } = event.data;
+    const methodListeners = window.monday.listeners[method] || [];
+    const requestIdListeners = window.monday.listeners[requestId] || [];
+    const listeners = [...methodListeners, ...requestIdListeners];
+
     if (listeners) {
       listeners.forEach(listener => {
         listener(event.data);
@@ -37,15 +44,16 @@ window.monday = {
     }
   },
   listen: (type, callback) => {
+    window.monday.addListener(type, callback);
     window.monday.localApi("listen", { type });
-    window.monday.listeners[type] = window.monday.listeners[type] || [];
-    window.monday.listeners[type].push(callback);
     // todo uniq listeners, remove listener
   },
+  addListener: (key, callback) => {
+    window.monday.listeners[key] = window.monday.listeners[key] || [];
+    window.monday.listeners[key].push(callback);
+  },
   authenticate: () => {
-    var url = `http://auth.lvh.me/oauth/authorize?client_id=${
-      window.monday.client_id
-    }&scope=me:monday_service_session`;
+    var url = `http://auth.lvh.me/oauth/authorize?client_id=${window.monday.client_id}&scope=me:monday_service_session`;
     window.location = url;
   }
 };
