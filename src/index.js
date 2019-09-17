@@ -1,8 +1,7 @@
-// import mondayApi from "./monday-api-client";
+import mondayApi from "./monday-api-client";
 
 class MondaySdk {
   constructor() {
-    console.log("here")
     window.monday = this;
     this.listeners = {};
     this.init = this.init.bind(this);
@@ -78,5 +77,4 @@ class MondaySdk {
   }
 }
 
-console.log("1111111");
 new MondaySdk();
