@@ -1,40 +1,57 @@
-import mondayApi from "./monday-api-client";
+// import mondayApi from "./monday-api-client";
 
-window.monday = {
-  listeners: {},
-  init: client_id => {
-    window.monday.client_id = client_id;
-    window.addEventListener("message", window.monday.receiveMessage, false);
-  },
-  token: token => {
-    window.monday.apiToken = token;
-  },
-  api: query => {
-    if (window.monday.apiToken) {
-      return mondayApi({ query }, { token: window.monday.apiToken });
+class MondaySdk {
+  constructor() {
+    console.log("here")
+    window.monday = this;
+    this.listeners = {};
+    this.init = this.init.bind(this);
+    this.token = this.token.bind(this);
+    this.api = this.api.bind(this);
+    this.localApi = this.localApi.bind(this);
+    this.receiveMessage = this.receiveMessage.bind(this);
+    this.listen = this.listen.bind(this);
+    this.addListener = this.addListener.bind(this);
+    this.authenticate = this.authenticate.bind(this);
+  }
+
+  init(clientId) {
+    this.clientId = clientId;
+    window.addEventListener("message", this.receiveMessage, false);
+  }
+
+  token(token) {
+    this.apiToken = token;
+  }
+
+  api(query) {
+    if (this.apiToken) {
+      return mondayApi({ query }, { token: this.apiToken });
     } else {
-      return new Promise(function(resolve, reject) {
-        window.monday.localApi("api", { query }).then(result => {
+      return new Promise((resolve, reject) => {
+        this.localApi("api", { query }).then(result => {
           resolve(result.data);
         });
       });
     }
-  },
-  localApi: (method, args) => {
-    return new Promise(function(resolve, reject) {
-      const requestId = Math.random()
-        .toString(36)
-        .substr(2, 9);
-      window.parent.postMessage({ method, args, requestId }, "*");
-      window.monday.addListener(requestId, data => {
+  }
+
+  localApi(method, args) {
+    return new Promise((resolve, reject) => {
+      const requestId = Math.random().toString(36).substr(2, 9);
+      const clientId = this.clientId;
+      
+      window.parent.postMessage({ method, args, requestId, clientId }, "*");
+      this.addListener(requestId, data => {
         resolve(data);
       });
     });
-  },
-  receiveMessage: event => {
+  }
+
+  receiveMessage(event) {
     const { method, requestId } = event.data;
-    const methodListeners = window.monday.listeners[method] || [];
-    const requestIdListeners = window.monday.listeners[requestId] || [];
+    const methodListeners = this.listeners[method] || [];
+    const requestIdListeners = this.listeners[requestId] || [];
     const listeners = [...methodListeners, ...requestIdListeners];
 
     if (listeners) {
@@ -42,18 +59,24 @@ window.monday = {
         listener(event.data);
       });
     }
-  },
-  listen: (type, callback) => {
-    window.monday.addListener(type, callback);
-    window.monday.localApi("listen", { type });
+  }
+
+  listen(type, callback) {
+    this.addListener(type, callback);
+    this.localApi("listen", { type });
     // todo uniq listeners, remove listener
-  },
-  addListener: (key, callback) => {
-    window.monday.listeners[key] = window.monday.listeners[key] || [];
-    window.monday.listeners[key].push(callback);
-  },
-  authenticate: () => {
-    var url = `http://auth.lvh.me/oauth/authorize?client_id=${window.monday.client_id}&scope=me:monday_service_session`;
+  }
+
+  addListener(key, callback) {
+    this.listeners[key] = this.listeners[key] || [];
+    this.listeners[key].push(callback);
+  }
+
+  authenticate() {
+    const url = `https://auth.monday.com/oauth/authorize?client_id=${this.clientId}&scope=me:monday_service_session`;
     window.location = url;
   }
-};
+}
+
+console.log("1111111");
+new MondaySdk();
