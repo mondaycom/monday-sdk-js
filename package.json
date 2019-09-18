@@ -2,7 +2,7 @@
   "name": "monday-sdk",
   "version": "1.0.4",
   "private": false,
-  "repository": "https://github.com/talharamati/monday-sdk.git",
+  "repository": "https://github.com/DaPulse/monday-sdk",
   "main": "src/index.js",
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
