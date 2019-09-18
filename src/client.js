@@ -2,7 +2,6 @@ import mondayApi from "./monday-api-client";
 
 class MondaySdk {
   constructor() {
-    window.monday = this;
     this.listeners = {};
     this.init = this.init.bind(this);
     this.token = this.token.bind(this);
