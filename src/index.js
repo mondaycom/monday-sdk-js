@@ -1,7 +1,15 @@
 const { isBrowser, isNode } = require('browser-or-node');
-console.log("isBrowser", isBrowser)
 const { monday } = isBrowser ? require("./client") : require("./server");
 
-module.exports = {
-  monday
-}
+
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(factory);
+  } else if (typeof exports === 'object') {
+    module.exports = { monday: factory() };
+  } else if (root) {
+    root.monday = factory();
+  }
+}(typeof self !== 'undefined' ? self : this, function() {
+    return monday;
+}));
