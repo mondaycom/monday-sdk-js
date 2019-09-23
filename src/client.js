@@ -1,4 +1,5 @@
 import mondayApi from "./monday-api-client";
+import { MONDAY_OAUTH_URL } from "./constants.js";
 
 class MondaySdk {
   constructor() {
@@ -22,9 +23,11 @@ class MondaySdk {
     this.apiToken = token;
   }
 
-  api(query) {
-    if (this.apiToken) {
-      return mondayApi({ query }, { token: this.apiToken });
+  api(query, options = {}) {
+    const token = options.token || this.apiToken;
+
+    if (token) {
+      return mondayApi({ query }, { token });
     } else {
       return new Promise((resolve, reject) => {
         this.localApi("api", { query }).then(result => {
@@ -36,9 +39,9 @@ class MondaySdk {
 
   localApi(method, args) {
     return new Promise((resolve, reject) => {
-      const requestId = Math.random().toString(36).substr(2, 9);
+      const requestId = this._generateRequestId();
       const clientId = this.clientId;
-      
+
       window.parent.postMessage({ method, args, requestId, clientId }, "*");
       this.addListener(requestId, data => {
         resolve(data);
@@ -71,8 +74,14 @@ class MondaySdk {
   }
 
   authenticate() {
-    const url = `http://auth.lvh.me/oauth/authorize?client_id=${this.clientId}&scope=me:monday_service_session`;
+    const url = `${MONDAY_OAUTH_URL}?client_id=${this.clientId}&scope=me:monday_service_session`;
     window.location = url;
+  }
+
+  _generateRequestId() {
+    return Math.random()
+      .toString(36)
+      .substr(2, 9);
   }
 }
 
