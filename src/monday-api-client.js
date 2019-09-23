@@ -1,5 +1,5 @@
 const fetch = require("node-fetch");
-const MONDAY_API_URL = `http://api.lvh.me/v2`;
+const { MONDAY_API_URL } = require("./constants.js");
 
 const client = async (data, options = {}) => {
   const url = `${MONDAY_API_URL}${options.path || ""}`;
