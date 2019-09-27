@@ -1,4 +1,5 @@
 const mondayApi = require("./monday-api-client");
+const { getToken } = require("./services/oauth-service.js");
 
 class MondaySdk {
   constructor() {
@@ -20,11 +21,15 @@ class MondaySdk {
       } else {
         reject("Should send 'token' as an option or call monday.token(TOKEN)");
       }
-    })
+    });
+  }
+
+  getToken(code, clientId, clientSecret) {
+    return getToken(code, clientId, clientSecret);
   }
 }
 
 const monday = new MondaySdk();
 module.exports = {
   monday
-}
+};
