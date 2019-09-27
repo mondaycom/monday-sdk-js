@@ -69,7 +69,7 @@ monday.api(`
 Get data from the monday app client. Can be used only while working as an app feature inside an iframe.
 Returns a promise that will be resolved with the data.
 
-#### metaData
+* #### metaData
 ```javascript
 monday.get("metaData").then(res => console.log(res));
 ```
@@ -94,13 +94,13 @@ monday.get("metaData").then(res => console.log(res));
 ### **listen(type, callback)**
 Subscribe to get notified on certain events.
 
-#### metaData
+* #### metaData
 Will call your callback with the updated metaData when it changes
 ```javascript
 const callback = (res => console.log(res));
 const unsubscribe = monday.listen("metaData", callback);
 ```
-#### events
+* #### events
 Will call your callback with events occured in your board/s.
 ```javascript
 const callback = (res => console.log(res));
@@ -116,7 +116,7 @@ const unsubscribe = monday.listen("events", callback);
 ### **execute(type, params)**
 Call for action on the monday app
 
-#### openItemCard
+* #### openItemCard
 Open a popup with all item info
 
 ```javascript
