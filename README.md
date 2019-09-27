@@ -71,31 +71,57 @@ Returns a promise that will be resolved with the data.
 
 #### metaData
 ```javascript
-	monday.get("metaData").then(res => console.log(res));
+monday.get("metaData").then(res => console.log(res));
 ```
-**Board View**
+
 ```javascript
+// Board Views
 {
   boardId: 3423243, 
   boardViewId: 19324,
   settings: {...} // Depends on what you define in your feature settings
 }
-```
-**Dashboard Widget**
-```javascript
+
+// Dashboard Widgets
 {
   boardIds: [3423243, 943728], 
   widgetId: 54236,
   settings: {...} // Depends on what you define in your feature settings
 }
 ```
-* 
-|Feature||
-|--|--|
-|All|{}
-|Board Views|<code>{<br>asca: "",<br>awdawd}</code>|
-|Dashboard Widgets|
 
+
+### **listen(type, callback)**
+Subscribe to get notified on certain events.
+
+#### metaData
+Will call your callback with the updated metaData when it changes
+```javascript
+const callback = (res => console.log(res));
+const unsubscribe = monday.listen("metaData", callback);
+```
+#### events
+Will call your callback with events occured in your board/s.
+```javascript
+const callback = (res => console.log(res));
+const unsubscribe = monday.listen("events", callback);
+
+// Some item has been create in your board/s:
+// { type: "new_items", itemIds: [5543, 5544, 5545], boardId: 3425 } 
+
+// Some column value has been changes:
+// { type: "change_column_value", itemId: 12342, value: {...} } 
+```
+
+### **execute(type, params)**
+Call for action on the monday app
+
+#### openItemCard
+Open a popup with all item info
+
+```javascript
+monday.execute("openItemCard", { itemId: item.id });
+```
 
 
 ### License
