@@ -2,8 +2,10 @@ const fetch = require("node-fetch");
 const { MONDAY_API_URL } = require("./constants.js");
 
 const client = async (data, options = {}) => {
-  const url = `${MONDAY_API_URL}${options.path || ""}`;
-  let response = await fetch(url, {
+  const url = options.url || MONDAY_API_URL;
+  const path = options.path || "";
+  const fullUrl = `${url}${path}`;
+  let response = await fetch(fullUrl, {
     method: options.method || "POST",
     body: JSON.stringify(data || {}),
     headers: {
