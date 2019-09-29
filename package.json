@@ -1,6 +1,6 @@
 {
   "name": "monday-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": false,
   "repository": "https://github.com/DaPulse/monday-sdk",
   "main": "src/index.js",
