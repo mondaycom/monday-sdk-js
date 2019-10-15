@@ -1,6 +1,9 @@
 import mondayApi from "./monday-api-client";
 import { MONDAY_OAUTH_URL } from "./constants.js";
 import { prepareApiData } from "./services/api-data-service";
+import { convertToArrayIfNeeded } from "./helpers";
+
+const EMPTY_ARRAY = [];
 
 class MondaySdk {
   constructor() {
@@ -55,10 +58,16 @@ class MondaySdk {
   }
 
   _receiveMessage(event) {
-    const { method, requestId } = event.data;
-    const methodListeners = this.listeners[method] || [];
-    const requestIdListeners = this.listeners[requestId] || [];
-    const listeners = [...methodListeners, ...requestIdListeners];
+    const { method, type, requestId } = event.data;
+    const methodListeners = this.listeners[method] || EMPTY_ARRAY;
+    const typeListeners = this.listeners[type] || EMPTY_ARRAY;
+    const requestIdListeners = this.listeners[requestId] || EMPTY_ARRAY;
+
+    let listeners = [
+      ...methodListeners,
+      ...typeListeners,
+      ...requestIdListeners
+    ];
 
     if (listeners) {
       listeners.forEach(listener => {
@@ -67,9 +76,14 @@ class MondaySdk {
     }
   }
 
-  listen(type, callback) {
-    this._addListener(type, callback);
-    this._localApi("listen", { type });
+  listen(typeOrTypes, callback, params) {
+    const types = convertToArrayIfNeeded(typeOrTypes);
+    console.log("listen", types);
+    types.forEach(type => {
+      this._addListener(type, callback);
+      this._localApi("listen", { type, params });
+    });
+
     // todo uniq listeners, remove listener
   }
 
