@@ -7,6 +7,7 @@
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
   "dependencies": {
+    "@types/source-map": "^0.5.2",
     "browser-or-node": "^1.2.1",
     "node-fetch": "^2.6.0"
   },
