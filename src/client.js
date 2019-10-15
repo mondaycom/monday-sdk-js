@@ -1,6 +1,9 @@
-const mondayApi = require('./monday-api-client');
-const { MONDAY_OAUTH_URL } = require('./constants.js');
-const { prepareApiData } = require('./services/api-data-service');
+const mondayApi = require("./monday-api-client");
+const { MONDAY_OAUTH_URL } = require("./constants.js");
+const { prepareApiData } = require("./services/api-data-service");
+const { convertToArrayIfNeeded } = require("./helpers");
+
+const EMPTY_ARRAY = [];
 
 class MondaySdk {
   constructor() {
@@ -21,7 +24,7 @@ class MondaySdk {
 
   init(clientId) {
     this.clientId = clientId;
-    window.addEventListener('message', this._receiveMessage, false);
+    window.addEventListener("message", this._receiveMessage, false);
   }
 
   token(token) {
@@ -35,7 +38,7 @@ class MondaySdk {
       return mondayApi(params, { token });
     } else {
       return new Promise((resolve, reject) => {
-        this._localApi('api', { params }).then(result => {
+        this._localApi("api", { params }).then(result => {
           resolve(result.data);
         });
       });
@@ -47,7 +50,7 @@ class MondaySdk {
       const requestId = this._generateRequestId();
       const clientId = this.clientId;
 
-      window.parent.postMessage({ method, args, requestId, clientId }, '*');
+      window.parent.postMessage({ method, args, requestId, clientId }, "*");
       this._addListener(requestId, data => {
         resolve(data);
       });
@@ -55,10 +58,16 @@ class MondaySdk {
   }
 
   _receiveMessage(event) {
-    const { method, requestId } = event.data;
-    const methodListeners = this.listeners[method] || [];
-    const requestIdListeners = this.listeners[requestId] || [];
-    const listeners = [...methodListeners, ...requestIdListeners];
+    const { method, type, requestId } = event.data;
+    const methodListeners = this.listeners[method] || EMPTY_ARRAY;
+    const typeListeners = this.listeners[type] || EMPTY_ARRAY;
+    const requestIdListeners = this.listeners[requestId] || EMPTY_ARRAY;
+
+    let listeners = [
+      ...methodListeners,
+      ...typeListeners,
+      ...requestIdListeners
+    ];
 
     if (listeners) {
       listeners.forEach(listener => {
@@ -67,18 +76,21 @@ class MondaySdk {
     }
   }
 
-  listen(type, callback) {
-    this._addListener(type, callback);
-    this._localApi('listen', { type });
+  listen(typeOrTypes, callback, params) {
+    const types = convertToArrayIfNeeded(typeOrTypes);
+    types.forEach(type => {
+      this._addListener(type, callback);
+      this._localApi("listen", { type, params });
+    });
     // todo uniq listeners, remove listener
   }
 
   get(type, params) {
-    return this._localApi('get', { type, params });
+    return this._localApi("get", { type, params });
   }
 
   execute(type, params) {
-    return this._localApi('execute', { type, params });
+    return this._localApi("execute", { type, params });
   }
 
   _addListener(key, callback) {
