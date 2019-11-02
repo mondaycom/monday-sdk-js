@@ -106,12 +106,21 @@ monday.get("context").then(res => console.log(res));
 ### **listen(type, callback)**
 Subscribe to get notified on certain events.
 
-* #### metaData
-Will call your callback with the updated metaData when it changes
+* #### settings
+Will call your callback with the updated settings when it changes
 ```javascript
 const callback = (res => console.log(res));
-const unsubscribe = monday.listen("metaData", callback);
+const unsubscribe = monday.listen("settings", callback);
 ```
+
+* #### context
+Will call your callback with the updated context when it changes
+```javascript
+const callback = (res => console.log(res));
+const unsubscribe = monday.listen("context", callback);
+```
+
+
 * #### events
 Will call your callback with events occured in your board/s.
 ```javascript
