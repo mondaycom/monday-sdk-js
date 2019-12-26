@@ -1,13 +1,4 @@
-
-
-
-
 # Monday SDK
-The monday SDK is....
-* **P1:** bla bla bla
-* **P2:** bla bla bla
-* **p3:** bla bla bla
-
 
 ## Installation
 * **Using as an NPM package:**  
