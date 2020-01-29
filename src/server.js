@@ -12,7 +12,7 @@ class MondaySdk {
     this.apiToken = token;
   }
 
-  api(query, options = {}) {
+  api(data, options = {}) {
     const params = prepareApiData(data);
     const token = options.token || this.apiToken;
     return new Promise((resolve, reject) => {
