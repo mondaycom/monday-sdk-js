@@ -1,5 +1,6 @@
 const mondayApi = require("./monday-api-client");
 const { getToken } = require("./services/oauth-service.js");
+const { prepareApiData } = require("./services/api-data-service");
 
 class MondaySdk {
   constructor() {
@@ -12,10 +13,11 @@ class MondaySdk {
   }
 
   api(query, options = {}) {
+    const params = prepareApiData(data);
     const token = options.token || this.apiToken;
     return new Promise((resolve, reject) => {
       if (token) {
-        mondayApi({ query }, { token })
+        mondayApi(params, { token })
           .then(data => resolve(data))
           .catch(error => reject(error));
       } else {
