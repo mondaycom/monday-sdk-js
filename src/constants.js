@@ -1,6 +1,6 @@
 let MONDAY_DOMAIN, MONDAY_PROTOCOL;
 
-if (true || process.env.NODE_ENV == "development") {
+if (process.env.NODE_ENV == "development") {
   MONDAY_DOMAIN = "lvh.me";
   MONDAY_PROTOCOL = "http";
 } else {
@@ -9,8 +9,8 @@ if (true || process.env.NODE_ENV == "development") {
 }
 
 const MONDAY_API_URL = `${MONDAY_PROTOCOL}://api.${MONDAY_DOMAIN}/v2`;
-const MONDAY_OAUTH_URL = `${MONDAY_PROTOCOL}://auth.${MONDAY_DOMAIN}/oauth/authorize`;
-const MONDAY_OAUTH_TOKEN_URL = `${MONDAY_PROTOCOL}://auth.${MONDAY_DOMAIN}/oauth/token`;
+const MONDAY_OAUTH_URL = `${MONDAY_PROTOCOL}://auth.${MONDAY_DOMAIN}/oauth2/authorize`;
+const MONDAY_OAUTH_TOKEN_URL = `${MONDAY_PROTOCOL}://auth.${MONDAY_DOMAIN}/oauth2/token`;
 
 // export { MONDAY_DOMAIN, MONDAY_PROTOCOL, MONDAY_API_URL, MONDAY_OAUTH_URL };
 module.exports = {
