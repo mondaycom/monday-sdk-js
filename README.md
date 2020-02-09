@@ -69,9 +69,20 @@ monday.api(`
 Get data from the monday app client. Can be used only while working as an app feature inside an iframe.
 Returns a promise that will be resolved with the data.
 
-* #### metaData
+* #### settings
 ```javascript
-monday.get("metaData").then(res => console.log(res));
+monday.get("settings").then(res => console.log(res));
+```
+
+```javascript
+{
+  fieldName: fieldValue
+}
+```
+
+* #### context
+```javascript
+monday.get("context").then(res => console.log(res));
 ```
 
 ```javascript
@@ -79,14 +90,15 @@ monday.get("metaData").then(res => console.log(res));
 {
   boardId: 3423243, 
   boardViewId: 19324,
-  settings: {...} // Depends on what you define in your feature settings
+  mode "fullScreen", // or "split"
+  theme "light" // or "dark"
 }
 
 // Dashboard Widgets
 {
   boardIds: [3423243, 943728], 
   widgetId: 54236,
-  settings: {...} // Depends on what you define in your feature settings
+  theme "light" // or "dark"
 }
 ```
 
@@ -94,12 +106,21 @@ monday.get("metaData").then(res => console.log(res));
 ### **listen(type, callback)**
 Subscribe to get notified on certain events.
 
-* #### metaData
-Will call your callback with the updated metaData when it changes
+* #### settings
+Will call your callback with the updated settings when it changes
 ```javascript
 const callback = (res => console.log(res));
-const unsubscribe = monday.listen("metaData", callback);
+const unsubscribe = monday.listen("settings", callback);
 ```
+
+* #### context
+Will call your callback with the updated context when it changes
+```javascript
+const callback = (res => console.log(res));
+const unsubscribe = monday.listen("context", callback);
+```
+
+
 * #### events
 Will call your callback with events occured in your board/s.
 ```javascript
