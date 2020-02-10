@@ -12,10 +12,11 @@ class MondaySdk {
   }
 
   api(query, options = {}) {
+    const params = { query, variables: options.variables };
     const token = options.token || this.apiToken;
     return new Promise((resolve, reject) => {
       if (token) {
-        mondayApi({ query }, { token })
+        mondayApi(params, { token })
           .then(data => resolve(data))
           .catch(error => reject(error));
       } else {

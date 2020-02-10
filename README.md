@@ -14,27 +14,16 @@ The monday SDK is a set of packages that allow your to talk with the monday API'
 
 - **Using as an NPM package:**
 
-`npm i monday-sdk --save`
+      	```npm i monday-sdk --save```
 
-`yarn add monday-sdk`
+      	```yarn add monday-sdk```
 
-- **Using `<script>` tag from a CDN:** `<script src="https://unpkg.com/monday-sdk@1.0.11/dist/main.js"></script>`
+- **Using `<script>` tag from a CDN:**  
+  `<script src="https://unpkg.com/monday-sdk@1.0.11/dist/main.js"></script>`
 
-## Client Side SDK
+## API Calls
 
-```javascript
-import monday from "monday-sdk";
-```
-
-### **init(clientId)**
-
-Should be called before any othe call to the sdk. Get your public client ID as a sole argument.
-
-```javascript
-CLIENT_ID = "912";
-
-monday.init(CLIENT_ID);
-```
+Use then `monday.api()` method both in the server and in the client in order to create api calls to the monday GraphQL API (v2). In the server you'll have to provide it with an access token to the API, and in the client you'll enjoy seamless authentication and you'll be able to create requests to the API in the name of the logged in user without providing a token.
 
 ### **api(query, options = {})**
 
@@ -49,8 +38,7 @@ Returns a promise that will be resolved with the API response on success.
 ```javascript
 monday.api(`query { users { id, name } }`).then(res => {
   console.log(res);
-
-  // { data: { users: [{id: 12312, name: "Bart Simpson"}, {id: 423423, name: "Homer Simpson"}] } }
+  /* { data: { users: [{id: 12312, name: "Bart Simpson"}, {id: 423423, name: "Homer Simpson"}] } } */
 });
 ```
 
@@ -58,39 +46,36 @@ monday.api(`query { users { id, name } }`).then(res => {
 
 ```javascript
 monday.api(`
-
-mutation {
-
-create_notification(
-
-text: "Poke",
-
-user_id: ${user.id},
-
-target_id: ${item.id},
-
-target_type: Project,
-
-internal: true
-
-) {
-
-id
-
-}
-
-}
-
+  mutation {
+    create_notification(
+      text: "Poke",
+      user_id: ${user.id},
+      target_id: ${item.id},
+      target_type: Project,
+      internal: true
+    ) { 
+      id 
+    }
+  }
 `);
 ```
 
 #### **Options**
 
-|Option|type|required|description|Default|
+| Option    | Description                                                 | Required       | Default                                                                                        |
+| --------- | ----------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------- |
+| token     | An access token to the monday API, granted by a monday user | Only on server | If not set, will make the call in the name of the logged in user (only on client side feature) |
+| variables | An object contains GraphQL query variables                  | No             | -                                                                                              |
 
-|--|--|--|--|--|
+## OAuth
 
-|token|String|No|A user's token to authenticate with|If is not set, we'll make that call through the iframe parent (which is in most cases exactly what you want)
+### **getToken(code, clientId, clientSecret)**
+
+## Client Side SDK
+
+```javascript
+import monday from "monday-sdk";
+```
 
 ### **get(type, params = {})**
 

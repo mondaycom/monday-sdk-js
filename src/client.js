@@ -1,6 +1,5 @@
 const mondayApi = require("./monday-api-client");
 const { MONDAY_OAUTH_URL } = require("./constants.js");
-const { prepareApiData } = require("./services/api-data-service");
 const { convertToArrayIfNeeded } = require("./helpers");
 
 const EMPTY_ARRAY = [];
@@ -20,6 +19,8 @@ class MondaySdk {
     this._receiveMessage = this._receiveMessage.bind(this);
     this._addListener = this._addListener.bind(this);
     this._localApi = this._localApi.bind(this);
+    console.log("Im there!!!!");
+    this.init();
   }
 
   init(clientId) {
@@ -31,8 +32,8 @@ class MondaySdk {
     this.apiToken = token;
   }
 
-  api(data, options = {}) {
-    const params = prepareApiData(data);
+  api(query, options = {}) {
+    const params = { query, variables: options.variables };
     const token = options.token || this.apiToken;
     if (token) {
       return mondayApi(params, { token });
@@ -99,7 +100,7 @@ class MondaySdk {
   }
 
   oauth() {
-    const url = `${MONDAY_OAUTH_URL}?client_id=${this.clientId}&scope=me:monday_service_session`;
+    const url = `${MONDAY_OAUTH_URL}?client_id=${this.clientId}`;
     window.location = url;
   }
 
