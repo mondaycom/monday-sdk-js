@@ -13,10 +13,8 @@ The monday SDK is a set of packages that allow your to talk with the monday API'
 ## Installation
 
 - **Using as an NPM package:**
-
-      	```npm i monday-sdk --save```
-
-      	```yarn add monday-sdk```
+  `npm i monday-sdk --save`
+  `yarn add monday-sdk`
 
 - **Using `<script>` tag from a CDN:**  
   `<script src="https://unpkg.com/monday-sdk@1.0.11/dist/main.js"></script>`
