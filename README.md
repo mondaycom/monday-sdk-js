@@ -1,27 +1,29 @@
 # monday.com App Marketplace SDK for Node.js and JavaScript
 
-The monday SDK is a set of packages that allow your to talk with the monday API's and build apps on top of the monday work OS. You'll find this SDK useful if you want to:
+> This project is still in early development stages and will
+> wildly change in the near future. Given that, we're not accepting Pull
+> Requests yet. Once the source code structure has stabilized, and we've published our **Contributing Guidelines**, **Code of Conduct** and **Pull Request template** we will begin reviewing and accepting PRs from the community.<br/><br/>You can star/watch the repository to be notified of relevant updates as they become available.
+> 
 
-- **Make API calls to monday:**
-  a monday API v2 (graphql) client
+The monday.com SDK provides a toolset for application developers to build features and solutions on top of the monday.com Work OS platform. You'll find this SDK useful if you want to:
 
-- **Build Board Views & Dashboard Widgets:**
-  The monday SDK client module will allow you to communicate with the monday OS while building client side features in your app
-- **Build Integrations & Automations :**
-  A set of utils that will make your life easier while building custom integrations to monday
+- Access monday.com account data from your application, by utilizing our GraphQL client
+
+- Build Board Views & Dashboard Widgets that extend the monday.com UI
+- Build Integrations & Automations using your own external services and business logic
 
 ## Installation
 
-- **Using as an NPM package:**
-  `npm i monday-sdk --save`
-  `yarn add monday-sdk`
+### Using as a `npm` package:
+`npm install monday-sdk-js --save`
+`yarn add monday-sdk-js`
 
-- **Using `<script>` tag from a CDN:**  
-  `<script src="https://unpkg.com/monday-sdk@1.0.11/dist/main.js"></script>`
+### Loading using a `<script>` tag:
+`<script src="https://unpkg.com/monday-sdk-js">`
 
 ## API Calls
 
-Use then `monday.api()` method both in the server and in the client in order to create api calls to the monday GraphQL API (v2). In the server you'll have to provide it with an access token to the API, and in the client you'll enjoy seamless authentication and you'll be able to create requests to the API in the name of the logged in user without providing a token.
+Use the `monday.api()` method both in the server and in the client in order to create API calls to the monday.com GraphQL API. In the server you'll have to provide it with an access token to the API, and in the client you'll enjoy seamless authentication and you'll be able to create requests to the API in the name of the logged in user without providing a token.
 
 ### **api(query, options = {})**
 
@@ -184,7 +186,3 @@ Open a popup with all item info
 ```javascript
 monday.execute("openItemCard", { itemId: item.id });
 ```
-
-### License
-
-monday.com sdk is [MIT licensed](./LICENSE).
