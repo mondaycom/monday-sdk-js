@@ -1,4 +1,4 @@
-# Monday SDK
+# monday.com App Marketplace SDK for Node.js and JavaScript
 
 The monday SDK is a set of packages that allow your to talk with the monday API's and build apps on top of the monday work OS. You'll find this SDK useful if you want to:
 
