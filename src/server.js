@@ -5,7 +5,7 @@ const TOKEN_MISSING_ERROR =
   "Should send 'token' as an option or call mondaySdk.setToken(TOKEN)";
 
 class MondayServerSdk {
-  constructor(options) {
+  constructor(options = {}) {
     this._token = options.token;
 
     this.setToken = this.setToken.bind(this);
