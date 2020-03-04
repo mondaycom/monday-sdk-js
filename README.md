@@ -78,9 +78,9 @@ monday.api(`
 const mondayServerSdk = require("monday-sdk-js/server-sdk");
 
 const token = "YOUR_API_TOKEN";
-const serverSdk = mondayServerSdk({ token });
+const monday = mondayServerSdk({ token });
 
-serverSdk
+monday
   .api(`query { boards { id, name }}`)
   .then(res => console.log(JSON.stringify(res)));
 ```
@@ -88,8 +88,8 @@ serverSdk
 ## Client Side SDK
 
 ```javascript
-import MondaySdk from "monday-sdk";
-const monday = MondaySdk();
+import mondaySdk from "monday-sdk";
+const monday = mondaySdk();
 ```
 
 ### **get(type, params = {})**

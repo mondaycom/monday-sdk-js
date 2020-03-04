@@ -99,7 +99,7 @@ class MondayClientSdk {
         try {
           listener(event.data);
         } catch (err) {
-          console.error("Event callback error: ", err);
+          console.error("Message callback error: ", err);
         }
       });
     }
