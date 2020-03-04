@@ -65,8 +65,11 @@ class MondayClientSdk {
     return this._localApi("execute", { type, params });
   }
 
-  oauth() {
-    const url = `${MONDAY_OAUTH_URL}?client_id=${this._clientId}`;
+  oauth(options = {}) {
+    const clientId = options.clientId || this._clientId;
+    if (!clientId) throw new Error("clientId is required");
+
+    const url = `${MONDAY_OAUTH_URL}?client_id=${clientId}`;
     window.location = url;
   }
 

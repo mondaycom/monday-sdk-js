@@ -19,15 +19,13 @@ async function mondayApiClient(data, token, options = {}) {
   const url = options.url || MONDAY_API_URL;
   const path = options.path || "";
   const fullUrl = `${url}${path}`;
-  let response = await apiRequest(url, data, token, options);
+  let response = await apiRequest(fullUrl, data, token, options);
 
   try {
     return await response.json();
   } catch (err) {
     throw new Error(COULD_NOT_PARSE_JSON_RESPONSE_ERROR);
   }
-
-  return results;
 }
 
 module.exports = mondayApiClient;

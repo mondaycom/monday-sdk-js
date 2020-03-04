@@ -70,7 +70,7 @@ monday.api(`
 
 ## OAuth
 
-### **getOauthAccessToken(code, clientId, clientSecret)**
+### **oauthToken(code, clientId, clientSecret)**
 
 ## Server Side SDK
 
