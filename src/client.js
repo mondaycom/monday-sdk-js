@@ -4,11 +4,14 @@ const { convertToArrayIfNeeded } = require("./helpers");
 
 const EMPTY_ARRAY = [];
 
-class MondaySdk {
-  constructor() {
+class MondayClientSdk {
+  constructor(options = {}) {
+    this._clientId = options.clientId;
+    this._apiToken = options.apiToken;
+
     this.listeners = {};
-    this.init = this.init.bind(this);
-    this.token = this.token.bind(this);
+    this.setClientId = this.setClientId.bind(this);
+    this.setToken = this.setToken.bind(this);
     this.oauth = this.oauth.bind(this);
 
     this.api = this.api.bind(this);
@@ -19,22 +22,21 @@ class MondaySdk {
     this._receiveMessage = this._receiveMessage.bind(this);
     this._addListener = this._addListener.bind(this);
     this._localApi = this._localApi.bind(this);
-    console.log("Im there!!!!");
-    this.init();
-  }
 
-  init(clientId) {
-    this.clientId = clientId;
     window.addEventListener("message", this._receiveMessage, false);
   }
 
-  token(token) {
-    this.apiToken = token;
+  setClientId(clientId) {
+    this._clientId = clientId;
+  }
+
+  setToken(token) {
+    this._apiToken = token;
   }
 
   api(query, options = {}) {
     const params = { query, variables: options.variables };
-    const token = options.token || this.apiToken;
+    const token = options.token || this._apiToken;
     if (token) {
       return mondayApi(params, { token });
     } else {
@@ -46,10 +48,32 @@ class MondaySdk {
     }
   }
 
+  listen(typeOrTypes, callback, params) {
+    const types = convertToArrayIfNeeded(typeOrTypes);
+    types.forEach(type => {
+      this._addListener(type, callback);
+      this._localApi("listen", { type, params });
+    });
+    // todo uniq listeners, remove listener
+  }
+
+  get(type, params) {
+    return this._localApi("get", { type, params });
+  }
+
+  execute(type, params) {
+    return this._localApi("execute", { type, params });
+  }
+
+  oauth() {
+    const url = `${MONDAY_OAUTH_URL}?client_id=${this._clientId}`;
+    window.location = url;
+  }
+
   _localApi(method, args) {
     return new Promise((resolve, reject) => {
       const requestId = this._generateRequestId();
-      const clientId = this.clientId;
+      const clientId = this._clientId;
 
       window.parent.postMessage({ method, args, requestId, clientId }, "*");
       this._addListener(requestId, data => {
@@ -72,36 +96,18 @@ class MondaySdk {
 
     if (listeners) {
       listeners.forEach(listener => {
-        listener(event.data);
+        try {
+          listener(event.data);
+        } catch (err) {
+          console.error("Event callback error: ", err);
+        }
       });
     }
-  }
-
-  listen(typeOrTypes, callback, params) {
-    const types = convertToArrayIfNeeded(typeOrTypes);
-    types.forEach(type => {
-      this._addListener(type, callback);
-      this._localApi("listen", { type, params });
-    });
-    // todo uniq listeners, remove listener
-  }
-
-  get(type, params) {
-    return this._localApi("get", { type, params });
-  }
-
-  execute(type, params) {
-    return this._localApi("execute", { type, params });
   }
 
   _addListener(key, callback) {
     this.listeners[key] = this.listeners[key] || [];
     this.listeners[key].push(callback);
-  }
-
-  oauth() {
-    const url = `${MONDAY_OAUTH_URL}?client_id=${this.clientId}`;
-    window.location = url;
   }
 
   _generateRequestId() {
@@ -111,5 +117,8 @@ class MondaySdk {
   }
 }
 
-const monday = new MondaySdk();
-exports.monday = monday;
+function init(options = {}) {
+  return new MondayClientSdk(options);
+}
+
+module.exports = init;

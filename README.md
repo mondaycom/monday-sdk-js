@@ -3,7 +3,6 @@
 > This project is still in early development stages and will
 > wildly change in the near future. Given that, we're not accepting Pull
 > Requests yet. Once the source code structure has stabilized, and we've published our **Contributing Guidelines**, **Code of Conduct** and **Pull Request template** we will begin reviewing and accepting PRs from the community.<br/><br/>You can star/watch the repository to be notified of relevant updates as they become available.
-> 
 
 The monday.com SDK provides a toolset for application developers to build features and solutions on top of the monday.com Work OS platform. You'll find this SDK useful if you want to:
 
@@ -15,10 +14,12 @@ The monday.com SDK provides a toolset for application developers to build featur
 ## Installation
 
 ### Using as a `npm` package:
+
 `npm install monday-sdk-js --save`
 `yarn add monday-sdk-js`
 
 ### Loading using a `<script>` tag:
+
 `<script src="https://unpkg.com/monday-sdk-js">`
 
 ## API Calls
@@ -69,12 +70,26 @@ monday.api(`
 
 ## OAuth
 
-### **getToken(code, clientId, clientSecret)**
+### **getOauthAccessToken(code, clientId, clientSecret)**
+
+## Server Side SDK
+
+```javascript
+const mondayServerSdk = require("monday-sdk-js/server-sdk");
+
+const token = "YOUR_API_TOKEN";
+const serverSdk = mondayServerSdk({ token });
+
+serverSdk
+  .api(`query { boards { id, name }}`)
+  .then(res => console.log(JSON.stringify(res)));
+```
 
 ## Client Side SDK
 
 ```javascript
-import monday from "monday-sdk";
+import MondaySdk from "monday-sdk";
+const monday = MondaySdk();
 ```
 
 ### **get(type, params = {})**
