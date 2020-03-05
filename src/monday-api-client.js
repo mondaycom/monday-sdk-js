@@ -1,8 +1,7 @@
 const fetch = require("node-fetch");
 const { MONDAY_API_URL } = require("./constants.js");
 
-const COULD_NOT_PARSE_JSON_RESPONSE_ERROR =
-  "Could not parse monday graphql response to JSON";
+const COULD_NOT_PARSE_JSON_RESPONSE_ERROR = "Could not parse monday graphql response to JSON";
 
 async function apiRequest(url, data, token, options = {}) {
   return fetch(url, {
