@@ -18,14 +18,12 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.6.0",
     "babel-loader": "^8.0.6",
-    "css-loader": "^3.2.0",
-    "style-loader": "^1.0.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack --mode=production"
   }
 }
