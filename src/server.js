@@ -1,36 +1,37 @@
 const mondayApi = require("./monday-api-client");
-const { getToken } = require("./services/oauth-service.js");
+const { oauthToken } = require("./services/oauth-service.js");
 
-class MondaySdk {
-  constructor() {
-    this.token = this.token.bind(this);
+const TOKEN_MISSING_ERROR =
+  "Should send 'token' as an option or call mondaySdk.setToken(TOKEN)";
+
+class MondayServerSdk {
+  constructor(options = {}) {
+    this._token = options.token;
+
+    this.setToken = this.setToken.bind(this);
     this.api = this.api.bind(this);
   }
 
-  token(token) {
-    this.apiToken = token;
+  setToken(token) {
+    this._token = token;
   }
 
-  api(query, options = {}) {
+  async api(query, options = {}) {
     const params = { query, variables: options.variables };
-    const token = options.token || this.apiToken;
-    return new Promise((resolve, reject) => {
-      if (token) {
-        mondayApi(params, { token })
-          .then(data => resolve(data))
-          .catch(error => reject(error));
-      } else {
-        reject("Should send 'token' as an option or call monday.token(TOKEN)");
-      }
-    });
+    const token = options.token || this._token;
+
+    if (!token) throw new Error(TOKEN_MISSING_ERROR);
+
+    return await mondayApi(params, token);
   }
 
-  getToken(code, clientId, clientSecret) {
-    return getToken(code, clientId, clientSecret);
+  oauthToken(code, clientId, clientSecret) {
+    return oauthToken(code, clientId, clientSecret);
   }
 }
 
-const monday = new MondaySdk();
-module.exports = {
-  monday
-};
+function init(options = {}) {
+  return new MondayServerSdk(options);
+}
+
+module.exports = init;

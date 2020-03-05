@@ -1,14 +1,14 @@
-const { isBrowser, isNode } = require('browser-or-node');
-const { monday } = isBrowser ? require("./client") : require("./server");
+const { isBrowser, isNode } = require("browser-or-node");
+const init = isBrowser ? require("./client") : require("./server");
 
-;(function (root, factory) {
-  if (typeof define === 'function' && define.amd) {
+(function(root, factory) {
+  if (typeof define === "function" && define.amd) {
     define(factory);
-  } else if (typeof exports === 'object') {
-    module.exports = { monday: factory() };
+  } else if (typeof exports === "object") {
+    module.exports = { init: factory() };
   } else if (root) {
-    root.monday = factory();
+    root.init = factory();
   }
-}(typeof self !== 'undefined' ? self : this, function() {
-    return monday;
-}));
+})(typeof self !== "undefined" ? self : this, function() {
+  return init;
+});
