@@ -38,9 +38,11 @@ class MondayClientSdk {
       return mondayApi(params, { token });
     } else {
       return new Promise((resolve, reject) => {
-        this._localApi("api", { params }).then(result => {
-          resolve(result.data);
-        });
+        this._localApi("api", { params })
+          .then(result => {
+            resolve(result.data);
+          })
+          .catch(err => reject(err));
       });
     }
   }
@@ -73,7 +75,7 @@ class MondayClientSdk {
   }
 
   _localApi(method, args) {
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       const requestId = this._generateRequestId();
       const clientId = this._clientId;
 
