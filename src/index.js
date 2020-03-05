@@ -1,4 +1,4 @@
-const { isBrowser, isNode } = require("browser-or-node");
+const { isBrowser } = require("./helpers");
 const init = isBrowser ? require("./client") : require("./server");
 
 (function(root, factory) {
