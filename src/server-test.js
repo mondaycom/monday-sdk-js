@@ -5,7 +5,7 @@ const mondayApiClient = require("./monday-api-client");
 describe("server sdk", () => {
   describe("init", () => {
     it("should be able to init serverSdk", () => {
-      const serverSdk = initServerSdk();
+      initServerSdk();
     });
 
     it("should be able to init serverSdk without token", () => {
@@ -55,7 +55,7 @@ describe("server sdk", () => {
 
     it("should call mondayApiClient with the current args", async () => {
       const serverSdk = initServerSdk({ token: "api_token" });
-      const result = await serverSdk.api("query { boards { id, name }}");
+      await serverSdk.api("query { boards { id, name }}");
       assert.calledOnce(mondayApiClientExecuteStub);
       assert.calledWithExactly(
         mondayApiClientExecuteStub,
@@ -82,7 +82,7 @@ describe("server sdk", () => {
 
       const variables = { pulseName: "new pulse", columnValues: { numbers: 3 } };
 
-      const result = await serverSdk.api(query, { variables });
+      await serverSdk.api(query, { variables });
       assert.calledOnce(mondayApiClientExecuteStub);
       assert.calledWithExactly(
         mondayApiClientExecuteStub,
@@ -115,7 +115,7 @@ describe("server sdk", () => {
     it("should call to mondayApi prefer token from options", async () => {
       const serverSdk = initServerSdk({ token: "api_token" });
       serverSdk.setToken("api_token_2");
-      const result = await serverSdk.api("query { boards { id, name }}");
+      await serverSdk.api("query { boards { id, name }}");
       assert.calledOnce(mondayApiClientExecuteStub);
       assert.calledWithExactly(
         mondayApiClientExecuteStub,
