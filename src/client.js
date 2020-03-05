@@ -10,18 +10,8 @@ class MondayClientSdk {
     this._apiToken = options.apiToken;
 
     this.listeners = {};
-    this.setClientId = this.setClientId.bind(this);
-    this.setToken = this.setToken.bind(this);
-    this.oauth = this.oauth.bind(this);
-
-    this.api = this.api.bind(this);
-    this.listen = this.listen.bind(this);
-    this.get = this.get.bind(this);
-    this.execute = this.execute.bind(this);
 
     this._receiveMessage = this._receiveMessage.bind(this);
-    this._addListener = this._addListener.bind(this);
-    this._localApi = this._localApi.bind(this);
 
     window.addEventListener("message", this._receiveMessage, false);
   }
@@ -69,7 +59,9 @@ class MondayClientSdk {
     const clientId = options.clientId || this._clientId;
     if (!clientId) throw new Error("clientId is required");
 
-    const url = `${MONDAY_OAUTH_URL}?client_id=${clientId}`;
+    const mondayOauthUrl = options.mondayOauthUrl || MONDAY_OAUTH_URL;
+
+    const url = `${mondayOauthUrl}?client_id=${clientId}`;
     window.location = url;
   }
 
