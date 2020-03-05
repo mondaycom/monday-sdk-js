@@ -18,12 +18,17 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.6.0",
     "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.0",
+    "sinon": "^9.0.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
     "webpack-dev-server": "^3.7.2"
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack --mode=production"
+    "build": "webpack --mode=production",
+    "test": "mocha './src/**/*-test.js'",
+    "test:watch": "mocha './src/**/*-test.js' --watch"
   }
 }
