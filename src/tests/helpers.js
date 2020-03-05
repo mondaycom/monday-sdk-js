@@ -1,7 +1,7 @@
-var sinon = require("sinon");
-var chai = require("chai");
+const sinon = require("sinon");
+const chai = require("chai");
 
 module.exports = {
-    expect: chai.expect,
-    sinon
+  expect: chai.expect,
+  sinon
 };
