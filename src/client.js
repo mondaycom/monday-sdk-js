@@ -11,6 +11,13 @@ class MondayClientSdk {
 
     this.listeners = {};
 
+    this.setClientId = this.setClientId.bind(this);
+    this.setToken = this.setToken.bind(this);
+    this.api = this.api.bind(this);
+    this.listen = this.listen.bind(this);
+    this.get = this.get.bind(this);
+    this.execute = this.execute.bind(this);
+    this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
 
     window.addEventListener("message", this._receiveMessage, false);

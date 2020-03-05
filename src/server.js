@@ -7,6 +7,9 @@ const TOKEN_MISSING_ERROR =
 class MondayServerSdk {
   constructor(options = {}) {
     this._token = options.token;
+
+    this.setToken = this.setToken.bind(this);
+    this.api = this.api.bind(this);
   }
 
   setToken(token) {
