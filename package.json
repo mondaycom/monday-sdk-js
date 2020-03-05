@@ -29,6 +29,6 @@
     "precommit": "yarn lint && yarn style-check",
     "build": "webpack --mode=production",
     "lint": "eslint './src/**/*.*'",
-    "style-check": "npx prettier --check './src/**/*.js'"
+    "style-check": "prettier --check './src/**/*.js'"
   }
 }
