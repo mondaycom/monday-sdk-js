@@ -57,7 +57,7 @@ describe("server sdk", () => {
       const serverSdk = initServerSdk({ token: "api_token" });
       const result = await serverSdk.api("query { boards { id, name }}");
       assert.calledOnce(mondayApiClientExecuteStub);
-      assert.calledWith(
+      assert.calledWithExactly(
         mondayApiClientExecuteStub,
         { query: "query { boards { id, name }}", variables: undefined },
         "api_token"
@@ -84,7 +84,7 @@ describe("server sdk", () => {
 
       const result = await serverSdk.api(query, { variables });
       assert.calledOnce(mondayApiClientExecuteStub);
-      assert.calledWith(
+      assert.calledWithExactly(
         mondayApiClientExecuteStub,
         {
           query: `
@@ -117,7 +117,7 @@ describe("server sdk", () => {
       serverSdk.setToken("api_token_2");
       const result = await serverSdk.api("query { boards { id, name }}");
       assert.calledOnce(mondayApiClientExecuteStub);
-      assert.calledWith(
+      assert.calledWithExactly(
         mondayApiClientExecuteStub,
         { query: "query { boards { id, name }}", variables: undefined },
         "api_token_2"
