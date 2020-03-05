@@ -18,6 +18,9 @@
     "@babel/preset-react": "^7.0.0",
     "@babel/register": "^7.6.0",
     "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.0",
+    "sinon": "^9.0.0",
     "eslint": "^6.8.0",
     "prettier": "^1.19.1",
     "webpack": "^4.38.0",
@@ -26,8 +29,10 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "precommit": "yarn lint && yarn style-check",
     "build": "webpack --mode=production",
+    "test": "mocha './src/**/*-test.js'",
+    "test:watch": "mocha './src/**/*-test.js' --watch",
+    "precommit": "yarn lint && yarn style-check",
     "lint": "eslint './src/**/*.*'",
     "style-check": "prettier --check './src/**/*.js'"
   }
