@@ -92,11 +92,7 @@ class MondayClientSdk {
     const typeListeners = this.listeners[type] || EMPTY_ARRAY;
     const requestIdListeners = this.listeners[requestId] || EMPTY_ARRAY;
 
-    let listeners = [
-      ...methodListeners,
-      ...typeListeners,
-      ...requestIdListeners
-    ];
+    let listeners = [...methodListeners, ...typeListeners, ...requestIdListeners];
 
     if (listeners) {
       listeners.forEach(listener => {
