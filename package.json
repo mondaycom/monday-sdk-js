@@ -33,7 +33,6 @@
     "test": "mocha './src/**/*-test.js'",
     "test:watch": "mocha './src/**/*-test.js' --watch",
     "precommit": "yarn lint && yarn style-check",
-    "build": "webpack --mode=production",
     "lint": "eslint './src/**/*.*'",
     "style-check": "prettier --check './src/**/*.js'"
   }
