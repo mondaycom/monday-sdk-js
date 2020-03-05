@@ -14,7 +14,7 @@ async function apiRequest(url, data, token, options = {}) {
   });
 }
 
-async function mondayApiClient(data, token, options = {}) {
+async function execute(data, token, options = {}) {
   const url = options.url || MONDAY_API_URL;
   const path = options.path || "";
   const fullUrl = `${url}${path}`;
@@ -27,4 +27,4 @@ async function mondayApiClient(data, token, options = {}) {
   }
 }
 
-module.exports = mondayApiClient;
+module.exports = { execute };

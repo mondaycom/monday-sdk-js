@@ -1,4 +1,4 @@
-const mondayApi = require("./monday-api-client");
+const mondayApiClient = require("./monday-api-client");
 const { MONDAY_OAUTH_URL } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 
@@ -35,7 +35,7 @@ class MondayClientSdk {
     const params = { query, variables: options.variables };
     const token = options.token || this._apiToken;
     if (token) {
-      return mondayApi(params, { token });
+      return mondayApiClient.execute(params, { token });
     } else {
       return new Promise((resolve, reject) => {
         this._localApi("api", { params })
