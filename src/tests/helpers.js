@@ -10,7 +10,7 @@ const dom = new JSDOM("<!DOCTYPE html><html><head></head><body></body></html>", 
   url: "http://localhost"
 });
 global.window = dom.window;
-global.window.parent = dom.window
+global.window.parent = dom.window;
 global.document = dom.window.document;
 
 module.exports = {

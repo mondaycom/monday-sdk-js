@@ -117,23 +117,20 @@ describe("Monday Client Test", () => {
       window.removeEventListener("message", onPostMessage, false);
     });
 
-    it('get api post message', () => {
+    it("get api post message", () => {
       window.addEventListener("message", postMessageStub, false);
       mondayClient.get({ type: "type", method: "method" });
       clock.tick(5);
       expect(postMessageStub).to.be.called;
       window.removeEventListener("message", postMessageStub, false);
-
     });
 
-    it('get api post message', () => {
+    it("get api post message", () => {
       window.addEventListener("message", postMessageStub, false);
       mondayClient.execute({ type: "type", method: "method" });
       clock.tick(5);
       expect(postMessageStub).to.be.called;
       window.removeEventListener("message", postMessageStub, false);
-
     });
-
   });
 });
