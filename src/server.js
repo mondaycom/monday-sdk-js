@@ -1,4 +1,4 @@
-const mondayApi = require("./monday-api-client");
+const mondayApiClient = require("./monday-api-client");
 const { oauthToken } = require("./services/oauth-service.js");
 
 const TOKEN_MISSING_ERROR = "Should send 'token' as an option or call mondaySdk.setToken(TOKEN)";
@@ -21,7 +21,7 @@ class MondayServerSdk {
 
     if (!token) throw new Error(TOKEN_MISSING_ERROR);
 
-    return await mondayApi(params, token);
+    return await mondayApiClient.execute(params, token);
   }
 
   oauthToken(code, clientId, clientSecret) {

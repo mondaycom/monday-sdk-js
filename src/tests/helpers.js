@@ -14,6 +14,8 @@ global.window.parent = dom.window
 global.document = dom.window.document;
 
 module.exports = {
+  chai,
   expect: chai.expect,
+  assert: sinon.assert,
   sinon
 };
