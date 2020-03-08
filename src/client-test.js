@@ -137,7 +137,3 @@ describe("Monday Client Test", () => {
 
   });
 });
-
-function awaitTimeout() {
-  return new Promise(resolve => setTimeout(resolve, 10));
-}
