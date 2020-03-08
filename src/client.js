@@ -91,7 +91,6 @@ class MondayClientSdk {
     const methodListeners = this.listeners[method] || EMPTY_ARRAY;
     const typeListeners = this.listeners[type] || EMPTY_ARRAY;
     const requestIdListeners = this.listeners[requestId] || EMPTY_ARRAY;
-
     let listeners = [...methodListeners, ...typeListeners, ...requestIdListeners];
 
     if (listeners) {
@@ -114,6 +113,13 @@ class MondayClientSdk {
     return Math.random()
       .toString(36)
       .substr(2, 9);
+  }
+
+  _removeEventListener() {
+    window.removeEventListener("message", this._receiveMessage, false);
+  }
+  _clearListeners() {
+    this.listeners = [];
   }
 }
 
