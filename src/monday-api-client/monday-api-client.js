@@ -30,4 +30,4 @@ async function execute(data, token, options = {}) {
   }
 }
 
-module.exports = { execute };
+module.exports = { execute, COULD_NOT_PARSE_JSON_RESPONSE_ERROR };
