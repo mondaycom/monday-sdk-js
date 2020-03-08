@@ -42,7 +42,7 @@ describe("mondayApiClient", () => {
     expect(errorMessage).to.eq("Token is required");
   });
 
-  it("sould throw COULD_NOT_PARSE_JSON_RESPONSE_ERROR if response from server was not json", async () => {
+  it(`sould throw ${mondayApiClient.COULD_NOT_PARSE_JSON_RESPONSE_ERROR}`, async () => {
     nodeFetchStub.returns({ json: "not json" });
     let errorMessage;
     try {
@@ -50,6 +50,6 @@ describe("mondayApiClient", () => {
     } catch (err) {
       errorMessage = err.message;
     }
-    expect(errorMessage).to.eq("Could not parse monday graphql response to JSON");
+    expect(errorMessage).to.eq(mondayApiClient.COULD_NOT_PARSE_JSON_RESPONSE_ERROR);
   });
 });
