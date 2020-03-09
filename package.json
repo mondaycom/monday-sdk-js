@@ -1,11 +1,18 @@
 {
   "name": "monday-sdk-js",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/",
+    "src/",
+    "server-sdk.js"
+  ],
   "dependencies": {
     "@types/source-map": "^0.5.2",
     "node-fetch": "^2.6.0"
