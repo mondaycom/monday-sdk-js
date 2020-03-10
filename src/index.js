@@ -10,5 +10,8 @@ const init = isBrowser ? require("./client") : require("./server");
     root.init = factory();
   }
 })(typeof self !== "undefined" ? self : this, function() {
+  if (__BUNDLE__) {
+    window.mondaySdk = init;
+  }
   return init;
 });

@@ -1,6 +1,6 @@
 {
   "name": "monday-sdk-js",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=production --env.WEBPACK_BUILD=true",
     "test": "mocha './src/**/*-test.js'",
     "test:watch": "mocha './src/**/*-test.js' --watch",
     "precommit": "yarn lint && yarn style-check",
