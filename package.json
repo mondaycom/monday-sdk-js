@@ -38,7 +38,7 @@
   },
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack --mode=production",
+    "build": "webpack --mode=production --env.WEBPACK_BUILD=true",
     "test": "mocha './src/**/*-test.js'",
     "test:watch": "mocha './src/**/*-test.js' --watch",
     "precommit": "yarn lint && yarn style-check",
