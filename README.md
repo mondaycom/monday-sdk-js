@@ -20,7 +20,11 @@ The monday.com SDK provides a toolset for application developers to build featur
 
 ### Loading using a `<script>` tag:
 
-`<script src="https://unpkg.com/monday-sdk-js">`
+`<script src="https://unpkg.com/monday-sdk-js@0.0.8/dist/main.js"></script>`
+
+This will expose the sdk on your window, and you can intialize it in your code when needed:
+
+const monday = window.mondaySdk()
 
 ## API Calls
 
