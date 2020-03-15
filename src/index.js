@@ -5,12 +5,12 @@ const init = isBrowser ? require("./client") : require("./server");
   if (typeof define === "function" && define.amd) {
     define(factory);
   } else if (typeof exports === "object") {
-    module.exports = { init: factory() };
+    module.exports = factory();
   } else if (root) {
-    root.init = factory();
+    root = factory();
   }
 })(typeof self !== "undefined" ? self : this, function() {
-  if (__BUNDLE__) {
+  if (typeof __BUNDLE__ !== "undefined" && __BUNDLE__) {
     window.mondaySdk = init;
   }
   return init;
