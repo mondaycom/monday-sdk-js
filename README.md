@@ -18,13 +18,23 @@ The monday.com SDK provides a toolset for application developers to build featur
 `npm install monday-sdk-js --save`
 `yarn add monday-sdk-js`
 
+and then:
+
+```
+import mondaySdk from "monday-sdk-js";
+const monday = mondaySdk();
+```
+
 ### Loading using a `<script>` tag:
 
 `<script src="https://unpkg.com/monday-sdk-js@0.0.8/dist/main.js"></script>`
 
 This will expose the sdk on your window, and you can intialize it in your code when needed:
 
+```
 const monday = window.mondaySdk()
+```
+
 
 ## API Calls
 
