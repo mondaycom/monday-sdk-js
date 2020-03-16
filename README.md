@@ -147,7 +147,6 @@ theme  "light"  // or "dark"
 }
 
 
-
 // Dashboard Widgets
 
 {
@@ -160,6 +159,18 @@ theme  "light"  // or "dark"
 
 }
 
+```
+
+- #### itemIds
+
+Return the list of items that are curently filetered 
+
+```javascript
+monday.get("itemIds").then(res => console.log(res));
+```
+
+```javascript
+[234234, 4564, 234234, 67675, 576567]
 ```
 
 ### **listen(type, callback)**
@@ -184,6 +195,16 @@ Will call your callback with the updated context when it changes
 const callback = res => console.log(res);
 
 const unsubscribe = monday.listen("context", callback);
+```
+
+- #### itemIds
+
+Will call your callback with the updated filtered item ids when filter changes
+
+```javascript
+const callback = res => console.log(res);
+
+const unsubscribe = monday.listen("itemIds", callback);
 ```
 
 - #### events
