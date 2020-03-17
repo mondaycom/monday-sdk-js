@@ -78,9 +78,10 @@ class MondayClientSdk {
     return new Promise(resolve => {
       const requestId = this._generateRequestId();
       const clientId = this._clientId;
-      const settingsVersion = 1;
+      const pjson = require('./packgae.json');
+      const version = pjson.version;
 
-      window.parent.postMessage({ method, args, requestId, clientId, settingsVersion }, "*");
+      window.parent.postMessage({ method, args, requestId, clientId, version }, "*");
       this._addListener(requestId, data => {
         resolve(data);
       });
