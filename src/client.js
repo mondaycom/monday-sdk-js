@@ -20,6 +20,13 @@ class MondayClientSdk {
     this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
 
+    this.storage = {
+      instance: {
+        setItem: this.setStorageInstanceItem.bind(this),
+        getItem: this.getStorageInstanceItem.bind(this)
+      }
+    };
+
     window.addEventListener("message", this._receiveMessage, false);
   }
 
@@ -72,6 +79,14 @@ class MondayClientSdk {
 
     const url = `${mondayOauthUrl}?client_id=${clientId}`;
     window.location = url;
+  }
+
+  setStorageInstanceItem(key, value) {
+    return this._localApi("storage", { method: "set", key, value, segment: "instance" });
+  }
+
+  getStorageInstanceItem(key) {
+    return this._localApi("storage", { method: "get", key, segment: "instance" });
   }
 
   _localApi(method, args) {
