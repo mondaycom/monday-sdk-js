@@ -155,17 +155,17 @@ Example context objects that return for a board view and a dashboard widget:
 ```json
 // Board view context
 {
-  boardViewId: 19324,
-  boardId: 3423243,
-  mode: "fullScreen", // or "split"
-  theme: "light"  // or "dark"
+  "boardViewId": 19324,
+  "boardId": 3423243,
+  "mode": "fullScreen", // or "split"
+  "theme": "light"  // or "dark"
 }
 
 // Dashboard widget context
 {
-  widgetId: 54236,
-  boardIds: [3423243, 943728],
-  theme: "light"  // or "dark"
+  "widgetId": 54236,
+  "boardIds": [3423243, 943728],
+  "theme": "light"  // or "dark"
 }
 ```
 
