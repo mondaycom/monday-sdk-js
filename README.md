@@ -1,71 +1,114 @@
 # monday.com App Marketplace SDK for Node.js and JavaScript
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mondaycom/monday-sdk-js/blob/master/LICENSE) &nbsp; [![npm version](https://img.shields.io/npm/v/monday-sdk-js.svg?style=flat)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![npm](https://img.shields.io/npm/dm/monday-sdk-js)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/monday-sdk-js)](https://www.jsdelivr.com/package/npm/monday-sdk-js)
 
-> This project is still in early development stages and will
-> wildly change in the near future. Given that, we're not accepting Pull
-> Requests yet. Once the source code structure has stabilized, and we've published our **Contributing Guidelines**, **Code of Conduct** and **Pull Request template** we will begin reviewing and accepting PRs from the community.<br/><br/>You can star/watch the repository to be notified of relevant updates as they become available.
 
 The monday.com SDK provides a toolset for application developers to build features and solutions on top of the monday.com Work OS platform. You'll find this SDK useful if you want to:
 
-- Access monday.com account data from your application, by utilizing our GraphQL client
-
+- Access monday.com account data from your application, by utilizing the GraphQL client
 - Build Board Views & Dashboard Widgets that extend the monday.com UI
 - Build Integrations & Automations using your own external services and business logic
 
-## Installation
+The SDK contains methods for server-side and client-side application development. Client-side capabilities assume a valid user session is present (and can seamlessly act on behalf of that user), while server-side methods can be used to access monday.com features using explicit credentials but without any client-side code.
 
-### Using as a `npm` package:
+## Table of contents
+- Usage
+- Seamless authentication
+- SDK capabilities
+-   Server-side methods reference
+-   Client-side methods reference
+-   Contributing Guidelines
+
+## Usage
+
+### Using as an `npm` module
+Install the SDK as a module:
 
 `npm install monday-sdk-js --save`
-`yarn add monday-sdk-js`
 
-and then:
-
-```
+Then import into your project:
+```js
 import mondaySdk from "monday-sdk-js";
 const monday = mondaySdk();
 ```
 
-### Loading using a `<script>` tag:
 
-`<script src="https://unpkg.com/monday-sdk-js@0.0.8/dist/main.js"></script>`
-
-This will expose the sdk on your window, and you can intialize it in your code when needed:
-
+### As a `<script>` tag directly in your HTML code
+You can also load the SDK directly into your HTML code by adding:
+```html
+<head>
+  <script src="https://cdn.jsdelivr.net/npm/monday-sdk-js/dist/main.js"></script>
+</head>
 ```
+and then initialize the SDK anywhere in the page by declaring:
+
+```js
 const monday = window.mondaySdk()
 ```
 
+## Seamless authentication
+When used for client-side development, SDK methods that require to act on behalf of the connected user will work out-of-the-box by communicating with the parent monday.com running application. You're not required to initialize the SDK client with any explicit credentials.
 
-## API Calls
+Methods that use seamless authentication (including `monday.api` and `monday.storage`) offer capabilities that are scoped based on the permissions of the logged in user and the scopes you have configured in your app.
 
-Use the `monday.api()` method both in the server and in the client in order to create API calls to the monday.com GraphQL API. In the server you'll have to provide it with an access token to the API, and in the client you'll enjoy seamless authentication and you'll be able to create requests to the API in the name of the logged in user without providing a token.
+## SDK capabilities
 
-### **api(query, options = {})**
+The SDK exposes the following capabilities:
 
-Allow you to query monday Graphql API (v2). The first argument is a graphql query.
+| SDK Object | Capability | Info |
+|--|--|
+| `monday.api` | Performing queries against the monday.com API on behalf of the connected user | Link |
+| `monday.listen` | Listen to client-side events on the monday.com client running this app | Link |
+| `monday.get` | Retrieve information from the monday.com client running this app | Link |
+| `monday.execute` | Call an action on the monday.com client running this app | Link |
+| `monday.storage` | Read/write to the Storage API, a key-value storage service for apps | Link |
+| `monday.oauth` | Redirecting the client to the OAuth authorization server, with your client ID included | Link |
 
-In case you need to pass variables to your query, you can pass an object instead of a string as the first param. This object needs to contain `query` and `variables` attributes.
 
-Returns a promise that will be resolved with the API response on success.
 
-#### **Queries**
+### **`monday.api(query, options = {})`**
+Used for querying the monday.com GraphQL API seamlessly on behalf of the connected user, or using a provided API token. 
 
+**Parameters:**
+- `query`: A [GraphQL](https://graphql.org/) query, can be either a *query* (retrieval operation) or a *mutation* (creation/update/deletion operation). Placeholders may be used, which will be substituted by the `variables` object passed within the options.
+- `options`:
+
+| Option | Description| Required       | Default                                                                                        |
+| --------- | ----------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------- |
+| `token`     | Access token for the API | Only on server | If not set, will use the credentials of the current user (client only) |
+| `variables` | An object containing GraphQL query variables                  | No             |        |
+
+Instead of passing the API token to the `api()` method on each request, you can set the API token once using:
+```js
+monday.setToken('mytoken')
+```
+
+**Returns:**
+A `Promise` that will be resolved to the API response.
+
+
+**Examples:**
+
+A **client-side** query that fetch the ID and name of all the users within the account that the connected user is allowed to view:
 ```javascript
 monday.api(`query { users { id, name } }`).then(res => {
   console.log(res);
   /* { data: { users: [{id: 12312, name: "Bart Simpson"}, {id: 423423, name: "Homer Simpson"}] } } */
 });
 ```
+A **server-side** query that fetches all the names of users in the account:
+```js
+monday.setToken('ac5eb492f8c...');
+monday.api('query { users { name } }').then(res => {...})
+```
 
-#### **Mutations**
-
+A mutation that sends an in-app notification to user `user_id`, which upon clicking will take the user to item `item_id`:
 ```javascript
 monday.api(`
   mutation {
     create_notification(
-      text: "Poke",
-      user_id: ${user.id},
-      target_id: ${item.id},
+      text: "I've got a notification for you!",
+      user_id: ${user_id},
+      target_id: ${item_id},
       target_type: Project,
       internal: true
     ) { 
@@ -75,164 +118,131 @@ monday.api(`
 `);
 ```
 
-#### **Options**
+For more information about the GraphQL API and all queries and mutations possible, read the [API Documentation](https://monday.com/developers/v2)
 
-| Option    | Description                                                 | Required       | Default                                                                                        |
-| --------- | ----------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------------- |
-| token     | An access token to the monday API, granted by a monday user | Only on server | If not set, will make the call in the name of the logged in user (only on client side feature) |
-| variables | An object contains GraphQL query variables                  | No             | -                                                                                              |
 
-## OAuth
+### **`monday.get(type, params = {})`**
 
-### **oauthToken(code, clientId, clientSecret)**
+Used for retrieving data from the parent monday.com application where your app is currently running. This object can only be used  when your app is running inside an `iframe`. This can only be used in client-side apps.
 
-## Server Side SDK
 
-```javascript
-const mondayServerSdk = require("monday-sdk-js/server-sdk");
+**Parameters:**
+- `type`: The type of requested information (available values below)
+- `params`: Reserved for future use
 
-const token = "YOUR_API_TOKEN";
-const monday = mondayServerSdk({ token });
+The available types that can be requested are:
+| Type | Description |
+|--|--|
+| `'context'` | Information about where this app is currently displayed, depending on the type of feature |
+| `'settings'` | The application settings as configured by the user that installed the app |
+| `'itemIds'` | The list of item IDs that are filtered in the current board (or all items if no filters are applied) |
 
-monday
-  .api(`query { boards { id, name }}`)
-  .then(res => console.log(JSON.stringify(res)));
+**Returns:** 
+A `Promise` that will be resolved with the requested data.
+
+**Examples:**
+Requesting context and settings data:
+```js
+monday.get("settings").then(res => ...);
+monday.get("context").then(res => ...);
 ```
 
-## Client Side SDK
-
-```javascript
-import mondaySdk from "monday-sdk";
-const monday = mondaySdk();
-```
-
-### **get(type, params = {})**
-
-Get data from the monday app client. Can be used only while working as an app feature inside an iframe.
-
-Returns a promise that will be resolved with the data.
-
-- #### settings
-
-```javascript
-monday.get("settings").then(res => console.log(res));
-```
-
-```javascript
+Example context objects that return for a board view and a dashboard widget:
+```json
+// Board view context
 {
-  fieldName: fieldValue;
+  boardViewId: 19324,
+  boardId: 3423243,
+  mode: "fullScreen", // or "split"
+  theme: "light"  // or "dark"
+}
+
+// Dashboard widget context
+{
+  widgetId: 54236,
+  boardIds: [3423243, 943728],
+  theme: "light"  // or "dark"
 }
 ```
 
-- #### context
+Requesting the list of items currently in view in the board:
 
-```javascript
-monday.get("context").then(res => console.log(res));
-```
-
-```javascript
-
-// Board Views
-
-{
-
-boardId: 3423243,
-
-boardViewId: 19324,
-
-mode  "fullScreen", // or "split"
-
-theme  "light"  // or "dark"
-
-}
-
-
-// Dashboard Widgets
-
-{
-
-boardIds: [3423243, 943728],
-
-widgetId: 54236,
-
-theme  "light"  // or "dark"
-
-}
-
-```
-
-- #### itemIds
-
-Return the list of items that are curently filetered 
-
-```javascript
+```js
 monday.get("itemIds").then(res => console.log(res));
+// => [234234, 4564, 234234, 67675, 576567]
 ```
 
-```javascript
-[234234, 4564, 234234, 67675, 576567]
-```
+### **`listen(typeOrTypes, callback, params = {})`**
 
-### **listen(type, callback)**
+Creates a listener which allows subscribing to certain types of client-side events.
 
-Subscribe to get notified on certain events.
+**Parameters:**
+- `typeOrTypes`: The type, or array of types, of events to subscribe to
+- `callback`: A callback function that is fired when the listener is triggered by a client-side event
+- `params`: Reserved for future use
 
-- #### settings
+You can subscribe to the following types of events:
+| Type | Description |
+|--|--|
+| `'context'` | Fired when one of the parameters in the context changes |
+| `'settings'` | Fired when a setting value is changed by the user |
+| `'itemIds'` | Fired when the board filter changes, which impacts the list of items currently in view |
+| `'events'` | Fired when an interaction takes place with the board/dashboard |
 
-Will call your callback with the updated settings when it changes
+**Returns:**
+This method does not have a return value.
 
-```javascript
+**Examples:**
+Subscribe to changes in settings and context:
+```js
 const callback = res => console.log(res);
-
-const unsubscribe = monday.listen("settings", callback);
+monday.listen(['settings', 'context'], callback);
 ```
 
-- #### context
-
-Will call your callback with the updated context when it changes
-
-```javascript
+Subscribe to interaction-based events on the board:
+```js
 const callback = res => console.log(res);
-
-const unsubscribe = monday.listen("context", callback);
-```
-
-- #### itemIds
-
-Will call your callback with the updated filtered item ids when filter changes
-
-```javascript
-const callback = res => console.log(res);
-
-const unsubscribe = monday.listen("itemIds", callback);
-```
-
-- #### events
-
-Will call your callback with events occured in your board/s.
-
-```javascript
-const callback = res => console.log(res);
-
 const unsubscribe = monday.listen("events", callback);
 
-// Some item has been create in your board/s:
+// When an item/s are created on the board:
+// => { type: "new_items", itemIds: [5543, 5544, 5545], boardId: 3425 }
 
-// { type: "new_items", itemIds: [5543, 5544, 5545], boardId: 3425 }
-
-// Some column value has been changes:
-
-// { type: "change_column_value", itemId: 12342, value: {...} }
+// When a column value changes for one of the items:
+// => { type: "change_column_value", itemId: 12342, value: {...} }
 ```
 
-### **execute(type, params)**
+### **`execute(type, params)`**
+Invokes an action on the parent monday client.
 
-Call for action on the monday app
+**Parameters:**
+- `type`: Which action to perform
+- `params`: Optional parameters for the action
 
-- #### openItemCard
+At the moment, only a single action can be executed:
+| Type | Description | Params |
+|--|--|--|
+| `'openItemCard'` | Opens a popup card with information from the selected item | `itemId`: The ID of the item |
 
-Open a popup with all item info
+**Returns:**
+A `Promise` that will optionally  be resolved to the return value from the action executed
 
+**Examples:**
+Open a card for a specific item:
 ```javascript
-monday.execute("openItemCard", { itemId: item.id });
+monday.execute('openItemCard', { itemId: item.id });
 ```
+
+### **`oauth(options = {})`**
+Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
+
+**Parameters:**
+- `options`: An object with options as specified below
+
+| Option | Required |Description |
+|--|--|--|
+| `clientId` | No, defaults to your client ID | The OAuth client ID of the requesting application |
+| `mondayOauthUrl`| No | The URL of the monday OAuth endpoint |
+
+**Returns:**
+This method does not have a return value.
+
