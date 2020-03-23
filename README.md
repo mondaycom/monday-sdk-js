@@ -68,6 +68,7 @@ The SDK exposes the following capabilities:
 | `monday.storage` | Read/write to the Storage API, a key-value storage service for apps |
 | `monday.oauth` | Redirecting the client to the OAuth authorization server, with your client ID included |
 
+<br/>
 
 ### **`monday.api(query, options = {})`**
 Used for querying the monday.com GraphQL API seamlessly on behalf of the connected user, or using a provided API token. 
@@ -124,6 +125,7 @@ monday.api(`
 
 For more information about the GraphQL API and all queries and mutations possible, read the [API Documentation](https://monday.com/developers/v2)
 
+<br/>
 
 ### **`monday.get(type, params = {})`**
 
@@ -175,6 +177,7 @@ Requesting the list of items currently in view in the board:
 monday.get("itemIds").then(res => console.log(res));
 // => [234234, 4564, 234234, 67675, 576567]
 ```
+<br/>
 
 ### **`listen(typeOrTypes, callback, params = {})`**
 
@@ -214,6 +217,7 @@ const unsubscribe = monday.listen("events", callback);
 // When a column value changes for one of the items:
 // => { type: "change_column_value", itemId: 12342, value: {...} }
 ```
+<br/>
 
 ### **`execute(type, params)`**
 Invokes an action on the parent monday client.
@@ -236,6 +240,8 @@ Open a card for a specific item:
 monday.execute('openItemCard', { itemId: item.id });
 ```
 
+<br/>
+
 ### **`oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
 
@@ -249,6 +255,8 @@ Performs a client-side redirection of the user to the monday OAuth screen with y
 
 **Returns:**
 This method does not have a return value.
+
+<br/>
 
 ## Storage API (`monday.storage`)
 > The Storage API is in early development stages, its API is likely to change
