@@ -1,3 +1,5 @@
+
+
 # monday.com App Marketplace SDK for Node.js and JavaScript
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mondaycom/monday-sdk-js/blob/master/LICENSE) &nbsp; [![npm version](https://img.shields.io/npm/v/monday-sdk-js.svg?style=flat)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![npm](https://img.shields.io/npm/dm/monday-sdk-js)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/monday-sdk-js)](https://www.jsdelivr.com/package/npm/monday-sdk-js)
 
@@ -11,12 +13,15 @@ The monday.com SDK provides a toolset for application developers to build featur
 The SDK contains methods for server-side and client-side application development. Client-side capabilities assume a valid user session is present (and can seamlessly act on behalf of that user), while server-side methods can be used to access monday.com features using explicit credentials but without any client-side code.
 
 ## Table of contents
-- Usage
-- Seamless authentication
-- SDK capabilities
--   Server-side methods reference
--   Client-side methods reference
--   Contributing Guidelines
+- [Usage](#usage)
+- [Seamless authentication](#seamless-authentication)
+- [SDK capabilities](#sdk-capabilities)
+  - [`monday.api`](#mondayapiquery-options--)
+  - [`monday.get`](#mondaygettype-params--)
+  - [`monday.listen`](#listentypeortypes-callback-params--)
+  - [`monday.execute`](#executetype-params)
+  - [`monday.oauth`](#oauthoptions--)
+- [Storage API](#storage-api-mondaystorage)
 
 ## Usage
 
@@ -55,7 +60,7 @@ Methods that use seamless authentication (including `monday.api` and `monday.sto
 The SDK exposes the following capabilities:
 
 | SDK Object | Capability | Info |
-|--|--|
+|--|--|--|
 | `monday.api` | Performing queries against the monday.com API on behalf of the connected user | Link |
 | `monday.listen` | Listen to client-side events on the monday.com client running this app | Link |
 | `monday.get` | Retrieve information from the monday.com client running this app | Link |
@@ -246,3 +251,34 @@ Performs a client-side redirection of the user to the monday OAuth screen with y
 **Returns:**
 This method does not have a return value.
 
+## Storage API (`monday.storage`)
+> The Storage API is in early development stages, its API is likely to change
+
+The monday apps infrastructure includes a persistent, key-value database storage that developers can leverage to store data without having to create their own backend and maintain their own database.
+
+The database currently offers instance-level storage only, meaning that each application instance (i.e. a single board view or a dashboard widget) maintains its own storage. Apps cannot share storage across accounts or even across apps installed in the same location.
+
+**Available methods:**
+- `monday.storage.instance.getItem(key)` - Returns a stored value from the database under `key`
+- `monday.storage.instance.setItem(key, value)` - Stores `value` under `key` in the database
+
+**Returns:**
+All methods return a `Promise` which will be resolved to the Storage API's response
+
+**Examples:**
+Store a value in the database:
+```js
+monday.storage.instance.setItem('mykey', 'Lorem Ipsum').then(res => {
+  console.log(res);
+}
+// => { "success": true }
+```
+
+Retrieve a previously stored value in the database:
+```js
+monday.storage.instance.getItem('mykey').then(res => {
+   console.log(res.data.value);
+}
+// => 'Lorem Ipsum'
+```
+***TODO add more information somewhere else about the Storage API***
