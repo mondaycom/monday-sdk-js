@@ -59,15 +59,14 @@ Methods that use seamless authentication (including `monday.api` and `monday.sto
 
 The SDK exposes the following capabilities:
 
-| SDK Object | Capability | Info |
-|--|--|--|
-| `monday.api` | Performing queries against the monday.com API on behalf of the connected user | Link |
-| `monday.listen` | Listen to client-side events on the monday.com client running this app | Link |
-| `monday.get` | Retrieve information from the monday.com client running this app | Link |
-| `monday.execute` | Call an action on the monday.com client running this app | Link |
-| `monday.storage` | Read/write to the Storage API, a key-value storage service for apps | Link |
-| `monday.oauth` | Redirecting the client to the OAuth authorization server, with your client ID included | Link |
-
+| SDK Object | Capability |
+|--|--|
+| `monday.api` | Performing queries against the monday.com API on behalf of the connected user |
+| `monday.listen` | Listen to client-side events on the monday.com client running this app |
+| `monday.get` | Retrieve information from the monday.com client running this app |
+| `monday.execute` | Call an action on the monday.com client running this app |
+| `monday.storage` | Read/write to the Storage API, a key-value storage service for apps |
+| `monday.oauth` | Redirecting the client to the OAuth authorization server, with your client ID included |
 
 
 ### **`monday.api(query, options = {})`**
