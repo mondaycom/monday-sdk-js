@@ -152,7 +152,7 @@ monday.get("context").then(res => ...);
 ```
 
 Example context objects that return for a board view and a dashboard widget:
-```json
+```js
 // Board view context
 {
   "boardViewId": 19324,
