@@ -1,4 +1,4 @@
-const { MONDAY_API_URL } = require("./../constants.js");
+const { MONDAY_API_URL, MONDAY_OAUTH_TOKEN_URL } = require("./../constants.js");
 const fetch = require("./fetch");
 
 const COULD_NOT_PARSE_JSON_RESPONSE_ERROR = "Could not parse JSON from monday.com's GraphQL API response";
@@ -16,7 +16,7 @@ function apiRequest(url, data, token, options = {}) {
 }
 
 async function execute(data, token, options = {}) {
-  if (!token) throw new Error(TOKEN_IS_REQUIRED_ERROR);
+  if (!token && options.url !== MONDAY_OAUTH_TOKEN_URL) throw new Error(TOKEN_IS_REQUIRED_ERROR);
 
   const url = options.url || MONDAY_API_URL;
   const path = options.path || "";
