@@ -22,8 +22,9 @@ class MondayClientSdk {
 
     this.storage = {
       instance: {
-        setItem: this.setStorageInstanceItem.bind(this),
-        getItem: this.getStorageInstanceItem.bind(this)
+        setItem:    this.setStorageInstanceItem.bind(this),
+        getItem:    this.getStorageInstanceItem.bind(this),
+        deleteItem: this.deleteStorageInstanceItem.bind(this)
       }
     };
 
@@ -87,6 +88,10 @@ class MondayClientSdk {
 
   getStorageInstanceItem(key) {
     return this._localApi("storage", { method: "get", key, segment: "instance" });
+  }
+
+  deleteStorageInstanceItem(key) {
+    return this._localApi("storage", { method: "delete", key, segment: "instance" });
   }
 
   _localApi(method, args) {
