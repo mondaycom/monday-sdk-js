@@ -2,6 +2,7 @@ const mondayApiClient = require("./monday-api-client");
 const { MONDAY_OAUTH_URL } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
+const { initBackgroundTracking } = require("./services/background-tracking-service");
 
 const EMPTY_ARRAY = [];
 
@@ -72,6 +73,10 @@ class MondayClientSdk {
 
   execute(type, params) {
     return this._localApi("execute", { type, params });
+  }
+
+  track(name, data) {
+    return this.execute("track", { name, data });
   }
 
   oauth(options = {}) {
@@ -146,5 +151,7 @@ class MondayClientSdk {
 function init(options = {}) {
   return new MondayClientSdk(options);
 }
+
+initBackgroundTracking(init());
 
 module.exports = init;
