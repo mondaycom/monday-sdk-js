@@ -21,6 +21,7 @@ The SDK contains methods for server-side and client-side application development
   - [`monday.listen`](#listentypeortypes-callback-params--)
   - [`monday.execute`](#executetype-params)
   - [`monday.oauth`](#oauthoptions--)
+  - [`monday.storage`](#oauthoptions--)
 - [Storage API](#storage-api-mondaystorage)
 
 ## Usage
@@ -179,7 +180,7 @@ monday.get("itemIds").then(res => console.log(res));
 ```
 <br/>
 
-### **`listen(typeOrTypes, callback, params = {})`**
+### **`monday.listen(typeOrTypes, callback, params = {})`**
 
 Creates a listener which allows subscribing to certain types of client-side events.
 
@@ -219,7 +220,7 @@ const unsubscribe = monday.listen("events", callback);
 ```
 <br/>
 
-### **`execute(type, params)`**
+### **`monday.execute(type, params)`**
 Invokes an action on the parent monday client.
 
 **Parameters:**
@@ -242,7 +243,7 @@ monday.execute('openItemCard', { itemId: item.id });
 
 <br/>
 
-### **`oauth(options = {})`**
+### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
 
 **Parameters:**
@@ -258,6 +259,12 @@ This method does not have a return value.
 
 <br/>
 
+### **`monday.storage`**
+Provides access to the Storage API, see below.
+
+<br/>
+
+
 ## Storage API (`monday.storage`)
 > The Storage API is in early development stages, its API is likely to change
 
@@ -268,6 +275,7 @@ The database currently offers instance-level storage only, meaning that each app
 **Available methods:**
 - `monday.storage.instance.getItem(key)` - Returns a stored value from the database under `key`
 - `monday.storage.instance.setItem(key, value)` - Stores `value` under `key` in the database
+- `monday.storage.instance.deleteItem(key)` - Deletes the value under `key`
 
 **Returns:**
 All methods return a `Promise` which will be resolved to the Storage API's response
