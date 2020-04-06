@@ -92,16 +92,16 @@ class MondayClientSdk {
     window.location = url;
   }
 
-  setStorageInstanceItem(key, value) {
-    return this._localApi("storage", { method: "set", key, value, segment: "instance" });
+  setStorageInstanceItem(key, value, options = {}) {
+    return this._localApi("storage", { method: "set", key, value, options, segment: "instance" });
   }
 
-  getStorageInstanceItem(key) {
-    return this._localApi("storage", { method: "get", key, segment: "instance" });
+  getStorageInstanceItem(key, options = {}) {
+    return this._localApi("storage", { method: "get", key, options, segment: "instance" });
   }
 
-  deleteStorageInstanceItem(key) {
-    return this._localApi("storage", { method: "delete", key, segment: "instance" });
+  deleteStorageInstanceItem(key, options = {}) {
+    return this._localApi("storage", { method: "delete", key, options, segment: "instance" });
   }
 
   _localApi(method, args) {
