@@ -1,6 +1,7 @@
 const mondayApiClient = require("./monday-api-client");
 const { MONDAY_OAUTH_URL } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
+const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 
 const EMPTY_ARRAY = [];
 
@@ -29,6 +30,8 @@ class MondayClientSdk {
     };
 
     window.addEventListener("message", this._receiveMessage, false);
+
+    if (!options.withoutScrollHelper) initScrollHelperIfNeeded();
   }
 
   setClientId(clientId) {
