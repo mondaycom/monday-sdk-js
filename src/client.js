@@ -2,6 +2,7 @@ const mondayApiClient = require("./monday-api-client");
 const { MONDAY_OAUTH_URL } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
+const { initBackgroundTracking } = require("./services/background-tracking-service");
 
 const EMPTY_ARRAY = [];
 
@@ -23,8 +24,8 @@ class MondayClientSdk {
 
     this.storage = {
       instance: {
-        setItem:    this.setStorageInstanceItem.bind(this),
-        getItem:    this.getStorageInstanceItem.bind(this),
+        setItem: this.setStorageInstanceItem.bind(this),
+        getItem: this.getStorageInstanceItem.bind(this),
         deleteItem: this.deleteStorageInstanceItem.bind(this)
       }
     };
@@ -32,6 +33,8 @@ class MondayClientSdk {
     window.addEventListener("message", this._receiveMessage, false);
 
     if (!options.withoutScrollHelper) initScrollHelperIfNeeded();
+
+    initBackgroundTracking(this);
   }
 
   setClientId(clientId) {
@@ -73,6 +76,10 @@ class MondayClientSdk {
 
   execute(type, params) {
     return this._localApi("execute", { type, params });
+  }
+
+  track(name, data) {
+    return this.execute("track", { name, data });
   }
 
   oauth(options = {}) {
