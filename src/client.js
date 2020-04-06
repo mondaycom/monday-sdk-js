@@ -25,13 +25,16 @@ class MondayClientSdk {
     this.storage = {
       instance: {
         setItem: this.setStorageInstanceItem.bind(this),
-        getItem: this.getStorageInstanceItem.bind(this)
+        getItem: this.getStorageInstanceItem.bind(this),
+        deleteItem: this.deleteStorageInstanceItem.bind(this)
       }
     };
 
     window.addEventListener("message", this._receiveMessage, false);
 
     if (!options.withoutScrollHelper) initScrollHelperIfNeeded();
+
+    initBackgroundTracking(this);
   }
 
   setClientId(clientId) {
@@ -97,6 +100,10 @@ class MondayClientSdk {
     return this._localApi("storage", { method: "get", key, segment: "instance" });
   }
 
+  deleteStorageInstanceItem(key) {
+    return this._localApi("storage", { method: "delete", key, segment: "instance" });
+  }
+
   _localApi(method, args) {
     return new Promise(resolve => {
       const requestId = this._generateRequestId();
@@ -151,7 +158,5 @@ class MondayClientSdk {
 function init(options = {}) {
   return new MondayClientSdk(options);
 }
-
-initBackgroundTracking(init());
 
 module.exports = init;

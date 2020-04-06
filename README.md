@@ -1,5 +1,6 @@
 
 
+
 # monday.com App Marketplace SDK for Node.js and JavaScript
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mondaycom/monday-sdk-js/blob/master/LICENSE) &nbsp; [![npm version](https://img.shields.io/npm/v/monday-sdk-js.svg?style=flat)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![npm](https://img.shields.io/npm/dm/monday-sdk-js)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/monday-sdk-js)](https://www.jsdelivr.com/package/npm/monday-sdk-js)
 
@@ -18,9 +19,10 @@ The SDK contains methods for server-side and client-side application development
 - [SDK capabilities](#sdk-capabilities)
   - [`monday.api`](#mondayapiquery-options--)
   - [`monday.get`](#mondaygettype-params--)
-  - [`monday.listen`](#listentypeortypes-callback-params--)
-  - [`monday.execute`](#executetype-params)
-  - [`monday.oauth`](#oauthoptions--)
+  - [`monday.listen`](#mondaylistentypeortypes-callback-params--)
+  - [`monday.execute`](#mondayexecutetype-params)
+  - [`monday.oauth`](#mondayoauthoptions--)
+  - [`monday.storage`](#mondaystorage)
 - [Storage API](#storage-api-mondaystorage)
 
 ## Usage
@@ -74,6 +76,7 @@ The SDK exposes the following capabilities:
 Used for querying the monday.com GraphQL API seamlessly on behalf of the connected user, or using a provided API token. 
 
 **Parameters:**
+
 - `query`: A [GraphQL](https://graphql.org/) query, can be either a *query* (retrieval operation) or a *mutation* (creation/update/deletion operation). Placeholders may be used, which will be substituted by the `variables` object passed within the options.
 - `options`:
 
@@ -88,6 +91,7 @@ monday.setToken('mytoken')
 ```
 
 **Returns:**
+
 A `Promise` that will be resolved to the API response.
 
 
@@ -133,6 +137,7 @@ Used for retrieving data from the parent monday.com application where your app i
 
 
 **Parameters:**
+
 - `type`: The type of requested information (available values below)
 - `params`: Reserved for future use
 
@@ -144,9 +149,11 @@ The available types that can be requested are:
 | `'itemIds'` | The list of item IDs that are filtered in the current board (or all items if no filters are applied) |
 
 **Returns:** 
+
 A `Promise` that will be resolved with the requested data.
 
 **Examples:**
+
 Requesting context and settings data:
 ```js
 monday.get("settings").then(res => ...);
@@ -179,11 +186,12 @@ monday.get("itemIds").then(res => console.log(res));
 ```
 <br/>
 
-### **`listen(typeOrTypes, callback, params = {})`**
+### **`monday.listen(typeOrTypes, callback, params = {})`**
 
 Creates a listener which allows subscribing to certain types of client-side events.
 
 **Parameters:**
+
 - `typeOrTypes`: The type, or array of types, of events to subscribe to
 - `callback`: A callback function that is fired when the listener is triggered by a client-side event
 - `params`: Reserved for future use
@@ -197,9 +205,11 @@ You can subscribe to the following types of events:
 | `'events'` | Fired when an interaction takes place with the board/dashboard |
 
 **Returns:**
+
 This method does not have a return value.
 
 **Examples:**
+
 Subscribe to changes in settings and context:
 ```js
 const callback = res => console.log(res);
@@ -219,10 +229,11 @@ const unsubscribe = monday.listen("events", callback);
 ```
 <br/>
 
-### **`execute(type, params)`**
+### **`monday.execute(type, params)`**
 Invokes an action on the parent monday client.
 
 **Parameters:**
+
 - `type`: Which action to perform
 - `params`: Optional parameters for the action
 
@@ -232,9 +243,11 @@ At the moment, only a single action can be executed:
 | `'openItemCard'` | Opens a popup card with information from the selected item | `itemId`: The ID of the item |
 
 **Returns:**
+
 A `Promise` that will optionally  be resolved to the return value from the action executed
 
 **Examples:**
+
 Open a card for a specific item:
 ```javascript
 monday.execute('openItemCard', { itemId: item.id });
@@ -242,10 +255,11 @@ monday.execute('openItemCard', { itemId: item.id });
 
 <br/>
 
-### **`oauth(options = {})`**
+### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
 
 **Parameters:**
+
 - `options`: An object with options as specified below
 
 | Option | Required |Description |
@@ -254,9 +268,16 @@ Performs a client-side redirection of the user to the monday OAuth screen with y
 | `mondayOauthUrl`| No | The URL of the monday OAuth endpoint |
 
 **Returns:**
+
 This method does not have a return value.
 
 <br/>
+
+### **`monday.storage`**
+Provides access to the Storage API. See below for methods and explanation.
+
+<br/>
+
 
 ## Storage API (`monday.storage`)
 > The Storage API is in early development stages, its API is likely to change
@@ -266,13 +287,37 @@ The monday apps infrastructure includes a persistent, key-value database storage
 The database currently offers instance-level storage only, meaning that each application instance (i.e. a single board view or a dashboard widget) maintains its own storage. Apps cannot share storage across accounts or even across apps installed in the same location.
 
 **Available methods:**
+
 - `monday.storage.instance.getItem(key)` - Returns a stored value from the database under `key`
 - `monday.storage.instance.setItem(key, value)` - Stores `value` under `key` in the database
+- `monday.storage.instance.deleteItem(key)` - Deletes the value under `key`
+
 
 **Returns:**
+
 All methods return a `Promise` which will be resolved to the Storage API's response
 
+**Versioning:**
+
+You may face cases where multiple monday.com users will be working on the same app instance and writing to the same key in an unsynchronized fashion. If you're storing a compound data structure (like JSON) in that key, such operations may overwrite each other.
+
+The `getItem()` and `setItem()` each return a *version identifier* which can be used to identify which value is currently stored in a key. Whenever a write that changes the value occurs, the version identifier in the database changes. This allows you to identify whether a value was already changed from another location and prevent that from being overwritten.
+
+Example of using versioning:
+```js
+monday.storage.instance.getItem('serialKey').then(res => {
+  const { value, version } = res.data;
+  sleep(10000); // someone may overwrite serialKey during this time
+
+  monday.storage.instance.setItem('serialKey', { previous_version: version }).then(res => {
+    console.log(res);
+  }
+});
+// => '{ "success": false, "reason": "version_conflict" }'
+```
+
 **Examples:**
+
 Store a value in the database:
 ```js
 monday.storage.instance.setItem('mykey', 'Lorem Ipsum').then(res => {
@@ -288,4 +333,11 @@ monday.storage.instance.getItem('mykey').then(res => {
 }
 // => 'Lorem Ipsum'
 ```
-***TODO add more information somewhere else about the Storage API***
+
+Delete a previously stored key in the database:
+```js
+monday.storage.instance.deleteItem('mykey').then(res => {
+   console.log(res);
+}
+// => { "success": true }
+```
