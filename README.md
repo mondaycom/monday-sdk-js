@@ -280,7 +280,7 @@ Provides access to the Storage API. See below for methods and explanation.
 
 
 ## Storage API (`monday.storage`)
-> The Storage API is in early development stages, its API is likely to change
+> The Storage API is in early beta stages, its API is likely to change
 
 The monday apps infrastructure includes a persistent, key-value database storage that developers can leverage to store data without having to create their own backend and maintain their own database.
 
@@ -290,7 +290,7 @@ The database currently offers instance-level storage only, meaning that each app
 
 - `monday.storage.instance.getItem(key)` - Returns a stored value from the database under `key`
 - `monday.storage.instance.setItem(key, value)` - Stores `value` under `key` in the database
-- `monday.storage.instance.deleteItem(key)` - Deletes the value under `key`
+<!-- - `monday.storage.instance.deleteItem(key)` - Deletes the value under `key` -->
 
 
 **Returns:**
@@ -334,6 +334,7 @@ monday.storage.instance.getItem('mykey').then(res => {
 // => 'Lorem Ipsum'
 ```
 
+<!--
 Delete a previously stored key in the database:
 ```js
 monday.storage.instance.deleteItem('mykey').then(res => {
@@ -341,3 +342,4 @@ monday.storage.instance.deleteItem('mykey').then(res => {
 }
 // => { "success": true }
 ```
+-->
