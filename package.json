@@ -1,0 +1,48 @@
+{
+  "name": "monday-sdk-js",
+  "version": "0.1.0",
+  "private": false,
+  "repository": "https://github.com/mondaycom/monday-sdk-js",
+  "main": "src/index.js",
+  "author": "talharamati <tal@monday.com>",
+  "license": "MIT",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist/",
+    "src/",
+    "server-sdk.js"
+  ],
+  "dependencies": {
+    "@types/source-map": "^0.5.2",
+    "node-fetch": "^2.6.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.0",
+    "@babel/core": "^7.6.0",
+    "@babel/node": "^7.6.1",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.6.0",
+    "babel-loader": "^8.0.6",
+    "chai": "^4.2.0",
+    "eslint": "^6.8.0",
+    "jsdom": "^16.2.0",
+    "mocha": "^7.1.0",
+    "prettier": "^1.19.1",
+    "sinon": "^9.0.0",
+    "sinon-chai": "^3.5.0",
+    "webpack": "^4.38.0",
+    "webpack-cli": "^3.3.6",
+    "webpack-dev-server": "^3.7.2"
+  },
+  "scripts": {
+    "start": "webpack-dev-server",
+    "build": "webpack --mode=production --env.WEBPACK_BUILD=true",
+    "test": "mocha './src/**/*-test.js'",
+    "test:watch": "mocha './src/**/*-test.js' --watch",
+    "precommit": "yarn lint && yarn style-check",
+    "lint": "eslint './src/**/*.*'",
+    "style-check": "prettier --check './src/**/*.js'"
+  }
+}
