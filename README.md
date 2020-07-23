@@ -275,7 +275,7 @@ Opens a confirmation dialog to the user
 | message|String | The message to display in the dialog| Yes | |
 |confirmButton|String| The text for the confirmation button | No |"OK" |
 |cancelButton|String| The text for the cancel button | No |"Cancel" |
-|excludeCancelButton|Boolean| Either to axclude the cancel button | No |false|
+|excludeCancelButton|Boolean| Either to exclude the cancel button | No |false|
 
 **Example**
 ```js
