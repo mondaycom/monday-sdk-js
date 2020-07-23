@@ -238,23 +238,80 @@ Invokes an action on the parent monday client.
 - `type`: Which action to perform
 - `params`: Optional parameters for the action
 
-At the moment, only a single action can be executed:
-| Type | Description | Params |
-|--|--|--|
-| `'openItemCard'` | Opens a popup card with information from the selected item | `itemId`: The ID of the item |
-
 **Returns:**
 
 A `Promise` that will optionally  be resolved to the return value from the action executed
 
-**Examples:**
 
-Open a card for a specific item:
+**Action types:**
+
+#### Open item card
+Opens a popup card with information from the selected item
+
+**type**
+`'openItemCard'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| itemId| Integer | The ID of the item to open | Yes | |
+|kind | String | On which view to open the item card. <br>Can be "updates" / "columns" | No |"columns" |
+
+**Example**
 ```javascript
 monday.execute('openItemCard', { itemId: item.id });
 ```
 
-<br/>
+#### Confirmation dialog
+Opens a confirmation dialog to the user
+**type**
+`'confirm'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- |---|--- | --- | --- |
+| message|String | The message to display in the dialog| Yes | |
+|confirmButton|String| The text for the confirmation button | No |"OK" |
+|cancelButton|String| The text for the cancel button | No |"Cancel" |
+|excludeCancelButton|Boolean| Either to axclude the cancel button | No |false|
+
+**Example**
+```js
+monday.execute("confirm", {
+   message: "Are you sure?", 
+   confirmButton: "Let's go!", 
+   cancelButton: "No way", 
+   excludeCancelButton: false
+}).then((res) => {
+    console.log(res.data);
+    // {"confirm": true}
+});
+```
+
+#### Notice message 
+Display a message at the top of the user's page. Usefull for success, error & general messages.
+
+**type**
+`'notice'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- |---|--- | --- | --- |
+| message|String | The message to display| Yes | |
+|type|String| The type of message to display . Can be "success" (green), "error" (red) or "info" (blue) | No |"info" |
+|timeout|Integer| The number of milliseconds to show the message until it closes | No | 5000 |
+
+**Example**
+```js
+monday.execute("notice", { 
+   message: "I'm a success message",
+   type: "success", // or "error" (red), or "info" (blue)
+   timeout: 10000,
+});
+```
 
 ### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
