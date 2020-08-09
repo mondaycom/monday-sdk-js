@@ -61,6 +61,7 @@ Methods that use seamless authentication (including `monday.api` and `monday.sto
 
 The SDK exposes the following capabilities:
 
+Only `monday.api` is available server-side
 | SDK Object | Capability |
 |--|--|
 | `monday.api` | Performing queries against the monday.com API on behalf of the connected user |
