@@ -92,7 +92,10 @@ monday.setToken('mytoken')
 
 **Returns:**
 
-A `Promise` that will be resolved to the API response.
+A `Promise` that will be `resolved` to the API response.
+<br>If there was an unhandled GraphQL error in the API, a `Promise` will be `rejected` with an Error.
+In case of handled errors from GraphQL API (response with the 200 status), a `Promise` will be `resolved` with the API response.
+<br>You can check the list of GraphQL API errors [here](https://monday.com/developers/v2#errors-section).
 
 
 **Examples:**

@@ -105,7 +105,7 @@ class MondayClientSdk {
   }
 
   _localApi(method, args) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       const requestId = this._generateRequestId();
       const clientId = this._clientId;
       const pjson = require("../package.json");
@@ -113,7 +113,11 @@ class MondayClientSdk {
 
       window.parent.postMessage({ method, args, requestId, clientId, version }, "*");
       this._addListener(requestId, data => {
-        resolve(data);
+        if (data.errorMessage) {
+          reject(new Error(data.errorMessage));
+        } else {
+          resolve(data);
+        }
       });
     });
   }
