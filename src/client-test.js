@@ -147,7 +147,7 @@ describe("Monday Client Test API - Returning data", () => {
     const clientId = "clientId";
     const responseData = { accountId: 123, boards:[]};
     function onPostMessage(event) {
-      const { requestId, method, data, type } = event.data;
+      const { requestId, method, type } = event.data;
       if (method === 'api' && !event.data.data) {
         window.postMessage({ requestId, data: responseData , method, type}, "*");
         //because in tests we don't have 2 different window object (parent and iframe) they are exchanging in the same
@@ -172,7 +172,7 @@ describe("Monday Client Test API - Returning data", () => {
     const clientId = "clientId";
     const errorMessage = 'My custom error'
     function onPostMessage(event) {
-      const { requestId, method, data, type } = event.data;
+      const { requestId, method, type } = event.data;
       if (method === 'api' && !event.data.errorMessage) {
         window.postMessage({ requestId, data: null, method, type, errorMessage: errorMessage }, "*");
         //because in tests we don't have 2 different window object (parent and iframe) they are exchanging in the same
