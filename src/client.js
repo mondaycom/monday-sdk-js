@@ -49,7 +49,7 @@ class MondayClientSdk {
     const params = { query, variables: options.variables };
     const token = options.token || this._apiToken;
     if (token) {
-      return mondayApiClient.execute(params, { token });
+      return mondayApiClient.execute(params, token);
     } else {
       return new Promise((resolve, reject) => {
         this._localApi("api", { params })
