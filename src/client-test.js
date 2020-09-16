@@ -134,3 +134,60 @@ describe("Monday Client Test", () => {
     });
   });
 });
+
+describe("Monday Client Test API - Returning data", () => {
+  let clock;
+  beforeEach(() => {
+    //we are not initializing mondaySdk in beforeEach to have it's event listener being registered
+    //AFTER the test's event listener to prevent SDK to react on it's messages before the test listener
+    clock = sinon.useFakeTimers();
+  });
+
+  it("API should resolve the promise coming from the host app ", done => {
+    const clientId = "clientId";
+    const responseData = { accountId: 123, boards: [] };
+    function onPostMessage(event) {
+      const { requestId, method, type } = event.data;
+      if (method === "api" && !event.data.data) {
+        window.postMessage({ requestId, data: responseData, method, type }, "*");
+        //because in tests we don't have 2 different window object (parent and iframe) they are exchanging in the same
+        //events space, so here we need to stop the initial SDK event propogation to not allow SDK to react to it's own event
+        event.stopImmediatePropagation();
+      }
+    }
+    window.addEventListener("message", onPostMessage, false);
+
+    const mondayClient = initMondaySdk({ clientId });
+    mondayClient.api("query").then(res => {
+      expect(res).to.be.ok;
+      expect(res).to.be.equal(responseData);
+      done();
+    });
+    clock.tick(5);
+    window.removeEventListener("message", onPostMessage, false);
+  });
+
+  it("API should reject the promise, when host raises an event with errorMessage", done => {
+    const clientId = "clientId";
+    const errorMessage = "My custom error";
+    function onPostMessage(event) {
+      const { requestId, method, type } = event.data;
+      if (method === "api" && !event.data.errorMessage) {
+        window.postMessage({ requestId, data: null, method, type, errorMessage: errorMessage }, "*");
+        //because in tests we don't have 2 different window object (parent and iframe) they are exchanging in the same
+        //events space, so here we need to stop the initial SDK event propogation to not allow SDK to react to it's own event
+        event.stopImmediatePropagation();
+      }
+    }
+    window.addEventListener("message", onPostMessage, false);
+
+    const mondayClient = initMondaySdk({ clientId });
+    mondayClient.api("query").catch(err => {
+      expect(err).to.be.ok;
+      expect(err.message).to.be.equal(errorMessage);
+      done();
+    });
+    clock.tick(5);
+    window.removeEventListener("message", onPostMessage, false);
+  });
+});
