@@ -383,7 +383,7 @@ Store a value in the database:
 ```js
 monday.storage.instance.setItem('mykey', 'Lorem Ipsum').then(res => {
   console.log(res);
-}
+});
 // => { "success": true }
 ```
 
@@ -391,7 +391,7 @@ Retrieve a previously stored value in the database:
 ```js
 monday.storage.instance.getItem('mykey').then(res => {
    console.log(res.data.value);
-}
+});
 // => 'Lorem Ipsum'
 ```
 
