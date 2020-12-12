@@ -170,7 +170,7 @@ describe("Monday Client Test API - Returning data", () => {
   it("API should reject the promise, when host raises an event with errorMessage", done => {
     const clientId = "clientId";
     const errorMessage = "My custom error";
-    const errorData = {errors: ['1', '2', '3']};
+    const errorData = { errors: ["1", "2", "3"] };
     function onPostMessage(event) {
       const { requestId, method, type } = event.data;
       if (method === "api" && !event.data.errorMessage) {
