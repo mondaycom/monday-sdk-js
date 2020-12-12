@@ -115,7 +115,7 @@ class MondayClientSdk {
       this._addListener(requestId, data => {
         if (data.errorMessage) {
           const error = new Error(data.errorMessage);
-          error.data = data.data
+          error.data = data.data;
           reject(error);
         } else {
           resolve(data);
