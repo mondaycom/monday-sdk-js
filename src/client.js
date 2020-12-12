@@ -114,7 +114,9 @@ class MondayClientSdk {
       window.parent.postMessage({ method, args, requestId, clientId, version }, "*");
       this._addListener(requestId, data => {
         if (data.errorMessage) {
-          reject(new Error(data.errorMessage));
+          const error = new Error(data.errorMessage);
+          error.data = data.data
+          reject(error);
         } else {
           resolve(data);
         }
