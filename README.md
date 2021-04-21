@@ -316,6 +316,31 @@ monday.execute("notice", {
 });
 ```
 
+#### Open files preview dialog
+Opens a popup card with the preview of an asset
+
+**type**
+`'openFilesDialog'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| boardId| Integer | The ID of the board | Yes | |
+| itemId| Integer | The ID of the item, which contains an asset | Yes | |
+| columnId| String | The ID of the column, which contains an asset | Yes | |
+| assetId| Integer | The ID of the asset to open | Yes | |
+
+**Example**
+```javascript
+monday.execute('openFilesDialog', {
+  boardId: 12345,
+  itemId: 23456,
+  columnId: 'files',
+  assetId: 34567
+})
+```
+
 ### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
 
