@@ -249,7 +249,7 @@ A `Promise` that will optionally  be resolved to the return value from the actio
 **Action types:**
 
 #### Open item card
-Opens a popup card with information from the selected item
+Opens a modal with information from the selected item
 
 **type**
 `'openItemCard'`
@@ -317,7 +317,7 @@ monday.execute("notice", {
 ```
 
 #### Open files preview dialog
-Opens a popup card with the preview of an asset
+Opens a modal with the preview of an asset
 
 **type**
 `'openFilesDialog'`
