@@ -249,7 +249,7 @@ A `Promise` that will optionally  be resolved to the return value from the actio
 **Action types:**
 
 #### Open item card
-Opens a popup card with information from the selected item
+Opens a modal with information from the selected item
 
 **type**
 `'openItemCard'`
@@ -314,6 +314,31 @@ monday.execute("notice", {
    type: "success", // or "error" (red), or "info" (blue)
    timeout: 10000,
 });
+```
+
+#### Open files preview dialog
+Opens a modal with the preview of an asset
+
+**type**
+`'openFilesDialog'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| boardId| Integer | The ID of the board | Yes | |
+| itemId| Integer | The ID of the item, which contains an asset | Yes | |
+| columnId| String | The ID of the column, which contains an asset | Yes | |
+| assetId| Integer | The ID of the asset to open | Yes | |
+
+**Example**
+```javascript
+monday.execute('openFilesDialog', {
+  boardId: 12345,
+  itemId: 23456,
+  columnId: 'files',
+  assetId: 34567
+})
 ```
 
 ### **`monday.oauth(options = {})`**
