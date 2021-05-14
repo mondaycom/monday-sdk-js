@@ -24,8 +24,8 @@ class MondayServerSdk {
     return await mondayApiClient.execute(params, token);
   }
 
-  oauthToken(code, clientId, clientSecret) {
-    return oauthToken(code, clientId, clientSecret);
+  oauthToken(code, clientId, clientSecret, redirectUri) {
+    return oauthToken(code, clientId, clientSecret, redirectUri);
   }
 }
 
