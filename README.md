@@ -341,6 +341,34 @@ monday.execute('openFilesDialog', {
 })
 ```
 
+
+#### Trigger file upload process
+Triggers the file upload flow to a specific file column. Rejects the promise in case of error.
+
+After file will be successfully uploaded - "change_column_value" event will be triggered.
+
+*Requires boards:write scope*
+
+**type**
+`'triggerFilesUpload'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| boardId| Integer | The ID of the board | Yes | |
+| itemId| Integer | The ID of the item, which contains an asset | Yes | |
+| columnId| String | The ID of the file column, where file should be uploaded | Yes | |
+
+**Example**
+```javascript
+monday.execute('triggerFilesUpload', {
+  boardId: 12345,
+  itemId: 23456,
+  columnId: 'files'
+})
+```
+
 ### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
 
