@@ -343,9 +343,12 @@ monday.execute('openFilesDialog', {
 
 
 #### Trigger file upload process
-Triggers the file upload flow to a specific file column. Rejects the promise in case of error.
+Opens a modal to let the current user upload a file to a specific file column. 
 
-After file will be successfully uploaded - "change_column_value" event will be triggered.
+Returns a promise. In case of error, the promise is rejected
+
+After the file is successfully uploaded, the "change_column_value" event will be triggered. 
+See the [`monday.listen`](#mondaylistentypeortypes-callback-params--)('events', callback) method to subscribe to these events.
 
 *Requires boards:write scope*
 
