@@ -372,6 +372,41 @@ monday.execute('triggerFilesUpload', {
 })
 ```
 
+#### Open modal
+Opens a new modal window as an iFrame.
+
+**type**
+`'openAppFeatureModal'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| url | String | The URL of the page displayed in the modal | No | current iFrame's URL |
+| urlPath | String | Subdirectory or path of the URL to open | No | |
+| urlParams | Object | Query parameters for the URL | No | |
+| width | String | The width of the modal | No | "0px" |
+| height | String | The height of the modal | No | "0px" |
+
+**Example**
+```javascript
+monday.execute('openAppFeatureModal', { url: "https://example.com", urlParams: { name: "Dipro" }, urlPath: "/monday", width: "800px", height: "600px" })
+```
+
+#### Close modal
+Closes the modal window.
+
+**type**
+`'closeAppFeatureModal'`
+
+**params**
+This method does not have any parameters.
+
+**Example**
+```javascript
+monday.execute('closeAppFeatureModal')
+```
+
 ### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
 
