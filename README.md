@@ -341,7 +341,6 @@ monday.execute('openFilesDialog', {
 })
 ```
 
-
 #### Trigger file upload process
 Opens a modal to let the current user upload a file to a specific file column. 
 
@@ -390,8 +389,14 @@ Opens a new modal window as an iFrame.
 
 **Example**
 ```javascript
-monday.execute('openAppFeatureModal', { url: "https://example.com", urlParams: { name: "Dipro" }, urlPath: "/monday", width: "800px", height: "600px" })
+monday.execute('openAppFeatureModal', { urlPath, urlParams, height, width }).then((res) => {
+   console.log(res.data);
+   {"close": true}
+   // The above is a callback to see if a user closed the modal from the inside. This is useful should you want to run some logic within the app window. 
+});
 ```
+
+Note: make sure the urlPath you pass is a relevant URL and not an absolute URL. 
 
 #### Close modal
 Closes the modal window.
@@ -404,7 +409,9 @@ This method does not have any parameters.
 
 **Example**
 ```javascript
-monday.execute('closeAppFeatureModal')
+monday.execute('closeAppFeatureModal').then((res) => {
+  console.log(res.data);
+});
 ```
 
 ### **`monday.oauth(options = {})`**
