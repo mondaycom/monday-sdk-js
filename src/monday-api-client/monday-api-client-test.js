@@ -10,7 +10,9 @@ describe("mondayApiClient", () => {
     fetchMock = sinon.stub(async () => {
       return { data: "some_data" };
     });
-    nodeFetchStub = sinon.stub(fetch, "nodeFetch").resolves({ json: fetchMock });
+    nodeFetchStub = sinon
+      .stub(fetch, "nodeFetch")
+      .resolves({ json: fetchMock, headers: { get: () => "application/json" } });
   });
 
   afterEach(() => {
@@ -28,22 +30,22 @@ describe("mondayApiClient", () => {
     assert.calledWithExactly(nodeFetchStub, "https://api.monday.com/v2", {
       body: '"query { boards { id, name }}"',
       headers: { Authorization: "api_token", "Content-Type": "application/json" },
-      method: "POST"
+      method: "POST",
     });
   });
 
-  it("should throw error if token is missing", async () => {
+  it(`should throw ${mondayApiClient.TOKEN_IS_REQUIRED_ERROR}`, async () => {
     let errorMessage;
     try {
       await mondayApiClient.execute("query { boards { id, name }}");
     } catch (err) {
       errorMessage = err.message;
     }
-    expect(errorMessage).to.eq("Token is required");
+    expect(errorMessage).to.eq(mondayApiClient.TOKEN_IS_REQUIRED_ERROR);
   });
 
-  it(`sould throw ${mondayApiClient.COULD_NOT_PARSE_JSON_RESPONSE_ERROR}`, async () => {
-    nodeFetchStub.returns({ json: "not json" });
+  it(`should throw ${mondayApiClient.COULD_NOT_PARSE_JSON_RESPONSE_ERROR}`, async () => {
+    nodeFetchStub.returns({ json: "not json", headers: { get: () => "application/json" } });
     let errorMessage;
     try {
       await mondayApiClient.execute("query { boards { id, name }}", "api_token");
@@ -51,5 +53,16 @@ describe("mondayApiClient", () => {
       errorMessage = err.message;
     }
     expect(errorMessage).to.eq(mondayApiClient.COULD_NOT_PARSE_JSON_RESPONSE_ERROR);
+  });
+
+  it(`should throw ${mondayApiClient.API_TIMEOUT_ERROR}`, async () => {
+    nodeFetchStub.returns({ headers: { get: () => "text/plain" }, status: 504 });
+    let errorMessage;
+    try {
+      await mondayApiClient.execute("query { boards { id, name }}", "api_token");
+    } catch (err) {
+      errorMessage = err.message;
+    }
+    expect(errorMessage).to.eq(mondayApiClient.API_TIMEOUT_ERROR);
   });
 });
