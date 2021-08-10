@@ -11,8 +11,8 @@ function apiRequest(url, data, token, options = {}) {
     body: JSON.stringify(data || {}),
     headers: {
       Authorization: token,
-      "Content-Type": "application/json",
-    },
+      "Content-Type": "application/json"
+    }
   });
 }
 
@@ -42,4 +42,4 @@ async function execute(data, token, options = {}) {
   }
 }
 
-module.exports = { execute, COULD_NOT_PARSE_JSON_RESPONSE_ERROR };
+module.exports = { execute, COULD_NOT_PARSE_JSON_RESPONSE_ERROR, TOKEN_IS_REQUIRED_ERROR, API_TIMEOUT_ERROR };
