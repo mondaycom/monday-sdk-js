@@ -30,7 +30,7 @@ describe("mondayApiClient", () => {
     assert.calledWithExactly(nodeFetchStub, "https://api.monday.com/v2", {
       body: '"query { boards { id, name }}"',
       headers: { Authorization: "api_token", "Content-Type": "application/json" },
-      method: "POST",
+      method: "POST"
     });
   });
 
