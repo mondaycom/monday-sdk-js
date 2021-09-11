@@ -396,7 +396,7 @@ monday.execute('openAppFeatureModal', { urlPath, urlParams, height, width }).the
 });
 ```
 
-Note: make sure the urlPath you pass is a relevant URL and not an absolute URL. 
+Note: make sure the urlPath you pass is a relative URL and not an absolute URL. 
 
 #### Close modal
 Closes the modal window.
