@@ -341,7 +341,6 @@ monday.execute('openFilesDialog', {
 })
 ```
 
-
 #### Trigger file upload process
 Opens a modal to let the current user upload a file to a specific file column. 
 
@@ -370,6 +369,49 @@ monday.execute('triggerFilesUpload', {
   itemId: 23456,
   columnId: 'files'
 })
+```
+
+#### Open modal
+Opens a new modal window as an iFrame.
+
+**type**
+`'openAppFeatureModal'`
+
+**params**
+
+| Parameter|Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| url | String | The URL of the page displayed in the modal | No | current iFrame's URL |
+| urlPath | String | Subdirectory or path of the URL to open | No | |
+| urlParams | Object | Query parameters for the URL | No | |
+| width | String | The width of the modal | No | "0px" |
+| height | String | The height of the modal | No | "0px" |
+
+**Example**
+```javascript
+monday.execute('openAppFeatureModal', { urlPath, urlParams, height, width }).then((res) => {
+   console.log(res.data);
+   {"close": true}
+   // The above is a callback to see if a user closed the modal from the inside. This is useful should you want to run some logic within the app window. 
+});
+```
+
+Note: make sure the urlPath you pass is a relevant URL and not an absolute URL. 
+
+#### Close modal
+Closes the modal window.
+
+**type**
+`'closeAppFeatureModal'`
+
+**params**
+This method does not have any parameters.
+
+**Example**
+```javascript
+monday.execute('closeAppFeatureModal').then((res) => {
+  console.log(res.data);
+});
 ```
 
 ### **`monday.oauth(options = {})`**
