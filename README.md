@@ -256,7 +256,7 @@ Opens a modal with information from the selected item
 
 **params**
 
-| Parameter|Type | Description | Required | Default Value |
+| Parameter | Type | Description | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | itemId| Integer | The ID of the item to open | Yes | |
 |kind | String | On which view to open the item card. <br>Can be "updates" / "columns" | No |"columns" |
@@ -273,7 +273,7 @@ Opens a confirmation dialog to the user
 
 **params**
 
-| Parameter|Type | Description | Required | Default Value |
+| Parameter | Type | Description | Required | Default Value |
 | --- |---|--- | --- | --- |
 | message|String | The message to display in the dialog| Yes | |
 |confirmButton|String| The text for the confirmation button | No |"OK" |
@@ -301,7 +301,7 @@ Display a message at the top of the user's page. Usefull for success, error & ge
 
 **params**
 
-| Parameter|Type | Description | Required | Default Value |
+| Parameter | Type | Description | Required | Default Value |
 | --- |---|--- | --- | --- |
 | message|String | The message to display| Yes | |
 |type|String| The type of message to display . Can be "success" (green), "error" (red) or "info" (blue) | No |"info" |
@@ -324,7 +324,7 @@ Opens a modal with the preview of an asset
 
 **params**
 
-| Parameter|Type | Description | Required | Default Value |
+| Parameter | Type | Description | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | boardId| Integer | The ID of the board | Yes | |
 | itemId| Integer | The ID of the item, which contains an asset | Yes | |
@@ -356,7 +356,7 @@ See the [`monday.listen`](#mondaylistentypeortypes-callback-params--)('events', 
 
 **params**
 
-| Parameter|Type | Description | Required | Default Value |
+| Parameter | Type | Description | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | boardId| Integer | The ID of the board | Yes | |
 | itemId| Integer | The ID of the item, which contains an asset | Yes | |
@@ -379,7 +379,7 @@ Opens a new modal window as an iFrame.
 
 **params**
 
-| Parameter|Type | Description | Required | Default Value |
+| Parameter | Type | Description | Required | Default Value |
 | --- | --- | --- | --- | --- |
 | url | String | The URL of the page displayed in the modal | No | current iFrame's URL |
 | urlPath | String | Subdirectory or path of the URL to open | No | |
@@ -396,7 +396,7 @@ monday.execute('openAppFeatureModal', { urlPath, urlParams, height, width }).the
 });
 ```
 
-Note: make sure the urlPath you pass is a relative URL and not an absolute URL. 
+Note: Make sure the urlPath you pass is a relative URL and not an absolute URL. 
 
 #### Close modal
 Closes the modal window.
@@ -413,6 +413,29 @@ monday.execute('closeAppFeatureModal').then((res) => {
   console.log(res.data);
 });
 ```
+
+#### Open integration recipes modal
+Opens a specific set of integration recipes based on an integration feature.
+
+**type**
+`'openAppFeatureIntegrations'`
+
+**params**
+
+| Parameter | Type | Description | Required | Default Value |
+| --- | --- | --- | --- | --- |
+| boardId | Integer | The ID of the board | Yes | |
+| appFeatureReferenceId | Integer | The ID of the app feature | Yes | |
+
+**Example**
+```javascript
+monday.execute('openAppFeatureIntegrations', {
+   boardId: 162169280,
+   appFeatureReferenceId: 10008982, // this is the ID of your integration feature, found in the URL
+})
+```
+
+Note: You can get the `appFeatureReferenceId` from the end of the URL when you open the integration. The integration URL follows this format: `https://your-link.monday.com/apps/manage/1234/app_versions/123456/app_features/<appFeatureReferenceId>`
 
 ### **`monday.oauth(options = {})`**
 Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL, in order to get their approval to generate a temporary OAuth token based on your requested permission scopes.
