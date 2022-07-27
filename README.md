@@ -207,6 +207,7 @@ You can subscribe to the following types of events:
 | `'settings'` | Fired when a setting value is changed by the user |
 | `'itemIds'` | Fired when the board filter changes, which impacts the list of items currently in view |
 | `'events'` | Fired when an interaction takes place with the board/dashboard |
+| `'filter'` | Fired when the _Search_ filter changes |
 
 **Returns:**
 
