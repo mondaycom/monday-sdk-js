@@ -106,7 +106,7 @@ class MondayClientSdk {
   }
 
   deleteStorageInstanceItem(key, options = {}) {
-    return this.get("storage", { method: "delete", key, options, segment: "instance" });
+    return this._localApi("storage", { method: "delete", key, options, segment: "instance" });
   }
 
   _localApi(method, args) {
