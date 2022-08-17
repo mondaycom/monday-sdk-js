@@ -18,6 +18,7 @@ class MondayClientSdk {
     this.api = this.api.bind(this);
     this.listen = this.listen.bind(this);
     this.get = this.get.bind(this);
+    this.set = this.set.bind(this);
     this.execute = this.execute.bind(this);
     this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
@@ -74,6 +75,10 @@ class MondayClientSdk {
     return this._localApi("get", { type, params });
   }
 
+  set(type, params) {
+    return this._localApi("set", { type, params });
+  }
+
   execute(type, params) {
     return this._localApi("execute", { type, params });
   }
@@ -101,7 +106,7 @@ class MondayClientSdk {
   }
 
   deleteStorageInstanceItem(key, options = {}) {
-    return this._localApi("storage", { method: "delete", key, options, segment: "instance" });
+    return this.get("storage", { method: "delete", key, options, segment: "instance" });
   }
 
   _localApi(method, args) {
