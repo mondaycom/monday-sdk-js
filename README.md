@@ -458,7 +458,7 @@ monday.execute('closeAppFeatureModal').then((res) => {
 ```
 
 #### Value created for user
-Notify monday platform that user gains a first value in an app.
+Notifies the monday platform that user gains a first value in an app.
 
 **type**
 `'value'`
