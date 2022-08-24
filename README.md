@@ -195,7 +195,7 @@ monday.get("itemIds").then(res => console.log(res));
 
 ### **`monday.set(type, params = {})`**
 
-Used for setting up data inside your application. This methid can only be used  when your app is running inside an `iframe`. This can only be used in client-side apps.
+Used for setting up data inside your application. This method can only be used when your app is running inside an `iframe`. This can only be used in client-side apps.
 
 
 **Parameters:**
