@@ -19,6 +19,7 @@ The SDK contains methods for server-side and client-side application development
 - [SDK capabilities](#sdk-capabilities)
   - [`monday.api`](#mondayapiquery-options--)
   - [`monday.get`](#mondaygettype-params--)
+  - [`monday.set`](#mondaysettype-params--)
   - [`monday.listen`](#mondaylistentypeortypes-callback-params--)
   - [`monday.execute`](#mondayexecutetype-params)
   - [`monday.oauth`](#mondayoauthoptions--)
@@ -135,6 +136,64 @@ For more information about the GraphQL API and all queries and mutations possibl
 <br/>
 
 ### **`monday.get(type, params = {})`**
+
+Used for retrieving data from the parent monday.com application where your app is currently running. This object can only be used  when your app is running inside an `iframe`. This can only be used in client-side apps.
+
+
+**Parameters:**
+
+- `type`: The type of requested information (available values below)
+- `params`: Reserved for future use
+
+The available types that can be requested are:
+| Type | Description |
+|--|--|
+| `'context'` | Information about where this app is currently displayed, depending on the type of feature |
+| `'settings'` | The application settings as configured by the user that installed the app |
+| `'itemIds'` | The list of item IDs that are filtered in the current board (or all items if no filters are applied) |
+| `'sessionToken'` | A JWT token which is decoded with your app's secret and can be used as a session token between your app's frontend & backend |
+| `'filter'` | The state of the _Search_ filter |
+
+**Returns:** 
+
+A `Promise` that will be resolved with the requested data.
+
+**Examples:**
+
+Requesting context and settings data:
+```js
+monday.get("settings").then(res => ...);
+monday.get("context").then(res => ...);
+```
+
+Example context objects that return for a board view and a dashboard widget:
+```js
+// Board view context
+{
+  "boardViewId": 19324,
+  "boardId": 3423243,
+  "mode": "fullScreen", // or "split"
+  "theme": "light"  // or "dark"
+}
+
+// Dashboard widget context
+{
+  "widgetId": 54236,
+  "boardIds": [3423243, 943728],
+  "theme": "light"  // or "dark"
+}
+```
+
+Requesting the list of items currently in view in the board:
+
+```js
+monday.get("itemIds").then(res => console.log(res));
+// => [234234, 4564, 234234, 67675, 576567]
+```
+
+<br/>
+
+### **`monday.set(type, params = {})`**
 
 Used for retrieving data from the parent monday.com application where your app is currently running. This object can only be used  when your app is running inside an `iframe`. This can only be used in client-side apps.
 
