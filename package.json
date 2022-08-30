@@ -1,6 +1,6 @@
 {
   "name": "monday-sdk-js",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
