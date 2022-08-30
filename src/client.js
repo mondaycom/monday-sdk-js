@@ -18,6 +18,7 @@ class MondayClientSdk {
     this.api = this.api.bind(this);
     this.listen = this.listen.bind(this);
     this.get = this.get.bind(this);
+    this.set = this.set.bind(this);
     this.execute = this.execute.bind(this);
     this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
@@ -72,6 +73,10 @@ class MondayClientSdk {
 
   get(type, params) {
     return this._localApi("get", { type, params });
+  }
+
+  set(type, params) {
+    return this._localApi("set", { type, params });
   }
 
   execute(type, params) {

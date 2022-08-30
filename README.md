@@ -19,6 +19,7 @@ The SDK contains methods for server-side and client-side application development
 - [SDK capabilities](#sdk-capabilities)
   - [`monday.api`](#mondayapiquery-options--)
   - [`monday.get`](#mondaygettype-params--)
+  - [`monday.set`](#mondaysettype-params--)
   - [`monday.listen`](#mondaylistentypeortypes-callback-params--)
   - [`monday.execute`](#mondayexecutetype-params)
   - [`monday.oauth`](#mondayoauthoptions--)
@@ -188,6 +189,46 @@ Requesting the list of items currently in view in the board:
 ```js
 monday.get("itemIds").then(res => console.log(res));
 // => [234234, 4564, 234234, 67675, 576567]
+```
+
+<br/>
+
+### **`monday.set(type, params = {})`**
+
+Used for setting up data inside your application. This method can only be used when your app is running inside an `iframe`. This can only be used in client-side apps.
+
+
+**Parameters:**
+
+- `type`: The type of data that can be set (available values below)
+- `params`: Optional parameters for the action
+
+The available types that can be set are:
+| Type | Description |
+|--|--|
+| `'settings'` | The application settings as configured by the user that installed the app |
+
+**Returns:** 
+
+A `Promise` that will be `resolved` to the set method response.
+
+**Examples:**
+
+Setting application settings data:
+```js
+monday.set("settings").then(res => ...);
+```
+
+Example application settings object that we are able to set for a board view:
+```js
+// Board view settings example
+{
+  "text": "textual value",
+  "color": "#037f4c", 
+  "date": "2022-08-25"
+  "checkbox1": false
+  "textarea": "line1\nline2\n.....\nline n"
+}
 ```
 <br/>
 
@@ -413,6 +454,56 @@ This method does not have any parameters.
 ```javascript
 monday.execute('closeAppFeatureModal').then((res) => {
   console.log(res.data);
+});
+```
+
+#### Value created for user
+Notifies the monday platform that user gains a first value in an app.
+
+**type**
+`'value'`
+
+**params**
+This method does not have any parameters.
+
+**Example**
+```javascript
+monday.execute('valueCreatedForUser').then((res) => {
+  console.log(res.data);
+});
+```
+
+#### Open setting window
+Opens view settings window
+
+**type**
+`'value'`
+
+**params**
+This method does not have any parameters.
+
+**Example**
+```javascript
+monday.execute('openSettings').then((res) => {
+  console.log(res.data);
+  // note that method will open view settings, unless settings were alreday opened
+});
+```
+
+#### Close setting window
+Closes view settings window
+
+**type**
+`'value'`
+
+**params**
+This method does not have any parameters.
+
+**Example**
+```javascript
+monday.execute('closeSettings').then((res) => {
+  console.log(res.data);
+  // note that method will close view settings, unless settings were alreday closed
 });
 ```
 
