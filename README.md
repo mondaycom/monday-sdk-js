@@ -541,6 +541,7 @@ The database currently offers instance-level storage only, meaning that each app
 **Available methods:**
 
 - `monday.storage.instance.getItem(key)` - Returns a stored value from the database under `key`
+- `monday.storage.instance.deleteItem(key)` - deletes a stored value from the database under `key`
 - `monday.storage.instance.setItem(key, value)` - Stores `value` under `key` in the database
 <!-- - `monday.storage.instance.deleteItem(key)` - Deletes the value under `key` -->
 
@@ -586,12 +587,12 @@ monday.storage.instance.getItem('mykey').then(res => {
 // => 'Lorem Ipsum'
 ```
 
-<!--
+
 Delete a previously stored key in the database:
 ```js
 monday.storage.instance.deleteItem('mykey').then(res => {
-   console.log(res);
+   console.log(res.data);
 }
-// => { "success": true }
+// => { "success": true, "value": null }
 ```
--->
+
