@@ -166,7 +166,9 @@ monday.get("settings").then(res => ...);
 monday.get("context").then(res => ...);
 ```
 
-Example context objects that return for a board view and a dashboard widget:
+You can view a list of all of the context objects that you can return <a href="https://developer.monday.com/apps/docs/advanced-view#using-the-sdk-to-get-information-about-your-apps-context" target="_blank">here</a>.
+
+The following example shows some of the context objects that return for a board view and a dashboard widget:
 ```js
 // Board view context
 {
@@ -458,7 +460,7 @@ monday.execute('closeAppFeatureModal').then((res) => {
 ```
 
 #### Value created for user
-Notifies the monday platform that user gains a first value in an app.
+Notifies the monday platform when user gets a value from an app.
 
 **type**
 `'value'`
