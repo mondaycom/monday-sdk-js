@@ -87,6 +87,22 @@ describe("Monday Client Test", () => {
       clock.tick(5);
       expect(listenCallback).to.be.calledWithExactly(data);
     });
+
+    it("unsubscribe should prevent callback being called", () => {
+      const data = {
+        method: "method",
+        type,
+        requestId: "requestId"
+      };
+      const unsubscribe = mondayClient.listen(type, listenCallback);
+      window.postMessage(data, "*");
+      window.postMessage(data, "*");
+      window.postMessage(data, "*");
+      clock.tick(5);
+      unsubscribe();
+      window.postMessage(data, "*");
+      expect(listenCallback).to.be.calledWithExactly(data).and.calledThrice;
+    });
   });
   describe("api methods", () => {
     let postMessageStub;
