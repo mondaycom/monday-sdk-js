@@ -105,17 +105,6 @@ describe("Monday Client Test", () => {
       expect(postMessageStub).to.be.called;
       window.removeEventListener("message", postMessageStub, false);
     });
-    it("should add a listener to the listener array with the key of ", () => {
-      let requestId;
-      function onPostMessage(event) {
-        requestId = event.data.requestId;
-      }
-      window.addEventListener("message", onPostMessage, false);
-      mondayClient.api("query");
-      clock.tick(5);
-      expect(mondayClient.listeners[requestId]).to.be.ok;
-      window.removeEventListener("message", onPostMessage, false);
-    });
 
     it("get api post message", () => {
       window.addEventListener("message", postMessageStub, false);
