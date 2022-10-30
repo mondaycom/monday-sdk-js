@@ -64,11 +64,16 @@ class MondayClientSdk {
 
   listen(typeOrTypes, callback, params) {
     const types = convertToArrayIfNeeded(typeOrTypes);
+    const unsubscribes = [];
+
     types.forEach(type => {
-      this._addListener(type, callback);
+      unsubscribes.push(this._addListener(type, callback));
       this._localApi("listen", { type, params });
     });
-    // todo uniq listeners, remove listener
+
+    return () => {
+      unsubscribes.forEach(unsubscribe => unsubscribe());
+    };
   }
 
   get(type, params) {
@@ -117,7 +122,8 @@ class MondayClientSdk {
       const version = pjson.version;
 
       window.parent.postMessage({ method, args, requestId, clientId, version }, "*");
-      this._addListener(requestId, data => {
+      const removeListener = this._addListener(requestId, data => {
+        removeListener();
         if (data.errorMessage) {
           const error = new Error(data.errorMessage);
           error.data = data.data;
@@ -134,7 +140,7 @@ class MondayClientSdk {
     const methodListeners = this.listeners[method] || EMPTY_ARRAY;
     const typeListeners = this.listeners[type] || EMPTY_ARRAY;
     const requestIdListeners = this.listeners[requestId] || EMPTY_ARRAY;
-    let listeners = [...methodListeners, ...typeListeners, ...requestIdListeners];
+    let listeners = new Set([...methodListeners, ...typeListeners, ...requestIdListeners]);
 
     if (listeners) {
       listeners.forEach(listener => {
@@ -148,14 +154,21 @@ class MondayClientSdk {
   }
 
   _addListener(key, callback) {
-    this.listeners[key] = this.listeners[key] || [];
-    this.listeners[key].push(callback);
+    this.listeners[key] = this.listeners[key] || new Set();
+    this.listeners[key].add(callback);
+
+    return () => {
+      this.listeners[key].delete(callback);
+      if (this.listeners[key].size === 0) {
+        delete this.listeners[key];
+      }
+    };
   }
 
   _generateRequestId() {
     return Math.random()
       .toString(36)
-      .substr(2, 9);
+      .substring(2, 9);
   }
 
   _removeEventListener() {
