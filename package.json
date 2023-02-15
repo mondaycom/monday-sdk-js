@@ -4,6 +4,7 @@
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
+  "types": "src/index.d.ts",
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
   "files": [
