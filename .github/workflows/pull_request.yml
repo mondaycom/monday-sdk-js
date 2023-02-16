@@ -11,6 +11,7 @@ jobs:
         with:
           node-version: "12.x"
       - run: npm install
+      - run: npm run tsc
       - run: npm run test
       - run: npm run lint
       - run: npm run style-check
