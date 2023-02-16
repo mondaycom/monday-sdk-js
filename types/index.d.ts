@@ -1,4 +1,4 @@
-// Original Definitions where contributed by: Josh Parnham <https://github.com/josh->
+// Original Definitions were contributed by: Josh Parnham <https://github.com/josh->
 
 export as namespace mondaySdk;
 
