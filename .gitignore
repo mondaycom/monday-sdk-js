@@ -14,7 +14,6 @@ node_modules/
 .env
 .env.test
 .cache
-dist/
 tmp/
 temp/
 .vscode/*

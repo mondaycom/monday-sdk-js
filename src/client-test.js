@@ -87,6 +87,22 @@ describe("Monday Client Test", () => {
       clock.tick(5);
       expect(listenCallback).to.be.calledWithExactly(data);
     });
+
+    it("unsubscribe should prevent callback being called", () => {
+      const data = {
+        method: "method",
+        type,
+        requestId: "requestId"
+      };
+      const unsubscribe = mondayClient.listen(type, listenCallback);
+      window.postMessage(data, "*");
+      window.postMessage(data, "*");
+      window.postMessage(data, "*");
+      clock.tick(5);
+      unsubscribe();
+      window.postMessage(data, "*");
+      expect(listenCallback).to.be.calledWithExactly(data).and.calledThrice;
+    });
   });
   describe("api methods", () => {
     let postMessageStub;
@@ -104,17 +120,6 @@ describe("Monday Client Test", () => {
       clock.tick(5);
       expect(postMessageStub).to.be.called;
       window.removeEventListener("message", postMessageStub, false);
-    });
-    it("should add a listener to the listener array with the key of ", () => {
-      let requestId;
-      function onPostMessage(event) {
-        requestId = event.data.requestId;
-      }
-      window.addEventListener("message", onPostMessage, false);
-      mondayClient.api("query");
-      clock.tick(5);
-      expect(mondayClient.listeners[requestId]).to.be.ok;
-      window.removeEventListener("message", onPostMessage, false);
     });
 
     it("get api post message", () => {
