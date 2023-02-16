@@ -1,10 +1,10 @@
 {
   "name": "monday-sdk-js",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "types": "types/index.d.ts",
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
   "files": [
@@ -15,7 +15,6 @@
     "server-sdk.js"
   ],
   "dependencies": {
-    "@types/source-map": "^0.5.2",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
@@ -35,7 +34,8 @@
     "sinon-chai": "^3.5.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "webpack-dev-server": "^3.7.2",
+    "@types/source-map": "^0.5.2"
   },
   "scripts": {
     "start": "webpack-dev-server",
