@@ -17,7 +17,6 @@
         "types/client-api.interface.ts",
         "types/client-data.interface.ts",
         "types/client-execute.interface.ts",
-        "ts-tests/monday-sdk-js-module.test.ts",
-        "ts-tests/monday-sdk-js-global.test.ts"
+        "ts-tests/monday-sdk-js-module.test.ts"
     ]
 }

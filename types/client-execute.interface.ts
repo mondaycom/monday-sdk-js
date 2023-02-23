@@ -215,7 +215,7 @@ export interface ClientExecute {
             /**
              * The block's content in Delta format.
              */
-            content: { deltaFormat : Array<object> };
+            content: BlockContent;
         },
     ): Promise<any>; 
     /**
