@@ -14,9 +14,6 @@
     },
     "files": [
         "types/index.d.ts",
-        "types/client-api.interface.ts",
-        "types/client-data.interface.ts",
-        "types/client-execute.interface.ts",
         "ts-tests/monday-sdk-js-module.test.ts"
     ]
 }
