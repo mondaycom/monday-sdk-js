@@ -1,3 +1,13 @@
+/**
+ * Blocks that are supported by our SDK
+ */
+type BlockTypes = 'normal text' | 'large title' | 'medium title' | 'small title' | 'bulleted list' | 'numbered list' | 'quote' | 'check list' | 'code';
+
+/**
+ * Block content in delta format
+ */
+interface BlockContent { deltaFormat: Array<object> };
+
 export interface ClientExecute {
     /**
      * Opens a popup card with information from the selected item
@@ -177,7 +187,77 @@ export interface ClientExecute {
     /**
      * Closes the modal window.
      * @param type Which action to perform
-     * @param params Optional parameters for the action
      */
     execute(type: 'closeAppFeatureModal'): Promise<{ data: any }>;
+    /**
+     * Notifies the monday platform when a user gains a first value in your app. 
+     * @param type Which action to perform
+     */
+    execute(type: 'valueCreatedForUser'): Promise<any>;
+    /**
+     * Adds a new block to a workdoc.
+     * @param type Which action to perform
+     * @param params The new block's data
+     */
+    execute(
+        type: 'addDocBlock',
+        params: {
+            /**
+             * The block type
+             */
+            type: BlockTypes;
+            /**
+             * Used to specify where in the doc the new block should go. 
+             * Provide the block's ID that will be above the new block. 
+             * Without this parameter, the block will appear at the top of the doc.	
+             */
+            afterBlockId?: string | undefined;
+            /**
+             * The block's content in Delta format.
+             */
+            content: BlockContent;
+        },
+    ): Promise<any>; 
+    /**
+     * Updates a block's content
+     * @param type Which action to perform
+     * @param params The updated block's data
+     */
+    execute (
+        type: 'updateDocBlock',
+        params: {
+            /**
+             * The block's unique identifier.	
+             */
+            id: string;
+            /**
+             * The block's content you want to update in Delta format.
+             */
+            content: BlockContent;
+        }
+    ): Promise<any>;
+    /**
+     * Adds multiple blocks to a workdoc.
+     * @param type Which action to perform
+     * @param params Data for the new blocks you want to create
+     */
+    execute (
+        type: 'addMultiBlocks',
+        params: {
+            /**
+             * The block's unique identifier.	
+             */
+            afterBlockId?: string | undefined;
+            /**
+             * The block's content in Delta format. 
+             * We support the following block types
+             */
+            blocks: Array<{ type: BlockTypes,  content: BlockContent}>;
+        }
+    ): Promise<any>;
+    /**
+     * Closes the document block modal. If you don't call this method, the modal will close when the user clicks outside of it.
+     * @param type Which action to perform
+     */
+    execute (type: 'closeDocModal'): Promise<any>;
 }
