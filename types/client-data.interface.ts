@@ -1,5 +1,7 @@
 type SubscribableEvents = 'context' | 'settings' | 'itemIds' | 'events';
 
+type SettableTypes = 'settings';
+
 interface GetResponse {
     value: any;
     version: any;
@@ -34,6 +36,16 @@ export interface ClientData {
         callback: (res: { data: object }) => void,
         params?: object,
     ): void;
+    
+    /**
+     * Set data in your application, such as updating settings
+     * @param type The type of data that can be set
+     * @param params object containing the data you want to update
+     */
+    set(
+        type: SettableTypes, 
+        params: object,
+    ): Promise<any>;
 
     /**
      * The Storage API is in early beta stages, its API is likely to change
