@@ -7,10 +7,16 @@ interface GetResponse {
     version: any;
 }
 
+interface DeleteResponse {
+    success: boolean;
+    value: any;
+}
+
 interface SetResponse {
     success: boolean;
     reason?: string | undefined;
 }
+
 
 export interface ClientData {
     /**
@@ -63,6 +69,12 @@ export interface ClientData {
              * @param key
              */
             getItem(key: string): Promise<{ data: GetResponse }>;
+
+            /**
+             * Deletes a stored value from the database under `key`
+             * @param key
+             */
+            deleteItem(key: string): Promise<{ data: DeleteResponse }>;
 
             /**
              * Stores `value` under `key` in the database
