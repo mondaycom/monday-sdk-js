@@ -8,8 +8,12 @@ interface GetResponse {
 }
 
 interface DeleteResponse {
-    success: boolean;
-    value: any;
+    method: string;
+    data: {
+        value: any; 
+        success: boolean;
+    };
+    requestId: string;
 }
 
 interface SetResponse {
@@ -68,13 +72,13 @@ export interface ClientData {
              * Returns a stored value from the database under `key`
              * @param key
              */
-            getItem(key: string): Promise<{ data: GetResponse }>;
+            getItem(key: string): Promise<GetResponse>;
 
             /**
              * Deletes a stored value from the database under `key`
              * @param key
              */
-            deleteItem(key: string): Promise<{ data: DeleteResponse }>;
+            deleteItem(key: string): Promise<DeleteResponse>;
 
             /**
              * Stores `value` under `key` in the database
