@@ -68,8 +68,9 @@ export interface ClientData {
              * Stores `value` under `key` in the database
              * @param key
              * @param value
+             * @param options
              */
-            setItem(key: string, value: any): Promise<SetResponse>;
+            setItem(key: string, value: any, options?: { previous_version?: string }): Promise<SetResponse>;
         };
     };    
 }
