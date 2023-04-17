@@ -70,7 +70,7 @@ export interface ClientData {
              * @param value
              * @param options
              */
-            setItem(key: string, value: any, options?: { previous_version: string }): Promise<SetResponse>;
+            setItem(key: string, value: any, options?: { previous_version?: string }): Promise<SetResponse>;
         };
     };    
 }
