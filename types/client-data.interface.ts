@@ -3,14 +3,41 @@ type SubscribableEvents = 'context' | 'settings' | 'itemIds' | 'events';
 type SettableTypes = 'settings';
 
 interface GetResponse {
-    value: any;
-    version: any;
+    data: {
+        success: boolean;
+        value: any;
+        version?: any;
+    };
+    errorMessage?: string | undefined;
+    method: string;
+    requestId: string;
+    type?: string | undefined;
+}
+
+interface DeleteResponse {
+    data: {
+        success: boolean;
+        value: any; 
+    };
+    errorMessage?: string | undefined;
+    method: string;
+    requestId: string;
+    type?: string | undefined;
 }
 
 interface SetResponse {
-    success: boolean;
-    reason?: string | undefined;
+    data: {
+        success: boolean;
+        version: string;
+        reason?: string | undefined;
+        error?: string | undefined;
+    };
+    errorMessage?: string | undefined;
+    requestId: string;
+    method: string;
+    type?: string | undefined;
 }
+
 
 export interface ClientData {
     /**
@@ -62,7 +89,13 @@ export interface ClientData {
              * Returns a stored value from the database under `key`
              * @param key
              */
-            getItem(key: string): Promise<{ data: GetResponse }>;
+            getItem(key: string): Promise<GetResponse>;
+
+            /**
+             * Deletes a stored value from the database under `key`
+             * @param key
+             */
+            deleteItem(key: string): Promise<DeleteResponse>;
 
             /**
              * Stores `value` under `key` in the database
