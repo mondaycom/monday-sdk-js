@@ -3,22 +3,39 @@ type SubscribableEvents = 'context' | 'settings' | 'itemIds' | 'events';
 type SettableTypes = 'settings';
 
 interface GetResponse {
-    value: any;
-    version: any;
+    data: {
+        success: boolean;
+        value: any;
+        version?: any;
+    };
+    errorMessage?: string | undefined;
+    method: string;
+    requestId: string;
+    type?: string | undefined;
 }
 
 interface DeleteResponse {
-    method: string;
     data: {
-        value: any; 
         success: boolean;
+        value: any; 
     };
+    errorMessage?: string | undefined;
+    method: string;
     requestId: string;
+    type?: string | undefined;
 }
 
 interface SetResponse {
-    success: boolean;
-    reason?: string | undefined;
+    data: {
+        success: boolean;
+        version: string;
+        reason?: string | undefined;
+        error?: string | undefined;
+    };
+    errorMessage?: string | undefined;
+    requestId: string;
+    method: string;
+    type?: string | undefined;
 }
 
 

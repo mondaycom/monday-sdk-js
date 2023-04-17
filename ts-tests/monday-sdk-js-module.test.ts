@@ -57,8 +57,9 @@ monday.execute('closeDocModal'); // $ExpectType Promise<any>
 
 monday.oauth({ clientId: 'clientId' });
 
-monday.storage.instance.getItem('test'); // $ExpectType Promise<{ data: GetResponse; }>
+monday.storage.instance.getItem('test'); // $ExpectType Promise<GetResponse>
 monday.storage.instance.setItem('test', '123'); // $ExpectType Promise<SetResponse>
+monday.storage.instance.deleteItem('test'); // $ExpectType Promise<DeleteResponse>
 
 const mondayServer = mondaySdk({ token: '123' });
 
