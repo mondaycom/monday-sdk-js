@@ -10,11 +10,13 @@ class MondayClientSdk {
   constructor(options = {}) {
     this._clientId = options.clientId;
     this._apiToken = options.apiToken;
+    this._apiVersion = options.apiVersion;
 
     this.listeners = {};
 
     this.setClientId = this.setClientId.bind(this);
     this.setToken = this.setToken.bind(this);
+    this.setApiVersion = this.setApiVersion.bind(this);
     this.api = this.api.bind(this);
     this.listen = this.listen.bind(this);
     this.get = this.get.bind(this);
@@ -46,11 +48,17 @@ class MondayClientSdk {
     this._apiToken = token;
   }
 
+  setApiVersion(apiVersion) {
+    this._apiVersion = apiVersion;
+  }
+
   api(query, options = {}) {
     const params = { query, variables: options.variables };
     const token = options.token || this._apiToken;
+    const apiVersion = options.apiVersion || this._apiVersion;
+
     if (token) {
-      return mondayApiClient.execute(params, token);
+      return mondayApiClient.execute(params, token, { apiVersion });
     } else {
       return new Promise((resolve, reject) => {
         this._localApi("api", { params })

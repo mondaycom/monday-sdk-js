@@ -34,29 +34,29 @@ describe("Monday Client Test", () => {
   describe("setters", () => {
     it("should set client id correctly", () => {
       const newId = "newId";
-      mondayClient.setClientId(newId);
-      expect(mondayClient._clientId).to.equal(newId);
-    });
-
-    it("should set client id correctly (check biding)", () => {
-      const newId = "newId";
       const { setClientId } = mondayClient;
+
       setClientId(newId);
+
       expect(mondayClient._clientId).to.equal(newId);
     });
 
     it("should set the api token correctly", () => {
       const newToken = "new toekn";
-      mondayClient.setToken(newToken);
+      const { setToken } = mondayClient;
+
+      setToken(newToken);
+
       expect(mondayClient._apiToken).to.equal(newToken);
     });
 
-    it("should set the api token correctly (check bindings)", () => {
-      const newToken = "new toekn";
+    it("should set the version correctly", () => {
+      const newVersion = "2023-01";
+      const { setApiVersion } = mondayClient;
 
-      const { setToken } = mondayClient;
-      setToken(newToken);
-      expect(mondayClient._apiToken).to.equal(newToken);
+      setApiVersion(newVersion);
+
+      expect(mondayClient._apiVersion).to.eq(newVersion);
     });
   });
 
