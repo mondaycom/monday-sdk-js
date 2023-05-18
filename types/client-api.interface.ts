@@ -9,6 +9,12 @@ interface APIOptions {
      * An object containing GraphQL query variables
      */
     variables?: object | undefined;
+
+    /**
+     * A string specifying which version of the API should be used
+     * If not set, will use the default version (stable)
+     */
+    apiVersion?: string;
 }
 
 interface OAuthOptions {

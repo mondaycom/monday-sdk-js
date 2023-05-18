@@ -10,7 +10,7 @@ type MondayClientSdk = ClientData & ClientExecute & ClientApi;
 interface MondayServerSdk {
     setToken(token: string): void;
 
-    api(query: string, options?: Partial<{ token: string, variables: object } >): Promise<any>;
+    api(query: string, options?: Partial<{ token: string, variables: object, apiVersion: string } >): Promise<any>;
 
     oauthToken(code: string, clientId: string, clientSecret: string): Promise<any>;
 }

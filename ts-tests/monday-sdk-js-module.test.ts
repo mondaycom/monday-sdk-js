@@ -3,6 +3,8 @@ const monday = mondaySdk();
 
 monday.api('test'); // $ExpectType Promise<{ data: object; }>
 
+monday.api('test', { apiVersion: '2023-07' }); // $ExpectType Promise<{ data: object; }>
+
 monday.setToken('test'); // $ExpectType void
 
 monday.get('context'); // $ExpectType Promise<any>
@@ -68,4 +70,5 @@ mondayServer.api('test'); // $ExpectType Promise<any>
 mondayServer.api('test', { token: 'test' }); // $ExpectType Promise<any>
 mondayServer.api('test', { variables: { variable1: 'test' } }); // $ExpectType Promise<any>
 mondayServer.api('test', { token: 'test', variables: { variable1: 'test' } }); // $ExpectType Promise<any>
+mondayServer.api('test', { token: 'test', apiVersion: '2023-07' }); // $ExpectType Promise<any>
 mondayServer.oauthToken('test', 'test', 'test'); // $ExpectType Promise<any>
