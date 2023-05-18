@@ -1,4 +1,4 @@
-interface APIOptions {
+export interface APIOptions {
     /**
      * Access token for the API
      * If not set, will use the credentials of the current user (client only)
@@ -9,6 +9,12 @@ interface APIOptions {
      * An object containing GraphQL query variables
      */
     variables?: object | undefined;
+
+    /**
+     * A string specifying which version of the API should be used
+     * If not set, will use the current API version
+     */
+    apiVersion?: string | undefined;
 }
 
 interface OAuthOptions {
@@ -39,6 +45,12 @@ export interface ClientApi {
      * @param token Access token for the API
      */
     setToken(token: string): void;
+
+    /**
+     * Allows to set the API version for future requests.
+     * @param version A string specifying which version of the API should be used 
+     */ 
+    setApiVersion(version: string): void;
 
     /**
      * Performs a client-side redirection of the user to the monday OAuth screen with your client ID embedded in the URL,
