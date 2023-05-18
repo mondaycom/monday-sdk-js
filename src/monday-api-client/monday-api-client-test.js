@@ -34,6 +34,17 @@ describe("mondayApiClient", () => {
     });
   });
 
+  it("should call node fetch with the version header", async () => {
+    const apiVersion = "2023-01";
+    await mondayApiClient.execute("query { boards { id, name }}", "api_token", { apiVersion });
+    assert.calledOnce(nodeFetchStub);
+    assert.calledWithExactly(nodeFetchStub, "https://api.monday.com/v2", {
+      body: '"query { boards { id, name }}"',
+      headers: { Authorization: "api_token", "Content-Type": "application/json", "API-Version": apiVersion },
+      method: "POST"
+    });
+  });
+
   it(`should throw ${mondayApiClient.TOKEN_IS_REQUIRED_ERROR}`, async () => {
     let errorMessage;
     try {

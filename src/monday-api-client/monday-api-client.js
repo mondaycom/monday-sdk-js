@@ -11,7 +11,8 @@ function apiRequest(url, data, token, options = {}) {
     body: JSON.stringify(data || {}),
     headers: {
       Authorization: token,
-      "Content-Type": "application/json"
+      "Content-Type": "application/json",
+      ...(options.apiVersion ? { "API-Version": options.apiVersion } : {})
     }
   });
 }

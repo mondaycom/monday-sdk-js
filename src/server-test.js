@@ -17,6 +17,11 @@ describe("server sdk", () => {
       const serverSdk = initServerSdk({ token: "sometoken123" });
       expect(serverSdk._token).to.eq("sometoken123");
     });
+
+    it("should be able to init serverSdk with API version", () => {
+      const serverSdk = initServerSdk({ apiVersion: "2023-01" });
+      expect(serverSdk._apiVersion).to.eq("2023-01");
+    });
   });
 
   describe("setToken", () => {
@@ -33,6 +38,18 @@ describe("server sdk", () => {
       const { setToken } = serverSdk;
       setToken("sometoken123");
       expect(serverSdk._token).to.eq("sometoken123");
+    });
+  });
+
+  describe("setApiVersion", () => {
+    it("should be able to set the version", () => {
+      const serverSdk = initServerSdk();
+      expect(serverSdk._apiVersion).to.eq(undefined);
+
+      const { setApiVersion } = serverSdk;
+      setApiVersion("2023-01");
+
+      expect(serverSdk._apiVersion).to.eq("2023-01");
     });
   });
 
@@ -60,7 +77,8 @@ describe("server sdk", () => {
       assert.calledWithExactly(
         mondayApiClientExecuteStub,
         { query: "query { boards { id, name }}", variables: undefined },
-        "api_token"
+        "api_token",
+        { apiVersion: undefined }
       );
     });
 
@@ -101,7 +119,8 @@ describe("server sdk", () => {
       `,
           variables: { columnValues: { numbers: 3 }, pulseName: "new pulse" }
         },
-        "api_token"
+        "api_token",
+        { apiVersion: undefined }
       );
     });
 
@@ -120,7 +139,47 @@ describe("server sdk", () => {
       assert.calledWithExactly(
         mondayApiClientExecuteStub,
         { query: "query { boards { id, name }}", variables: undefined },
-        "api_token_2"
+        "api_token_2",
+        { apiVersion: undefined }
+      );
+    });
+
+    it("should provide version to mondayApi", async () => {
+      const serverSdk = initServerSdk({ token: "api_token", apiVersion: "2023-01" });
+      serverSdk.setApiVersion("2023-04");
+      await serverSdk.api("query { boards { id, name }}");
+      assert.calledOnce(mondayApiClientExecuteStub);
+      assert.calledWithExactly(
+        mondayApiClientExecuteStub,
+        { query: "query { boards { id, name }}", variables: undefined },
+        "api_token",
+        { apiVersion: "2023-04" }
+      );
+    });
+
+    it("should prefer version from method options when calling mondayApi", async () => {
+      const serverSdk = initServerSdk({ token: "api_token", apiVersion: "2023-01" });
+      serverSdk.setApiVersion("2023-04");
+      await serverSdk.api("query { boards { id, name }}", { apiVersion: "2023-07" });
+      assert.calledOnce(mondayApiClientExecuteStub);
+      assert.calledWithExactly(
+        mondayApiClientExecuteStub,
+        { query: "query { boards { id, name }}", variables: undefined },
+        "api_token",
+        { apiVersion: "2023-07" }
+      );
+    });
+
+    it("should call to mondayApi prefer version from options", async () => {
+      const serverSdk = initServerSdk({ token: "api_token", apiVersion: "2023-01" });
+      serverSdk.setApiVersion("2023-04");
+      await serverSdk.api("query { boards { id, name }}", { apiVersion: "2023-07" });
+      assert.calledOnce(mondayApiClientExecuteStub);
+      assert.calledWithExactly(
+        mondayApiClientExecuteStub,
+        { query: "query { boards { id, name }}", variables: undefined },
+        "api_token",
+        { apiVersion: "2023-07" }
       );
     });
 

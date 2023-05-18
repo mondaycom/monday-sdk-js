@@ -6,8 +6,10 @@ const TOKEN_MISSING_ERROR = "Should send 'token' as an option or call mondaySdk.
 class MondayServerSdk {
   constructor(options = {}) {
     this._token = options.token;
+    this._apiVersion = options.apiVersion;
 
     this.setToken = this.setToken.bind(this);
+    this.setApiVersion = this.setApiVersion.bind(this);
     this.api = this.api.bind(this);
   }
 
@@ -15,13 +17,18 @@ class MondayServerSdk {
     this._token = token;
   }
 
+  setApiVersion(apiVersion) {
+    this._apiVersion = apiVersion;
+  }
+
   async api(query, options = {}) {
     const params = { query, variables: options.variables };
     const token = options.token || this._token;
+    const apiVersion = options.apiVersion || this._apiVersion;
 
     if (!token) throw new Error(TOKEN_MISSING_ERROR);
 
-    return await mondayApiClient.execute(params, token);
+    return await mondayApiClient.execute(params, token, { apiVersion });
   }
 
   oauthToken(code, clientId, clientSecret) {
