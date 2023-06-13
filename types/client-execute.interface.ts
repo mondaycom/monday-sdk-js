@@ -184,13 +184,27 @@ export interface ClientExecute {
             height?: string;
         },
     ): Promise<{ data: any }>;
+  /**
+   * Opens the provided link in a new tab.
+   * @param type Which action to perform
+   * @param params Optional parameters for the action
+   */
+  execute(
+    type: 'openLinkInTab',
+    params: {
+      /**
+       * The URL to open a new tab with
+       */
+      url: string;
+    },
+  ): Promise<{ data: any }>;
     /**
      * Closes the modal window.
      * @param type Which action to perform
      */
     execute(type: 'closeAppFeatureModal'): Promise<{ data: any }>;
     /**
-     * Notifies the monday platform when a user gains a first value in your app. 
+     * Notifies the monday platform when a user gains a first value in your app.
      * @param type Which action to perform
      */
     execute(type: 'valueCreatedForUser'): Promise<any>;
@@ -207,9 +221,9 @@ export interface ClientExecute {
              */
             type: BlockTypes;
             /**
-             * Used to specify where in the doc the new block should go. 
-             * Provide the block's ID that will be above the new block. 
-             * Without this parameter, the block will appear at the top of the doc.	
+             * Used to specify where in the doc the new block should go.
+             * Provide the block's ID that will be above the new block.
+             * Without this parameter, the block will appear at the top of the doc.
              */
             afterBlockId?: string | undefined;
             /**
@@ -217,7 +231,7 @@ export interface ClientExecute {
              */
             content: BlockContent;
         },
-    ): Promise<any>; 
+    ): Promise<any>;
     /**
      * Updates a block's content
      * @param type Which action to perform
@@ -227,7 +241,7 @@ export interface ClientExecute {
         type: 'updateDocBlock',
         params: {
             /**
-             * The block's unique identifier.	
+             * The block's unique identifier.
              */
             id: string;
             /**
@@ -245,11 +259,11 @@ export interface ClientExecute {
         type: 'addMultiBlocks',
         params: {
             /**
-             * The block's unique identifier.	
+             * The block's unique identifier.
              */
             afterBlockId?: string | undefined;
             /**
-             * The block's content in Delta format. 
+             * The block's content in Delta format.
              * We support the following block types
              */
             blocks: Array<{ type: BlockTypes,  content: BlockContent}>;
