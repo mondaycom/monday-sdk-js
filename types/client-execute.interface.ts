@@ -197,7 +197,7 @@ export interface ClientExecute {
        */
       url: string;
     },
-  ): Promise<{ data: any }>;
+  ): Promise<{ data: Record<string, any> }>;
     /**
      * Closes the modal window.
      * @param type Which action to perform
