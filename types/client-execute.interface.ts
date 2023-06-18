@@ -10,6 +10,12 @@ interface BlockContent { deltaFormat: Array<object> };
 
 export interface ClientExecute {
     /**
+     * Type fallback to account for new execute methods during the AI hackathon. 
+     * This will be removed when the 0.4.0 version goes out of beta. 
+     */
+    execute (type: any, params?: any): Promise<any>;
+
+    /**
      * Opens a popup card with information from the selected item
      * @param type Which action to perform
      * @param params Optional parameters for the action
