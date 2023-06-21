@@ -6,6 +6,27 @@ const { initBackgroundTracking } = require("./services/background-tracking-servi
 
 const EMPTY_ARRAY = [];
 
+/***
+ *
+ * @param {string} key - the key to store the value under
+ * @param {any} value - the value to store
+ * @param {'delete'|'get'|'set'} method - the method to use
+ * @param {object} clientOptions - options received from the client using the sdk
+ */
+const prepareStorageOptions = (key, value, method, clientOptions) => {
+  const segment = clientOptions.v2 ? "v2" : "instance";
+  delete clientOptions.v2;
+  const options = {
+    method,
+    key,
+    ...(method === 'set' && { value }),
+    segment,
+    options: clientOptions,
+  };
+
+  return options;
+};
+
 class MondayClientSdk {
   constructor(options = {}) {
     this._clientId = options.clientId;
@@ -111,15 +132,18 @@ class MondayClientSdk {
   }
 
   setStorageInstanceItem(key, value, options = {}) {
-    return this._localApi("storage", { method: "set", key, value, options, segment: "instance" });
+    const storageOptions = prepareStorageOptions(key, value, 'set', options);
+    return this._localApi("storage", storageOptions);
   }
 
   getStorageInstanceItem(key, options = {}) {
-    return this._localApi("storage", { method: "get", key, options, segment: "instance" });
+    const storageOptions = prepareStorageOptions(key, null, 'get', options);
+    return this._localApi("storage", storageOptions);
   }
 
   deleteStorageInstanceItem(key, options = {}) {
-    return this._localApi("storage", { method: "delete", key, options, segment: "instance" });
+    const storageOptions = prepareStorageOptions(key, null, 'delete', options);
+    return this._localApi("storage", storageOptions);
   }
 
   _localApi(method, args) {

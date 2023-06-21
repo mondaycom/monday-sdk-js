@@ -17,7 +17,7 @@ interface GetResponse {
 interface DeleteResponse {
     data: {
         success: boolean;
-        value: any; 
+        value: any;
     };
     errorMessage?: string | undefined;
     method: string;
@@ -70,7 +70,7 @@ export interface ClientData {
      * @param params object containing the data you want to update
      */
     set(
-        type: SettableTypes, 
+        type: SettableTypes,
         params: object,
     ): Promise<any>;
 
@@ -87,23 +87,29 @@ export interface ClientData {
         instance: {
             /**
              * Returns a stored value from the database under `key`
-             * @param key
+             * @param {string} key - Used to access to stored data
+             * @param {object=} options
+             * @param {boolean=} options.v2 - Use the new version of the storage (instance-less)
              */
-            getItem(key: string): Promise<GetResponse>;
+            getItem(key: string, options?: { v2?: boolean }): Promise<GetResponse>;
 
             /**
              * Deletes a stored value from the database under `key`
-             * @param key
+             * @param {string} key - Used to delete the stored data
+             * @param {object=} options
+             * @param {boolean=} options.v2 - Use the new version of the storage (instance-less)
              */
-            deleteItem(key: string): Promise<DeleteResponse>;
+            deleteItem(key: string, options?: { v2?: boolean }): Promise<DeleteResponse>;
 
             /**
              * Stores `value` under `key` in the database
-             * @param key
-             * @param value
-             * @param options
+             * @param {string} key - Used to delete the stored data
+             * @param {any} value - The value to store
+             * @param {object=} options
+             * @param {boolean=} options.v2 - Use the new version of the storage (instance-less)
+             * @param {string=} options.previous_version - Use the new version of the storage (instance-less)
              */
-            setItem(key: string, value: any, options?: { previous_version?: string }): Promise<SetResponse>;
+            setItem(key: string, value: any, options?: { v2?: boolean, previous_version?: string }): Promise<SetResponse>;
         };
-    };    
+    };
 }
