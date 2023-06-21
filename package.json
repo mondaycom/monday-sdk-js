@@ -47,6 +47,7 @@
     "precommit": "yarn lint && yarn style-check",
     "lint": "eslint './src/**/*.*'",
     "style-check": "prettier --check './src/**/*.js'",
+    "style-fix": "prettier --write './src/**/*.js'",
     "compile-types": "tsc --noEmit"
   }
 }

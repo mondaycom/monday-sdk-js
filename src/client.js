@@ -19,9 +19,9 @@ const prepareStorageOptions = (key, value, method, clientOptions) => {
   const options = {
     method,
     key,
-    ...(method === 'set' && { value }),
+    ...(method === "set" && { value }),
     segment,
-    options: clientOptions,
+    options: clientOptions
   };
 
   return options;
@@ -132,17 +132,17 @@ class MondayClientSdk {
   }
 
   setStorageInstanceItem(key, value, options = {}) {
-    const storageOptions = prepareStorageOptions(key, value, 'set', options);
+    const storageOptions = prepareStorageOptions(key, value, "set", options);
     return this._localApi("storage", storageOptions);
   }
 
   getStorageInstanceItem(key, options = {}) {
-    const storageOptions = prepareStorageOptions(key, null, 'get', options);
+    const storageOptions = prepareStorageOptions(key, null, "get", options);
     return this._localApi("storage", storageOptions);
   }
 
   deleteStorageInstanceItem(key, options = {}) {
-    const storageOptions = prepareStorageOptions(key, null, 'delete', options);
+    const storageOptions = prepareStorageOptions(key, null, "delete", options);
     return this._localApi("storage", storageOptions);
   }
 
