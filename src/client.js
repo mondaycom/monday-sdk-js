@@ -6,6 +6,11 @@ const { initBackgroundTracking } = require("./services/background-tracking-servi
 
 const EMPTY_ARRAY = [];
 
+const STORAGE_SEGMENT_KINDS = {
+  GLOBAL: "v2",
+  INSTANCE: "instance"
+};
+
 class MondayClientSdk {
   constructor(options = {}) {
     this._clientId = options.clientId;
@@ -26,6 +31,9 @@ class MondayClientSdk {
     this._receiveMessage = this._receiveMessage.bind(this);
 
     this.storage = {
+      setItem: this.setStorageItem.bind(this),
+      getItem: this.getStorageItem.bind(this),
+      deleteItem: this.deleteStorageItem.bind(this),
       instance: {
         setItem: this.setStorageInstanceItem.bind(this),
         getItem: this.getStorageInstanceItem.bind(this),
@@ -110,16 +118,28 @@ class MondayClientSdk {
     window.location = url;
   }
 
+  setStorageItem(key, value, options = {}) {
+    return this._localApi("storage", { method: "set", key, value, options, segment: STORAGE_SEGMENT_KINDS.GLOBAL });
+  }
+
+  getStorageItem(key, options = {}) {
+    return this._localApi("storage", { method: "get", key, options, segment: STORAGE_SEGMENT_KINDS.GLOBAL });
+  }
+
+  deleteStorageItem(key, options = {}) {
+    return this._localApi("storage", { method: "delete", key, options, segment: STORAGE_SEGMENT_KINDS.GLOBAL });
+  }
+
   setStorageInstanceItem(key, value, options = {}) {
-    return this._localApi("storage", { method: "set", key, value, options, segment: "instance" });
+    return this._localApi("storage", { method: "set", key, value, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
   }
 
   getStorageInstanceItem(key, options = {}) {
-    return this._localApi("storage", { method: "get", key, options, segment: "instance" });
+    return this._localApi("storage", { method: "get", key, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
   }
 
   deleteStorageInstanceItem(key, options = {}) {
-    return this._localApi("storage", { method: "delete", key, options, segment: "instance" });
+    return this._localApi("storage", { method: "delete", key, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
   }
 
   _localApi(method, args) {
