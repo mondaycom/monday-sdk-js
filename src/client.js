@@ -6,25 +6,9 @@ const { initBackgroundTracking } = require("./services/background-tracking-servi
 
 const EMPTY_ARRAY = [];
 
-/***
- *
- * @param {string} key - the key to store the value under
- * @param {any} value - the value to store
- * @param {'delete'|'get'|'set'} method - the method to use
- * @param {object} clientOptions - options received from the client using the sdk
- */
-const prepareStorageOptions = (key, value, method, clientOptions) => {
-  const segment = clientOptions.v2 ? "v2" : "instance";
-  delete clientOptions.v2;
-  const options = {
-    method,
-    key,
-    ...(method === "set" && { value }),
-    segment,
-    options: clientOptions
-  };
-
-  return options;
+const STORAGE_SEGMENT_KINDS = {
+  GLOBAL: "v2",
+  INSTANCE: "instance"
 };
 
 class MondayClientSdk {
@@ -47,6 +31,9 @@ class MondayClientSdk {
     this._receiveMessage = this._receiveMessage.bind(this);
 
     this.storage = {
+      setItem: this.setStorageItem.bind(this),
+      getItem: this.getStorageItem.bind(this),
+      deleteItem: this.deleteStorageItem.bind(this),
       instance: {
         setItem: this.setStorageInstanceItem.bind(this),
         getItem: this.getStorageInstanceItem.bind(this),
@@ -131,19 +118,28 @@ class MondayClientSdk {
     window.location = url;
   }
 
+  setStorageItem(key, value, options = {}) {
+    return this._localApi("storage", { method: "set", key, value, options, segment: STORAGE_SEGMENT_KINDS.GLOBAL });
+  }
+
+  getStorageItem(key, options = {}) {
+    return this._localApi("storage", { method: "get", key, options, segment: STORAGE_SEGMENT_KINDS.GLOBAL });
+  }
+
+  deleteStorageItem(key, options = {}) {
+    return this._localApi("storage", { method: "delete", key, options, segment: STORAGE_SEGMENT_KINDS.GLOBAL });
+  }
+
   setStorageInstanceItem(key, value, options = {}) {
-    const storageOptions = prepareStorageOptions(key, value, "set", options);
-    return this._localApi("storage", storageOptions);
+    return this._localApi("storage", { method: "set", key, value, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
   }
 
   getStorageInstanceItem(key, options = {}) {
-    const storageOptions = prepareStorageOptions(key, null, "get", options);
-    return this._localApi("storage", storageOptions);
+    return this._localApi("storage", { method: "get", key, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
   }
 
   deleteStorageInstanceItem(key, options = {}) {
-    const storageOptions = prepareStorageOptions(key, null, "delete", options);
-    return this._localApi("storage", storageOptions);
+    return this._localApi("storage", { method: "delete", key, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
   }
 
   _localApi(method, args) {

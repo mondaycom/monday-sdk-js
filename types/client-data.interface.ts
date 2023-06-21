@@ -84,32 +84,50 @@ export interface ClientData {
      * Apps cannot share storage across accounts or even across apps installed in the same location.
      */
     storage: {
+        /**
+         * Returns a stored value from the database under `key` for the app (**without any reference to the instance**)
+         * @param {string} key - Used to access to stored data
+         */
+        getItem(key: string): Promise<GetResponse>;
+        
+        /**
+         * Deletes a stored value from the database under `key` for the app (**without any reference to the instance**)
+         * @param {string} key - Used to delete the stored data
+         */
+        deleteItem(key: string): Promise<DeleteResponse>;
+        
+        /**
+         * Stores `value` under `key` in the database for the app  (**without any reference to the instance**)
+         * @param {string} key - Used to delete the stored data
+         * @param {any} value - The value to store
+         * @param {object=} options
+         * @param {string=} options.previous_version - Use the new version of the storage (instance-less)
+         */
+        setItem(key: string, value: any, options?: { previous_version?: string }): Promise<SetResponse>;
+        /***
+         * The instance storage is a key-value database that is scoped to a specific app instance.
+         * **Does not work** for instance-less apps.
+         */
         instance: {
             /**
-             * Returns a stored value from the database under `key`
-             * @param {string} key - Used to access to stored data
-             * @param {object=} options
-             * @param {boolean=} options.v2 - Use the new version of the storage (instance-less)
+             * Returns a stored value from the database under `key` for a specific app instance
+             * @param key
              */
-            getItem(key: string, options?: { v2?: boolean }): Promise<GetResponse>;
-
+            getItem(key: string): Promise<GetResponse>;
+            
             /**
-             * Deletes a stored value from the database under `key`
-             * @param {string} key - Used to delete the stored data
-             * @param {object=} options
-             * @param {boolean=} options.v2 - Use the new version of the storage (instance-less)
+             * Deletes a stored value from the database under `key` for a specific app instance
+             * @param key
              */
-            deleteItem(key: string, options?: { v2?: boolean }): Promise<DeleteResponse>;
-
+            deleteItem(key: string): Promise<DeleteResponse>;
+            
             /**
-             * Stores `value` under `key` in the database
-             * @param {string} key - Used to delete the stored data
-             * @param {any} value - The value to store
-             * @param {object=} options
-             * @param {boolean=} options.v2 - Use the new version of the storage (instance-less)
-             * @param {string=} options.previous_version - Use the new version of the storage (instance-less)
+             * Stores `value` under `key` in the database for a specific app instance
+             * @param key
+             * @param value
+             * @param options
              */
-            setItem(key: string, value: any, options?: { v2?: boolean, previous_version?: string }): Promise<SetResponse>;
+            setItem(key: string, value: any, options?: { previous_version?: string }): Promise<SetResponse>;
         };
     };
 }
