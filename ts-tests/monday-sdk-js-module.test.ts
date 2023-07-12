@@ -3,6 +3,8 @@ const monday = mondaySdk();
 
 monday.api('test'); // $ExpectType Promise<{ data: object; }>
 
+monday.setApiVersion('2023-10'); // $ExpectType void
+mondaySdk({ apiVersion: '2023-10' });
 monday.api('test', { apiVersion: '2023-07' }); // $ExpectType Promise<{ data: object; }>
 
 monday.setToken('test'); // $ExpectType void
@@ -63,9 +65,10 @@ monday.storage.instance.getItem('test'); // $ExpectType Promise<GetResponse>
 monday.storage.instance.setItem('test', '123'); // $ExpectType Promise<SetResponse>
 monday.storage.instance.deleteItem('test'); // $ExpectType Promise<DeleteResponse>
 
-const mondayServer = mondaySdk({ token: '123' });
+const mondayServer = mondaySdk({ token: '123', apiVersion: '2023-10' });
 
 mondayServer.setToken('123'); // $ExpectType void
+mondayServer.setApiVersion('2023-10'); // $ExpectType void
 mondayServer.api('test'); // $ExpectType Promise<any>
 mondayServer.api('test', { token: 'test' }); // $ExpectType Promise<any>
 mondayServer.api('test', { variables: { variable1: 'test' } }); // $ExpectType Promise<any>
