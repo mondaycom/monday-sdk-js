@@ -69,7 +69,7 @@ class MondayClientSdk {
       return mondayApiClient.execute(params, token, { apiVersion });
     } else {
       return new Promise((resolve, reject) => {
-        this._localApi("api", { params })
+        this._localApi("api", { params, apiVersion })
           .then(result => {
             resolve(result.data);
           })
