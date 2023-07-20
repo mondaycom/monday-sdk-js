@@ -1,12 +1,5 @@
 const { expect } = require("./tests/helpers");
-const proxyquire = require('proxyquire');
-
-const constants = proxyquire('./constants', {
-  './helpers': {
-    isBrowser: false
-  }
-});
-
+const constants = require("./constants");
 
 describe("constants", () => {
   //setup

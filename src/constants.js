@@ -1,7 +1,9 @@
-const { isBrowser } = require("./helpers");
+function isNodeEnv() {
+  return typeof process !== 'undefined';
+}
 
-const isNodeDevEnv = () => {
-  return !isBrowser && process.env.NODE_ENV === "development";
+function isNodeDevEnv() {
+  return isNodeEnv() && process.env.NODE_ENV === "development";
 }
 
 const getEnvOrDefault = (key, defaultVal) => {
