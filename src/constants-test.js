@@ -33,7 +33,7 @@ describe("constants", () => {
     expect(constants.MONDAY_API_URL).to.eq(MONDAY_API_URL);
     expect(constants.MONDAY_OAUTH_URL).to.eq(MONDAY_OAUTH_URL);
     expect(constants.MONDAY_OAUTH_TOKEN_URL).to.eq(MONDAY_OAUTH_TOKEN_URL);
-  })
+  });
 
   it("constants should be correct", () => {
     const keys = Object.keys(constants);
