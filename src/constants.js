@@ -2,12 +2,12 @@ function isNodeEnv() {
   return typeof process !== "undefined";
 }
 
-function isNodeDevEnv() {
-  return isNodeEnv() && process.env.NODE_ENV === "development";
+function isNodeDevStageEnv() {
+  return isNodeEnv() && (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "staging");
 }
 
 const getEnvOrDefault = (key, defaultVal) => {
-  return isNodeDevEnv() && process.env[key] !== "undefined" ? process.env[key] : defaultVal;
+  return isNodeDevStageEnv() && process.env[key] !== "undefined" ? process.env[key] : defaultVal;
 };
 
 const MONDAY_PROTOCOL = () => getEnvOrDefault("MONDAY_COM_PROTOCOL", "https");
