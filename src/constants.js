@@ -1,5 +1,11 @@
+const { isBrowser } = require("./helpers");
+
+const isNodeDevEnv = () => {
+  return !isBrowser && process.env.NODE_ENV === "development";
+}
+
 const getEnvOrDefault = (key, defaultVal) => {
-  return process.env[key] !== "undefined" ? process.env[key] : defaultVal;
+  return isNodeDevEnv() && process.env[key] !== "undefined" ? process.env[key] : defaultVal;
 };
 
 const MONDAY_PROTOCOL = () => getEnvOrDefault("MONDAY_COM_PROTOCOL", "https");
