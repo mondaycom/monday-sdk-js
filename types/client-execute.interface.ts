@@ -7,11 +7,10 @@ type BlockTypes = 'normal text' | 'large title' | 'medium title' | 'small title'
  * Block content in delta format
  */
 interface BlockContent { deltaFormat: Array<object> };
-
 export interface ClientExecute {
     /**
-     * Type fallback to account for new execute methods during the AI hackathon. 
-     * This will be removed when the 0.4.0 version goes out of beta. 
+     * Type fallback to account for new execute methods during the AI hackathon.
+     * This will be removed when the 0.4.0 version goes out of beta.
      */
     execute (type: any, params?: any): Promise<any>;
 
@@ -205,6 +204,40 @@ export interface ClientExecute {
     },
   ): Promise<{ data: Record<string, any> }>;
     /**
+     * Doc command.
+     * @param type Which action to perform
+     */
+    execute(type: 'addMultiBlocksFromHtml'): Promise<{ html: string }>;   /**
+    /**
+     * Doc command.
+     * @param type Which action to perform
+     */
+    execute(type: 'openAppOnFirstTextualSelectedBlock'): Promise<{ data: any }>;   /**
+    /**
+     * Doc command.
+     * @param type Which action to perform
+     */
+    execute(type: 'moveToNextSelectedTextualBlock'): Promise<{ data: any }>;   /**
+    /**
+     * Doc command.
+     * @param type Which action to perform
+     */
+    execute(type: 'moveToPrevSelectedTextualBlock'): Promise<{ data: any }>;   /**
+    /**
+     * Doc command AI assistant.
+     * @param type Which action to perform
+     */
+    execute(type: 'replaceHighlightText'): Promise<{ text: string }>;    /**
+    /**
+     * Closes the modal window for AI.
+     * @param type Which action to perform
+     */
+    execute(type: 'updatePostContentAction'): Promise<{ suggestedRephrase: string }>;    /**
+     /**
+     * Closes the modal window for AI.
+     * @param type Which action to perform
+     */
+    execute(type: 'closeDialog'): Promise<{ data: any }>;    /**
      * Closes the modal window.
      * @param type Which action to perform
      */
