@@ -204,37 +204,37 @@ export interface ClientExecute {
     },
   ): Promise<{ data: Record<string, any> }>;
     /**
-     * Doc command.
+     * Doc command, This method adds multiple blocks to the beginning of a workdoc using HTML..
      * @param type Which action to perform
      */
     execute(type: 'addMultiBlocksFromHtml'): Promise<{ html: string }>;   /**
     /**
-     * Doc command.
+     * Doc command, This method opens the app modal on the first selected block when multiple are open.
      * @param type Which action to perform
      */
     execute(type: 'openAppOnFirstTextualSelectedBlock'): Promise<{ data: any }>;   /**
     /**
-     * Doc command.
+     * Doc command This method opens the app on the next block when multiple are selected. This is only available after calling the "openAppOnFirstTextualBlock" function.
      * @param type Which action to perform
      */
     execute(type: 'moveToNextSelectedTextualBlock'): Promise<{ data: any }>;   /**
     /**
-     * Doc command.
+     * Doc command This method opens the app on the next block when multiple are selected. This is only available after calling the "openAppOnFirstTextualBlock" function.
      * @param type Which action to perform
      */
     execute(type: 'moveToPrevSelectedTextualBlock'): Promise<{ data: any }>;   /**
     /**
-     * Doc command AI assistant.
+     * Doc command, This method replaces the highlighted text with text of your choosing at the beginning of the block.
      * @param type Which action to perform
      */
     execute(type: 'replaceHighlightText'): Promise<{ text: string }>;    /**
     /**
-     * Closes the modal window for AI.
+     * Item Update section, This method creates or changes the content of an item's update.
      * @param type Which action to perform
      */
     execute(type: 'updatePostContentAction'): Promise<{ suggestedRephrase: string }>;    /**
      /**
-     * Closes the modal window for AI.
+     * This method closes the AI assistant's dialog.
      * @param type Which action to perform
      */
     execute(type: 'closeDialog'): Promise<{ data: any }>;    /**
