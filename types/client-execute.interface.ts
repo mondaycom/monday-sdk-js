@@ -7,11 +7,10 @@ type BlockTypes = 'normal text' | 'large title' | 'medium title' | 'small title'
  * Block content in delta format
  */
 interface BlockContent { deltaFormat: Array<object> };
-
 export interface ClientExecute {
     /**
-     * Type fallback to account for new execute methods during the AI hackathon. 
-     * This will be removed when the 0.4.0 version goes out of beta. 
+     * Type fallback to account for new execute methods during the AI hackathon.
+     * This will be removed when the 0.4.0 version goes out of beta.
      */
     execute (type: any, params?: any): Promise<any>;
 
@@ -205,6 +204,40 @@ export interface ClientExecute {
     },
   ): Promise<{ data: Record<string, any> }>;
     /**
+     * Doc command, This method adds multiple blocks to the beginning of a workdoc using HTML..
+     * @param type Which action to perform
+     */
+    execute(type: 'addMultiBlocksFromHtml'): Promise<{ html: string }>;   /**
+    /**
+     * Doc command, This method opens the app modal on the first selected block when multiple are open.
+     * @param type Which action to perform
+     */
+    execute(type: 'openAppOnFirstTextualSelectedBlock'): Promise<{ data: any }>;   /**
+    /**
+     * Doc command This method opens the app on the next block when multiple are selected. This is only available after calling the "openAppOnFirstTextualBlock" function.
+     * @param type Which action to perform
+     */
+    execute(type: 'moveToNextSelectedTextualBlock'): Promise<{ data: any }>;   /**
+    /**
+     * Doc command This method opens the app on the next block when multiple are selected. This is only available after calling the "openAppOnFirstTextualBlock" function.
+     * @param type Which action to perform
+     */
+    execute(type: 'moveToPrevSelectedTextualBlock'): Promise<{ data: any }>;   /**
+    /**
+     * Doc command, This method replaces the highlighted text with text of your choosing at the beginning of the block.
+     * @param type Which action to perform
+     */
+    execute(type: 'replaceHighlightText'): Promise<{ text: string }>;    /**
+    /**
+     * Item Update section, This method creates or changes the content of an item's update.
+     * @param type Which action to perform
+     */
+    execute(type: 'updatePostContentAction'): Promise<{ suggestedRephrase: string }>;    /**
+     /**
+     * This method closes the AI assistant's dialog.
+     * @param type Which action to perform
+     */
+    execute(type: 'closeDialog'): Promise<{ data: any }>;    /**
      * Closes the modal window.
      * @param type Which action to perform
      */
