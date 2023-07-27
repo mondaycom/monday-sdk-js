@@ -7,7 +7,7 @@ function isNodeDevStageEnv() {
 }
 
 const getEnvOrDefault = (key, defaultVal) => {
-  return isNodeDevStageEnv() && process.env[key] !== "undefined" ? process.env[key] : defaultVal;
+  return isNodeDevStageEnv() && typeof process.env[key] !== "undefined" ? process.env[key] : defaultVal;
 };
 
 const MONDAY_PROTOCOL = () => getEnvOrDefault("MONDAY_COM_PROTOCOL", "https");

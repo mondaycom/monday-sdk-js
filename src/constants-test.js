@@ -5,10 +5,12 @@ describe("constants", () => {
   //setup
   beforeEach(() => {
     process.env.NODE_ENV = "development";
-    process.env.MONDAY_COM_PROTOCOL = undefined;
-    process.env.MONDAY_COM_DOMAIN = undefined;
-    process.env.MONDAY_SUBDOMAIN_API = undefined;
-    process.env.MONDAY_OAUTH_SUBDOMAIN = undefined;
+    // Using `process.env.VARIABLE = undefined` becomes an "undefined" string instead of actual undefined variable
+    // delete makes sure the variable does not exist and thus is undefined.
+    delete process.env.MONDAY_COM_PROTOCOL;
+    delete process.env.MONDAY_COM_DOMAIN;
+    delete process.env.MONDAY_SUBDOMAIN_API;
+    delete process.env.MONDAY_OAUTH_SUBDOMAIN;
   });
 
   it("should have at least 3 constants", () => {
