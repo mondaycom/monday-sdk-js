@@ -1,3 +1,4 @@
+const { logWarnings } = require("./helpers/monday-api-helpers");
 const mondayApiClient = require("./monday-api-client");
 const { oauthToken } = require("./services/oauth-service.js");
 
@@ -21,14 +22,14 @@ class MondayServerSdk {
     this._apiVersion = apiVersion;
   }
 
-  async api(query, options = {}) {
+  api(query, options = {}) {
     const params = { query, variables: options.variables };
     const token = options.token || this._token;
     const apiVersion = options.apiVersion || this._apiVersion;
 
     if (!token) throw new Error(TOKEN_MISSING_ERROR);
 
-    return await mondayApiClient.execute(params, token, { apiVersion });
+    return mondayApiClient.execute(params, token, { apiVersion }).then(logWarnings);
   }
 
   oauthToken(code, clientId, clientSecret) {

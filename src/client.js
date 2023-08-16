@@ -3,6 +3,7 @@ const { MONDAY_OAUTH_URL } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
+const { logWarnings } = require("./helpers/monday-api-helpers");
 
 const EMPTY_ARRAY = [];
 
@@ -65,17 +66,14 @@ class MondayClientSdk {
     const token = options.token || this._apiToken;
     const apiVersion = options.apiVersion || this._apiVersion;
 
+    let responsePromise;
     if (token) {
-      return mondayApiClient.execute(params, token, { apiVersion });
+      responsePromise = mondayApiClient.execute(params, token, { apiVersion });
     } else {
-      return new Promise((resolve, reject) => {
-        this._localApi("api", { params, apiVersion })
-          .then(result => {
-            resolve(result.data);
-          })
-          .catch(err => reject(err));
-      });
+      responsePromise = this._localApi("api", { params, apiVersion }).then(result => result.data);
     }
+
+    return responsePromise.then(logWarnings);
   }
 
   listen(typeOrTypes, callback, params) {
