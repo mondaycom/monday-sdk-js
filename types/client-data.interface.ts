@@ -1,6 +1,6 @@
-type SubscribableEvents = 'context' | 'settings' | 'itemIds' | 'events';
+type SubscribableEvents = 'context' | 'settings' | 'itemIds' | 'events' | 'filter' | 'location';
 
-type SettableTypes = 'settings';
+type SettableTypes = 'settings' | 'location';
 
 interface GetResponse {
     data: {
@@ -48,9 +48,11 @@ export interface ClientData {
      * - `'settings'` The application settings as configured by the user that installed the app
      * - `'itemIds'` The list of item IDs that are filtered in the current board (or all items if no filters are applied)
      * - `'sessionToken'` A JWT token which is decoded with your app's secret and can be used as a session token between your app's frontend & backend
+     * - `'filter'` The state of the search filter
+     * - `'location'` The URL location within an app
      * @param params Reserved for future use
      */
-    get(type: 'context' | 'settings' | 'itemIds' | 'sessionToken', params?: object): Promise<any>;
+    get(type: 'context' | 'settings' | 'itemIds' | 'sessionToken' | 'filter' | 'location', params?: object): Promise<any>;
 
     /**
      * Creates a listener which allows subscribing to certain types of client-side events.
@@ -63,7 +65,7 @@ export interface ClientData {
         callback: (res: { data: object }) => void,
         params?: object,
     ): void;
-    
+
     /**
      * Set data in your application, such as updating settings
      * @param type The type of data that can be set
@@ -89,13 +91,13 @@ export interface ClientData {
          * @param {string} key - Used to access to stored data
          */
         getItem(key: string): Promise<GetResponse>;
-        
+
         /**
          * Deletes a stored value from the database under `key` for the app (**without any reference to the instance**)
          * @param {string} key - Used to delete the stored data
          */
         deleteItem(key: string): Promise<DeleteResponse>;
-        
+
         /**
          * Stores `value` under `key` in the database for the app  (**without any reference to the instance**)
          * @param {string} key - Used to delete the stored data
@@ -114,13 +116,13 @@ export interface ClientData {
              * @param key
              */
             getItem(key: string): Promise<GetResponse>;
-            
+
             /**
              * Deletes a stored value from the database under `key` for a specific app instance
              * @param key
              */
             deleteItem(key: string): Promise<DeleteResponse>;
-            
+
             /**
              * Stores `value` under `key` in the database for a specific app instance
              * @param key
