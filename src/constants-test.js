@@ -57,4 +57,58 @@ describe("constants", () => {
       expect(constants.MONDAY_OAUTH_TOKEN_URL).to.eq("https://auth.monday.com/oauth2/token");
     });
   });
+
+  describe("check that constants are correct when NODE_ENV is undefined", () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = undefined;
+      process.env.MONDAY_COM_DOMAIN = "should not be used";
+    });
+
+    it("MONDAY_DOMAIN should be correct", () => {
+      expect(constants.MONDAY_DOMAIN).to.eq("monday.com");
+    });
+
+    it("MONDAY_PROTOCOL should be correct", () => {
+      expect(constants.MONDAY_PROTOCOL).to.eq("https");
+    });
+
+    it("MONDAY_API_URL should be correct", () => {
+      expect(constants.MONDAY_API_URL).to.eq("https://api.monday.com/v2");
+    });
+
+    it("MONDAY_OAUTH_URL should be correct", () => {
+      expect(constants.MONDAY_OAUTH_URL).to.eq("https://auth.monday.com/oauth2/authorize");
+    });
+
+    it("MONDAY_OAUTH_TOKEN_URL should be correct", () => {
+      expect(constants.MONDAY_OAUTH_TOKEN_URL).to.eq("https://auth.monday.com/oauth2/token");
+    });
+  });
+
+  describe("check that constants are correct when NODE_ENV is undefined", () => {
+    beforeEach(() => {
+      process.env.NODE_ENV = "production";
+      process.env.MONDAY_COM_DOMAIN = "should not be used";
+    });
+
+    it("MONDAY_DOMAIN should be correct", () => {
+      expect(constants.MONDAY_DOMAIN).to.eq("monday.com");
+    });
+
+    it("MONDAY_PROTOCOL should be correct", () => {
+      expect(constants.MONDAY_PROTOCOL).to.eq("https");
+    });
+
+    it("MONDAY_API_URL should be correct", () => {
+      expect(constants.MONDAY_API_URL).to.eq("https://api.monday.com/v2");
+    });
+
+    it("MONDAY_OAUTH_URL should be correct", () => {
+      expect(constants.MONDAY_OAUTH_URL).to.eq("https://auth.monday.com/oauth2/authorize");
+    });
+
+    it("MONDAY_OAUTH_TOKEN_URL should be correct", () => {
+      expect(constants.MONDAY_OAUTH_TOKEN_URL).to.eq("https://auth.monday.com/oauth2/token");
+    });
+  });
 });
