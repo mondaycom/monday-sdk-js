@@ -1,4 +1,4 @@
-import {APIOptions} from "./client-api.interface";
+import { APIOptions } from './client-api.interface';
 
 export interface MondayServerSdk {
     setToken(token: string): void;
