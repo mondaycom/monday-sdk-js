@@ -1,6 +1,6 @@
 // Original Definitions were contributed by: Josh Parnham <https://github.com/josh->
-import {MondayClientSdk} from "./client-sdk.interface";
-import {MondayServerSdk} from "./server-sdk.interface";
+import { MondayClientSdk } from './client-sdk.interface';
+import { MondayServerSdk } from './server-sdk.interface';
 
 export as namespace mondaySdk;
 
