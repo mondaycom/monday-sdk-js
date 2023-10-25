@@ -5,7 +5,7 @@ export interface MondayServerSdk {
 
     setApiVersion(version: string): void;
 
-    api(query: string, options?: APIOptions): Promise<any>;
+    api<T = any>(query: string, options?: APIOptions): Promise<T>;
 
     oauthToken(code: string, clientId: string, clientSecret: string): Promise<any>;
 }
