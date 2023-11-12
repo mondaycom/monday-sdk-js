@@ -50,7 +50,8 @@ export interface ClientData {
      * - `'sessionToken'` A JWT token which is decoded with your app's secret and can be used as a session token between your app's frontend & backend
      * @param params Reserved for future use
      */
-    get(type: 'context' | 'settings' | 'itemIds' | 'sessionToken', params?: object): Promise<any>;
+    get(type: 'context' | 'settings' | 'itemIds' | 'sessionToken' | 'filter' | 'location', params?: object): Promise<any>;
+
 
     /**
      * Creates a listener which allows subscribing to certain types of client-side events.
