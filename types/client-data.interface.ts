@@ -48,6 +48,8 @@ export interface ClientData {
      * - `'settings'` The application settings as configured by the user that installed the app
      * - `'itemIds'` The list of item IDs that are filtered in the current board (or all items if no filters are applied)
      * - `'sessionToken'` A JWT token which is decoded with your app's secret and can be used as a session token between your app's frontend & backend
+     * - `'filter'` The state of the search filter
+     * - `'location'` The URL location within an app
      * @param params Reserved for future use
      */
     get(type: 'context' | 'settings' | 'itemIds' | 'sessionToken' | 'filter' | 'location', params?: object): Promise<any>;
