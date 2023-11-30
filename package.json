@@ -1,6 +1,6 @@
 {
   "name": "monday-sdk-js",
-  "version": "0.4.12",
+  "version": "0.4.13",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
@@ -16,6 +16,7 @@
     "server-sdk.js"
   ],
   "dependencies": {
+    "monday-ui-react-core": "^2.63.2",
     "node-fetch": "^2.6.0"
   },
   "devDependencies": {
