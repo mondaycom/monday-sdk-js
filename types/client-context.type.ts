@@ -1,4 +1,4 @@
-import { Theme } from "monday-ui-react-core/dist/types/components/ThemeProvider/ThemeProviderConstants";
+import type { Theme } from "monday-ui-react-core/dist/types/components/ThemeProvider/ThemeProviderConstants";
 
 type User = {
   id: string;
