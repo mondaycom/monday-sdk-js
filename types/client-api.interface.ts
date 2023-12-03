@@ -38,7 +38,7 @@ export interface ClientApi {
      * Placeholders may be used, which will be substituted by the variables object passed within the options.
      * @param options
      */
-    api(query: string, options?: APIOptions): Promise<{ data: object }>;
+    api<T = any>(query: string, options?: APIOptions): Promise<{ data: T, account_id: number }>;
 
     /**
      * Instead of passing the API token to the `api()` method on each request, you can set the API token once using:
