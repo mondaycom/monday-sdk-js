@@ -1,5 +1,4 @@
-import type { Theme } from "monday-ui-react-core/dist/types/components/ThemeProvider/ThemeProviderConstants";
-
+import { Theme } from "./theme-config.type";
 type User = {
   id: string;
   isAdmin: boolean;

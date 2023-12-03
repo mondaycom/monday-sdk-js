@@ -16,8 +16,7 @@
     "server-sdk.js"
   ],
   "dependencies": {
-    "node-fetch": "^2.6.0",
-    "monday-ui-react-core": "^2.63.2"
+    "node-fetch": "^2.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.6.0",
