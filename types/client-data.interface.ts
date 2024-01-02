@@ -78,6 +78,7 @@ export interface ClientData {
    * @param typeOrTypes The type, or array of types, of events to subscribe to
    * @param callback A callback function that is fired when the listener is triggered by a client-side event
    * @param params Reserved for future use
+   * @return Unsubscribe/unlisten from all added during this method call
    */
   listen<
     CustomResponse,
@@ -87,7 +88,7 @@ export interface ClientData {
     typeOrTypes: T | ReadonlyArray<T>,
     callback: (res: { data: SubscribableEventsResponse<AppFeatureType>[T] & CustomResponse }) => void,
     params?: object & { appFeatureType?: AppFeatureType }
-  ): void;
+  ): () => void;
 
   /**
    * Set data in your application, such as updating settings
