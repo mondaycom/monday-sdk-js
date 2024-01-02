@@ -19,4 +19,6 @@ declare function init(
     }>,
 ): MondayServerSdk;
 
-export = init;
+export { MondayClientSdk, MondayServerSdk };
+
+export default init;
