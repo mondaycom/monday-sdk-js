@@ -97,6 +97,22 @@ monday.storage.instance.deleteItem("test").then(res => {
   data.success; // $ExpectType boolean
 }); // $ExpectType Promise<DeleteResponse>
 
+monday.storage.getItem("test").then(res => {
+  const { data } = res;
+  data.success; // $ExpectType boolean
+  data.value; // $ExpectType any
+}); // $ExpectType Promise<GetResponse>
+
+monday.storage.setItem("test", "123").then(res => {
+  const { data } = res;
+  data.success; // $ExpectType boolean
+}); // $ExpectType Promise<SetResponse>
+
+monday.storage.deleteItem("test").then(res => {
+  const { data } = res;
+  data.success; // $ExpectType boolean
+}); // $ExpectType Promise<DeleteResponse>
+
 const mondayServer = mondaySdk({ token: "123", apiVersion: "2023-10" });
 
 mondayServer.setToken("123"); // $ExpectType void
