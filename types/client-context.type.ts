@@ -32,6 +32,11 @@ type AppVersion = {
   };
 };
 
+export type Permissions = {
+  approvedScopes: string[];
+  requiredScopes: string[];
+};
+
 export type BaseContext = {
   themeConfig?: Theme;
   theme: string;
@@ -40,6 +45,7 @@ export type BaseContext = {
   region: string;
   app: App;
   appVersion: AppVersion;
+  permissions: Permissions;
 };
 
 export type AppFeatureBoardViewContext = BaseContext & {
