@@ -9,10 +9,10 @@ monday.api('test', { apiVersion: '2023-07' }); // $ExpectType Promise<{ data: ob
 
 monday.setToken('test'); // $ExpectType void
 
-monday.get('context'); // $ExpectType Promise<any>
-monday.get('settings'); // $ExpectType Promise<any>
-monday.get('itemIds'); // $ExpectType Promise<any>
-monday.get('sessionToken'); // $ExpectType Promise<any>
+monday.get('context'); // $ExpectType Promise<{ data: object; }>
+monday.get('settings'); // $ExpectType Promise<{ data: object; }>
+monday.get('itemIds'); // $ExpectType Promise<{ data: number[]; }>
+monday.get('sessionToken'); // $ExpectType Promise<{ data: string; }>
 
 monday.set('settings', {'text' : 'this is a test', 'number' : 23}); // $ExpectType Promise<any>
 
