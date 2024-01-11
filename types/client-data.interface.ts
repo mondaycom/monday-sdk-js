@@ -11,19 +11,21 @@ type SubscribableEvents = keyof SubscribableEventsResponse;
 
 type SettableTypes = "settings";
 
-interface GetResponse {
-  data: {
-    success: boolean;
-    value: any;
-    version?: any;
-  };
-  errorMessage?: string | undefined;
-  method: string;
-  requestId: string;
-  type?: string | undefined;
-}
+type StorageResponse = {
+  success: boolean;
+  value: any;
+  version?: any;
+};
 
-interface DeleteResponse {
+type Response<T = StorageResponse> = {
+  data: T;
+  errorMessage?: string | undefined;
+  method: string;
+  requestId: string;
+  type?: string | undefined;
+};
+
+type DeleteResponse = {
   data: {
     success: boolean;
     value: any;
@@ -32,7 +34,7 @@ interface DeleteResponse {
   method: string;
   requestId: string;
   type?: string | undefined;
-}
+};
 
 interface SetResponse {
   data: {
@@ -70,8 +72,8 @@ export interface ClientData {
     AppFeatureType extends AppFeatureTypes = AppFeatureTypes
   >(
     type: T,
-    params?: object & { appFeatureType?: AppFeatureType }
-  ): Promise<GetterResponse<AppFeatureType>[T] & CustomResponse>;
+    params?: Record<string, any> & { appFeatureType?: AppFeatureType }
+  ): Promise<Response<GetterResponse<AppFeatureType>[T] & CustomResponse>>;
 
   /**
    * Creates a listener which allows subscribing to certain types of client-side events.
@@ -86,7 +88,7 @@ export interface ClientData {
   >(
     typeOrTypes: T | ReadonlyArray<T>,
     callback: (res: { data: SubscribableEventsResponse<AppFeatureType>[T] & CustomResponse }) => void,
-    params?: object & { appFeatureType?: AppFeatureType }
+    params?: Record<string, any> & { appFeatureType?: AppFeatureType }
   ): void;
 
   /**
@@ -110,7 +112,7 @@ export interface ClientData {
      * Returns a stored value from the database under `key` for the app (**without any reference to the instance**)
      * @param {string} key - Used to access to stored data
      */
-    getItem(key: string): Promise<GetResponse>;
+    getItem(key: string): Promise<Response>;
 
     /**
      * Deletes a stored value from the database under `key` for the app (**without any reference to the instance**)
@@ -135,7 +137,7 @@ export interface ClientData {
        * Returns a stored value from the database under `key` for a specific app instance
        * @param key
        */
-      getItem(key: string): Promise<GetResponse>;
+      getItem(key: string): Promise<Response>;
 
       /**
        * Deletes a stored value from the database under `key` for a specific app instance
