@@ -42,13 +42,13 @@ monday.get("filter").then(res => {
   }: {
     data: {
       term: string;
-      rules: {
-        column_id: string;
-        compare_value: string[];
-        compare_attribute: string;
-        operator: string;
-      }[];
-      operator: string;
+      rules: (Record<string, any> & {
+        column_id?: string;
+        compare_value?: string[];
+        compare_attribute?: string;
+        operator?: string;
+      })[];
+      operator: string | null;
     };
   } = res;
 });
