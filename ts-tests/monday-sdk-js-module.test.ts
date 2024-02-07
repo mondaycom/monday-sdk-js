@@ -10,7 +10,7 @@ monday.api("test", { apiVersion: "2023-07" });
 monday.setToken("test");
 
 monday.get("context", { appFeatureType: "AppFeatureBoardView" }).then(res => {
-  const boardId: number = res.data.boardId;
+  const { data }: { data: { app: { id: number }; theme: string; boardId: number; viewMode: string } } = res;
 });
 
 monday.get<{ text: string; level: number }>("settings").then(res => {
