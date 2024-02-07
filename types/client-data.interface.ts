@@ -7,13 +7,13 @@ export type LocationResponse = Record<string, any> & {
 
 export type FilterResponse = Record<string, any> & {
   term: string;
-  rules: {
-    column_id: string;
-    compare_value: string[];
-    compare_attribute: string;
-    operator: string;
-  }[];
-  operator: string;
+  rules: (Record<string, any> & {
+    column_id?: string;
+    compare_value?: string[];
+    compare_attribute?: string;
+    operator?: string;
+  })[];
+  operator: string | null;
 };
 
 type SubscribableEventsResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTypes> = {
