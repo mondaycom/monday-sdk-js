@@ -10,7 +10,7 @@ monday.api("test", { apiVersion: "2023-07" });
 monday.setToken("test");
 
 monday.get("context", { appFeatureType: "AppFeatureBoardView" }).then(res => {
-  const { data }: { data: { app: { id: number }; theme: string; boardId: number; viewMode: string } } = res;
+  const boardId: number = res.data.boardId;
 });
 
 monday.get<{ text: string; level: number }>("settings").then(res => {
@@ -23,6 +23,34 @@ monday.get("itemIds").then(res => {
 
 monday.get("sessionToken").then(res => {
   const { data }: { data: string } = res;
+});
+
+monday.get("location").then(res => {
+  const {
+    data
+  }: {
+    data: {
+      href: string;
+      search: string;
+    };
+  } = res;
+});
+
+monday.get("filter").then(res => {
+  const {
+    data
+  }: {
+    data: {
+      term: string;
+      rules: {
+        column_id: string;
+        compare_value: string[];
+        compare_attribute: string;
+        operator: string;
+      }[];
+      operator: string;
+    };
+  } = res;
 });
 
 monday.set("settings", { text: "this is a test", number: 23 });

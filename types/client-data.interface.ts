@@ -1,10 +1,28 @@
 import { AppFeatureContextMap, AppFeatureTypes } from "./client-context.type";
 
+export type LocationResponse = Record<string, any> & {
+  href: string;
+  search: string;
+};
+
+export type FilterResponse = Record<string, any> & {
+  term: string;
+  rules: {
+    column_id: string;
+    compare_value: string[];
+    compare_attribute: string;
+    operator: string;
+  }[];
+  operator: string;
+};
+
 type SubscribableEventsResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTypes> = {
   context: AppFeatureContextMap[AppFeatureType];
   settings: Record<string, any>;
   itemIds: number[];
   events: Record<string, any>;
+  location: LocationResponse;
+  filter: FilterResponse;
 };
 
 type SubscribableEvents = keyof SubscribableEventsResponse;
@@ -54,6 +72,8 @@ export type GetterResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTy
   settings: Record<string, any>;
   itemIds: number[];
   sessionToken: string;
+  location: LocationResponse;
+  filter: FilterResponse;
 };
 export interface ClientData {
   /**
