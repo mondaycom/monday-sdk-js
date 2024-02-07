@@ -25,6 +25,34 @@ monday.get("sessionToken").then(res => {
   const { data }: { data: string } = res;
 });
 
+monday.get("location").then(res => {
+  const {
+    data
+  }: {
+    data: {
+      href: string;
+      search: string;
+    };
+  } = res;
+});
+
+monday.get("filter").then(res => {
+  const {
+    data
+  }: {
+    data: {
+      term: string;
+      rules: (Record<string, any> & {
+        column_id?: string;
+        compare_value?: string[];
+        compare_attribute?: string;
+        operator?: string;
+      })[];
+      operator: string | null;
+    };
+  } = res;
+});
+
 monday.set("settings", { text: "this is a test", number: 23 });
 
 monday.listen(
