@@ -1,5 +1,5 @@
 function isNodeEnv() {
-  return typeof process !== "undefined";
+  return typeof process !== "undefined" && Object.keys(process).length;
 }
 
 function isNodeDevStageEnv() {
