@@ -1,29 +1,49 @@
 import { AppFeatureContextMap, AppFeatureTypes } from "./client-context.type";
 
+export type LocationResponse = Record<string, any> & {
+  href: string;
+  search: string;
+};
+
+export type FilterResponse = Record<string, any> & {
+  term: string;
+  rules: (Record<string, any> & {
+    column_id?: string;
+    compare_value?: string[];
+    compare_attribute?: string;
+    operator?: string;
+  })[];
+  operator: string | null;
+};
+
 type SubscribableEventsResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTypes> = {
   context: AppFeatureContextMap[AppFeatureType];
   settings: Record<string, any>;
   itemIds: number[];
   events: Record<string, any>;
+  location: LocationResponse;
+  filter: FilterResponse;
 };
 
 type SubscribableEvents = keyof SubscribableEventsResponse;
 
 type SettableTypes = "settings";
 
-interface GetResponse {
-  data: {
-    success: boolean;
-    value: any;
-    version?: any;
-  };
-  errorMessage?: string | undefined;
-  method: string;
-  requestId: string;
-  type?: string | undefined;
-}
+type StorageResponse = {
+  success: boolean;
+  value: any;
+  version?: any;
+};
 
-interface DeleteResponse {
+type Response<T = StorageResponse> = {
+  data: T;
+  errorMessage?: string | undefined;
+  method: string;
+  requestId: string;
+  type?: string | undefined;
+};
+
+type DeleteResponse = {
   data: {
     success: boolean;
     value: any;
@@ -32,7 +52,7 @@ interface DeleteResponse {
   method: string;
   requestId: string;
   type?: string | undefined;
-}
+};
 
 interface SetResponse {
   data: {
@@ -52,6 +72,8 @@ export type GetterResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTy
   settings: Record<string, any>;
   itemIds: number[];
   sessionToken: string;
+  location: LocationResponse;
+  filter: FilterResponse;
 };
 export interface ClientData {
   /**
@@ -70,8 +92,8 @@ export interface ClientData {
     AppFeatureType extends AppFeatureTypes = AppFeatureTypes
   >(
     type: T,
-    params?: object & { appFeatureType?: AppFeatureType }
-  ): Promise<GetterResponse<AppFeatureType>[T] & CustomResponse>;
+    params?: Record<string, any> & { appFeatureType?: AppFeatureType }
+  ): Promise<Response<GetterResponse<AppFeatureType>[T] & CustomResponse>>;
 
   /**
    * Creates a listener which allows subscribing to certain types of client-side events.
@@ -87,7 +109,7 @@ export interface ClientData {
   >(
     typeOrTypes: T | ReadonlyArray<T>,
     callback: (res: { data: SubscribableEventsResponse<AppFeatureType>[T] & CustomResponse }) => void,
-    params?: object & { appFeatureType?: AppFeatureType }
+    params?: Record<string, any> & { appFeatureType?: AppFeatureType }
   ): () => void;
 
   /**
@@ -111,7 +133,7 @@ export interface ClientData {
      * Returns a stored value from the database under `key` for the app (**without any reference to the instance**)
      * @param {string} key - Used to access to stored data
      */
-    getItem(key: string): Promise<GetResponse>;
+    getItem(key: string): Promise<Response>;
 
     /**
      * Deletes a stored value from the database under `key` for the app (**without any reference to the instance**)
@@ -136,7 +158,7 @@ export interface ClientData {
        * Returns a stored value from the database under `key` for a specific app instance
        * @param key
        */
-      getItem(key: string): Promise<GetResponse>;
+      getItem(key: string): Promise<Response>;
 
       /**
        * Deletes a stored value from the database under `key` for a specific app instance
