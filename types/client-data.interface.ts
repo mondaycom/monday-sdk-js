@@ -91,7 +91,7 @@ export interface ClientData {
     T extends keyof GetterResponse = keyof GetterResponse,
     AppFeatureType extends AppFeatureTypes = AppFeatureTypes
   >(
-    type: T,
+    type: T | string,
     params?: Record<string, any> & { appFeatureType?: AppFeatureType }
   ): Promise<Response<GetterResponse<AppFeatureType>[T] & CustomResponse>>;
 
@@ -107,7 +107,7 @@ export interface ClientData {
     T extends SubscribableEvents = SubscribableEvents,
     AppFeatureType extends AppFeatureTypes = AppFeatureTypes
   >(
-    typeOrTypes: T | ReadonlyArray<T>,
+    typeOrTypes: (T | string) | ReadonlyArray<T | string>,
     callback: (res: { data: SubscribableEventsResponse<AppFeatureType>[T] & CustomResponse }) => void,
     params?: Record<string, any> & { appFeatureType?: AppFeatureType }
   ): () => void;
