@@ -13,6 +13,10 @@ monday.get("context", { appFeatureType: "AppFeatureBoardView" }).then(res => {
   const { data }: { data: { app: { id: number }; theme: string; boardId: number; viewMode: string } } = res;
 });
 
+monday.get<{ id: number, name: string }>("testString").then(res => {
+  const { data }: { data: { id: number, name: string } } = res;
+});
+
 monday.get<{ text: string; level: number }>("settings").then(res => {
   const { data }: { data: { text: string; level: number } } = res;
 });
