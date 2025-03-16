@@ -30,6 +30,47 @@ interface OAuthOptions {
     mondayOauthUrl?: string | undefined;
 }
 
+interface APIError {
+    /**
+     * The error message describing what went wrong
+     */
+    message: string;
+    
+    /**
+     * Source locations in the GraphQL query document which correspond to this error
+     */
+    locations?: {
+        /**
+         * The line number in the GraphQL query where the error occurred
+         */
+        line?: number;
+        /**
+         * The column number in the GraphQL query where the error occurred
+         */
+        column?: number;
+    }[];
+
+    path?: string[];
+
+    /**
+     * Additional error metadata and extensions
+     */
+    extensions?: {
+        /**
+         * Error code identifying the type of error
+         */
+        code?: string;
+        /**
+         * Additional error-specific data
+         */
+        error_data?: object;
+        /**
+         * HTTP status code associated with the error
+         */
+        status_code?: number;
+    };
+}
+    
 export interface ClientApi {
     /**
      * Used for querying the monday.com GraphQL API seamlessly on behalf of the connected user, or using a provided API token.
@@ -38,7 +79,7 @@ export interface ClientApi {
      * Placeholders may be used, which will be substituted by the variables object passed within the options.
      * @param options
      */
-    api<T = any>(query: string, options?: APIOptions): Promise<{ data: T, account_id: number }>;
+    api<T = any>(query: string, options?: APIOptions): Promise<{ data: T, account_id: number, errors?: APIError[] }>;
 
     /**
      * Instead of passing the API token to the `api()` method on each request, you can set the API token once using:
