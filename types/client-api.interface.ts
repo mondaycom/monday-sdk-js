@@ -30,7 +30,7 @@ interface OAuthOptions {
     mondayOauthUrl?: string | undefined;
 }
 
-interface APIError {
+export interface APIError {
     /**
      * The error message describing what went wrong
      */
