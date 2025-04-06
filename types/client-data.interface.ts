@@ -147,6 +147,7 @@ export interface ClientData {
      * @param {any} value - The value to store
      * @param {object=} options
      * @param {string=} options.previous_version - Use the new version of the storage (instance-less)
+     * @param {number=} options.ttl - The time to live of the item in seconds
      */
     setItem(key: string, value: any, options?: { previous_version?: string, ttl?: number }): Promise<SetResponse>;
     /***
