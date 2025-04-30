@@ -37,6 +37,37 @@ export type Permissions = {
   requiredScopes: string[];
 };
 
+export type AppSubscription = {
+  /**
+   * The billing period frequency: monthly or yearly
+   */
+  billing_period: "yearly" | "monthly";
+  /**
+   * The number of days left until the subscription ends
+   */
+  days_left: number;
+  /**
+   * Returns true if it is still a trial subscription
+   */
+  is_trial: boolean;
+  /**
+   * The maximum number of seats allowed for seat-based plans. Returns null for feature-based plans
+   */
+  max_units: number | null;
+  /**
+   * The subscription plan ID from the app's side
+   */
+  plan_id: string;
+  /**
+   * The subscription's pricing version.
+   */
+  pricing_version: number;
+  /**
+   * The date when the subscription renews, in ISO 8601 format
+   */
+  renewal_date: string;
+};
+
 export type BaseContext = {
   themeConfig?: Theme;
   theme: string;
@@ -46,6 +77,7 @@ export type BaseContext = {
   app: App;
   appVersion: AppVersion;
   permissions: Permissions;
+  subscription?: AppSubscription;
 };
 
 export type AppFeatureBoardViewContext = BaseContext & {

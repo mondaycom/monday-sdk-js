@@ -13,8 +13,26 @@ monday.get("context", { appFeatureType: "AppFeatureBoardView" }).then(res => {
   const { data }: { data: { app: { id: number }; theme: string; boardId: number; viewMode: string } } = res;
 });
 
-monday.get<{ id: number, name: string }>("testString").then(res => {
-  const { data }: { data: { id: number, name: string } } = res;
+monday.get("context").then(res => {
+  const {
+    data
+  }: {
+    data: {
+      subscription?: {
+        billing_period: string;
+        days_left: number;
+        is_trial: boolean;
+        max_units: number | null;
+        plan_id: string;
+        pricing_version: number;
+        renewal_date: string;
+      };
+    };
+  } = res;
+});
+
+monday.get<{ id: number; name: string }>("testString").then(res => {
+  const { data }: { data: { id: number; name: string } } = res;
 });
 
 monday.get<{ text: string; level: number }>("settings").then(res => {
