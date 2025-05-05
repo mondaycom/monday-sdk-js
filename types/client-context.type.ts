@@ -59,7 +59,7 @@ export type AppSubscription = {
    */
   plan_id: string;
   /**
-   * The subscription's pricing version.
+   * The subscription's pricing version
    */
   pricing_version: number;
   /**
