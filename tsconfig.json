@@ -1,19 +1,20 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "lib": [
-            "es6"
-        ],
+        "lib": ["es6"],
         "noImplicitAny": true,
         "noImplicitThis": true,
         "strictFunctionTypes": true,
         "strictNullChecks": true,
         "noEmit": true,
         "forceConsistentCasingInFileNames": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "types": ["jest"]
     },
-    "files": [
-        "types/index.d.ts",
-        "ts-tests/monday-sdk-js-module.test.ts"
+    "include": [
+        "types/**/*.ts",
+        "ts-tests/**/*.ts",
+        "src/operations/**/*.ts",
+        "__tests__/operations/**/*.ts"
     ]
 }
