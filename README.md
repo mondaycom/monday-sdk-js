@@ -26,6 +26,28 @@ import mondaySdk from "monday-sdk-js";
 const monday = mondaySdk();
 ```
 
+Example usage with the new boards and items APIs:
+
+```ts
+await monday.boards.createBoard({ name: "New board", kind: "private" });
+const board = await monday.boards.getBoard({ boardId: 123456 });
+
+await monday.items.createItem({ boardId: 123456, name: "Task" });
+const item = await monday.items.getItem({ itemId: 987654 });
+
+const page1 = await monday.items.listBoardItems({
+  boardId: 123456,
+  limit: 50,
+  queryParams: {
+    operator: "and",
+    rules: [
+      { columnId: "status", compareValue: [1] },
+      { columnId: "people", compareValue: ["person-87654321"], operator: "any_of" }
+    ]
+  }
+});
+```
+
 
 ### As a `<script>` tag directly in your HTML code
 You can also load the SDK directly into your HTML code by adding:

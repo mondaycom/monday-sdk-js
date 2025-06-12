@@ -4,6 +4,8 @@ const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
 const { logWarnings } = require("./helpers/monday-api-helpers");
+const createBoardsApi = require("./boards-sdk/boards-api");
+const createItemsApi = require("./boards-sdk/items-api");
 
 const EMPTY_ARRAY = [];
 
@@ -41,6 +43,9 @@ class MondayClientSdk {
         deleteItem: this.deleteStorageInstanceItem.bind(this)
       }
     };
+
+    this.boards = createBoardsApi(this);
+    this.items = createItemsApi(this);
 
     window.addEventListener("message", this._receiveMessage, false);
 
