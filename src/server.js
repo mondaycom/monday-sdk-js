@@ -1,6 +1,8 @@
 const { logWarnings } = require("./helpers/monday-api-helpers");
 const mondayApiClient = require("./monday-api-client");
 const { oauthToken } = require("./services/oauth-service.js");
+const createBoardsApi = require("./boards-sdk/boards-api");
+const createItemsApi = require("./boards-sdk/items-api");
 
 const TOKEN_MISSING_ERROR = "Should send 'token' as an option or call mondaySdk.setToken(TOKEN)";
 
@@ -12,6 +14,9 @@ class MondayServerSdk {
     this.setToken = this.setToken.bind(this);
     this.setApiVersion = this.setApiVersion.bind(this);
     this.api = this.api.bind(this);
+
+    this.boards = createBoardsApi(this);
+    this.items = createItemsApi(this);
   }
 
   setToken(token) {
