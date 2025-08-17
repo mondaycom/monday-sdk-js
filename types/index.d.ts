@@ -4,6 +4,9 @@ import { MondayServerSdk } from "./server-sdk.interface";
 
 export as namespace mondaySdk;
 
+// Export semantic API types
+export * from "./api";
+
 declare function init(
   config?: Partial<{
     clientId: string;
