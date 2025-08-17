@@ -1,11 +1,12 @@
-import { APIOptions } from './client-api.interface';
+import { APIOptions } from "./client-api.interface";
+import { SemanticAPI } from "./api";
 
-export interface MondayServerSdk {
-    setToken(token: string): void;
+export interface MondayServerSdk extends SemanticAPI {
+  setToken(token: string): void;
 
-    setApiVersion(version: string): void;
+  setApiVersion(version: string): void;
 
-    api<T = any>(query: string, options?: APIOptions): Promise<T>;
+  api<T = any>(query: string, options?: APIOptions): Promise<T>;
 
-    oauthToken(code: string, clientId: string, clientSecret: string): Promise<any>;
+  oauthToken(code: string, clientId: string, clientSecret: string): Promise<any>;
 }

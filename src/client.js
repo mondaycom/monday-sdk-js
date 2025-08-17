@@ -4,6 +4,7 @@ const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
 const { logWarnings } = require("./helpers/monday-api-helpers");
+const { createSemanticAPI } = require("./api");
 
 const EMPTY_ARRAY = [];
 
@@ -47,6 +48,12 @@ class MondayClientSdk {
     if (!options.withoutScrollHelper) initScrollHelperIfNeeded();
 
     initBackgroundTracking(this);
+
+    // Initialize semantic API layer
+    const semanticAPI = createSemanticAPI(this);
+    this.boards = semanticAPI.boards;
+    this.items = semanticAPI.items;
+    this.columns = semanticAPI.columns;
   }
 
   setClientId(clientId) {

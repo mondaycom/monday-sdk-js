@@ -1,6 +1,7 @@
 const { logWarnings } = require("./helpers/monday-api-helpers");
 const mondayApiClient = require("./monday-api-client");
 const { oauthToken } = require("./services/oauth-service.js");
+const { createSemanticAPI } = require("./api");
 
 const TOKEN_MISSING_ERROR = "Should send 'token' as an option or call mondaySdk.setToken(TOKEN)";
 
@@ -12,6 +13,12 @@ class MondayServerSdk {
     this.setToken = this.setToken.bind(this);
     this.setApiVersion = this.setApiVersion.bind(this);
     this.api = this.api.bind(this);
+
+    // Initialize semantic API layer
+    const semanticAPI = createSemanticAPI(this);
+    this.boards = semanticAPI.boards;
+    this.items = semanticAPI.items;
+    this.columns = semanticAPI.columns;
   }
 
   setToken(token) {
