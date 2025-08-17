@@ -1,0 +1,216 @@
+# Research Findings: Monday.com GraphQL API
+
+_Created: 2025-01-27_
+_Current RIPER Mode: RESEARCH_
+
+## API Structure Discovery
+
+### Current SDK Pattern
+
+- The SDK uses a generic `api(query, options)` method that accepts raw GraphQL strings
+- GraphQL requests are sent via POST to `https://api.monday.com/v2`
+- Authentication uses Authorization header with API token
+- Supports API versioning via `API-Version` header
+- Variables are passed in `options.variables` object
+
+### Existing Usage Examples (from tests)
+
+```javascript
+// Current way to query boards
+await sdk.api("query { boards { id, name }}");
+
+// Current way to create items (from old tests)
+const query = `
+  mutation create_pulse($pulseName: String!, $columnValues: JSON) {
+    create_pulse(pulse_name: $pulseName, board_id: 123, column_values: $columnValues) {
+      id
+    }
+  }
+`;
+await sdk.api(query, { variables: { pulseName: "Task", columnValues: {} } });
+```
+
+## Monday.com GraphQL API Operations
+
+### BOARDS - Available Operations
+
+1. **Query Boards**
+
+   ```graphql
+   query {
+     boards(limit: 10) {
+       id
+       name
+       description
+       board_kind
+       columns {
+         id
+         title
+         type
+       }
+       items {
+         id
+         name
+       }
+     }
+   }
+   ```
+
+2. **Create Board**
+
+   ```graphql
+   mutation {
+     create_board(board_name: "New Project", board_kind: public) {
+       id
+       name
+       board_kind
+     }
+   }
+   ```
+
+3. **Update Board**
+
+   ```graphql
+   mutation {
+     change_board_name(board_id: 123456789, board_name: "Updated Name") {
+       id
+     }
+   }
+   ```
+
+4. **Delete Board**
+   ```graphql
+   mutation {
+     delete_board(board_id: 123456789) {
+       id
+     }
+   }
+   ```
+
+### ITEMS - Available Operations
+
+1. **Query Items**
+
+   ```graphql
+   query {
+     boards(ids: 123456789) {
+       items {
+         id
+         name
+         column_values {
+           id
+           text
+           value
+         }
+       }
+     }
+   }
+   ```
+
+2. **Create Item**
+
+   ```graphql
+   mutation {
+     create_item(board_id: 123456789, item_name: "New Task") {
+       id
+       name
+     }
+   }
+   ```
+
+3. **Update Item Column Values**
+
+   ```graphql
+   mutation {
+     change_column_value(board_id: 123456789, item_id: 987654321, column_id: "status", value: "\"Done\"") {
+       id
+     }
+   }
+   ```
+
+4. **Delete Item**
+   ```graphql
+   mutation {
+     delete_item(item_id: 987654321) {
+       id
+     }
+   }
+   ```
+
+### COLUMNS - Available Operations
+
+1. **Query Columns**
+
+   ```graphql
+   query {
+     boards(ids: 123456789) {
+       columns {
+         id
+         title
+         type
+         settings_str
+       }
+     }
+   }
+   ```
+
+2. **Create Column**
+
+   ```graphql
+   mutation {
+     create_column(board_id: 123456789, title: "Priority", column_type: status) {
+       id
+       title
+       type
+     }
+   }
+   ```
+
+3. **Update Column**
+
+   ```graphql
+   mutation {
+     change_column_title(board_id: 123456789, column_id: "status", title: "New Status") {
+       id
+     }
+   }
+   ```
+
+4. **Delete Column**
+   ```graphql
+   mutation {
+     delete_column(board_id: 123456789, column_id: "status") {
+       id
+     }
+   }
+   ```
+
+## Key Observations
+
+### API Patterns
+
+- Field names use snake_case (e.g., `board_name`, `item_name`, `column_id`)
+- IDs are returned as strings but often need to be passed as integers
+- Column values are JSON strings that need proper escaping
+- Board kinds: `public`, `private`, `share`
+- Column types include: `status`, `text`, `numbers`, `date`, etc.
+
+### Current SDK Limitations
+
+- No semantic layer - developers write raw GraphQL
+- No type safety or validation
+- No response parsing or normalization
+- No error handling beyond basic HTTP errors
+- No convenience methods for common operations
+
+### Integration Points
+
+- Client SDK: Uses postMessage for iframe communication
+- Server SDK: Direct HTTP requests to GraphQL endpoint
+- Both support token-based authentication
+- Both support API versioning
+- Response format: `{ data: {...}, errors: [...] }`
+
+---
+
+_Research complete. Ready to discuss findings and plan semantic layer design._

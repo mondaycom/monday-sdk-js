@@ -4,6 +4,7 @@ const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
 const { logWarnings } = require("./helpers/monday-api-helpers");
+const { createSemanticAPI } = require("./semantic");
 
 const EMPTY_ARRAY = [];
 
@@ -47,6 +48,9 @@ class MondayClientSdk {
     if (!options.withoutScrollHelper) initScrollHelperIfNeeded();
 
     initBackgroundTracking(this);
+
+    // Initialize semantic API (lazy loaded)
+    this._semanticAPI = null;
   }
 
   setClientId(clientId) {
@@ -138,6 +142,41 @@ class MondayClientSdk {
 
   deleteStorageInstanceItem(key, options = {}) {
     return this._localApi("storage", { method: "delete", key, options, segment: STORAGE_SEGMENT_KINDS.INSTANCE });
+  }
+
+  /**
+   * Get semantic API instance (lazy loading)
+   * @returns {Object} Semantic API with boards, items, columns modules
+   */
+  _getSemanticAPI() {
+    if (!this._semanticAPI) {
+      this._semanticAPI = createSemanticAPI(this);
+    }
+    return this._semanticAPI;
+  }
+
+  /**
+   * Get boards semantic API
+   * @returns {BoardsModule} Boards semantic API instance
+   */
+  get boards() {
+    return this._getSemanticAPI().boards;
+  }
+
+  /**
+   * Get items semantic API
+   * @returns {ItemsModule} Items semantic API instance
+   */
+  get items() {
+    return this._getSemanticAPI().items;
+  }
+
+  /**
+   * Get columns semantic API
+   * @returns {ColumnsModule} Columns semantic API instance
+   */
+  get columns() {
+    return this._getSemanticAPI().columns;
   }
 
   _localApi(method, args) {

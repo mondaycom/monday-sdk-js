@@ -1,6 +1,7 @@
 const { logWarnings } = require("./helpers/monday-api-helpers");
 const mondayApiClient = require("./monday-api-client");
 const { oauthToken } = require("./services/oauth-service.js");
+const { createSemanticAPI } = require("./semantic");
 
 const TOKEN_MISSING_ERROR = "Should send 'token' as an option or call mondaySdk.setToken(TOKEN)";
 
@@ -12,6 +13,9 @@ class MondayServerSdk {
     this.setToken = this.setToken.bind(this);
     this.setApiVersion = this.setApiVersion.bind(this);
     this.api = this.api.bind(this);
+
+    // Initialize semantic API (lazy loaded)
+    this._semanticAPI = null;
   }
 
   setToken(token) {
@@ -34,6 +38,41 @@ class MondayServerSdk {
 
   oauthToken(code, clientId, clientSecret) {
     return oauthToken(code, clientId, clientSecret);
+  }
+
+  /**
+   * Get semantic API instance (lazy loading)
+   * @returns {Object} Semantic API with boards, items, columns modules
+   */
+  _getSemanticAPI() {
+    if (!this._semanticAPI) {
+      this._semanticAPI = createSemanticAPI(this);
+    }
+    return this._semanticAPI;
+  }
+
+  /**
+   * Get boards semantic API
+   * @returns {BoardsModule} Boards semantic API instance
+   */
+  get boards() {
+    return this._getSemanticAPI().boards;
+  }
+
+  /**
+   * Get items semantic API
+   * @returns {ItemsModule} Items semantic API instance
+   */
+  get items() {
+    return this._getSemanticAPI().items;
+  }
+
+  /**
+   * Get columns semantic API
+   * @returns {ColumnsModule} Columns semantic API instance
+   */
+  get columns() {
+    return this._getSemanticAPI().columns;
   }
 }
 
