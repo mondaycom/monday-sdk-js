@@ -23,6 +23,12 @@ class MondayServerSdk {
   }
 
   api(query, options = {}) {
+    console.warn(
+      "[DEPRECATION WARNING] The 'api' method in monday-sdk-js is deprecated and will be removed in a future version.\n" +
+      "Please migrate to the official monday.com API package: https://www.npmjs.com/package/@mondaydotcomorg/api\n" +
+      "For more information, visit: https://developer.monday.com/api-reference/docs/api-sdk"
+    );
+    
     const params = { query, variables: options.variables };
     const token = options.token || this._token;
     const apiVersion = options.apiVersion || this._apiVersion;
