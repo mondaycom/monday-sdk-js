@@ -4,6 +4,7 @@
 # monday.com Apps framework SDK for JavaScript
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/mondaycom/monday-sdk-js/blob/master/LICENSE) &nbsp; [![npm version](https://img.shields.io/npm/v/monday-sdk-js.svg?style=flat)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![npm](https://img.shields.io/npm/dm/monday-sdk-js)](https://www.npmjs.com/package/monday-sdk-js) &nbsp; [![jsDelivr hits (npm)](https://img.shields.io/jsdelivr/npm/hm/monday-sdk-js)](https://www.jsdelivr.com/package/npm/monday-sdk-js)
 
+> **⚠️ DEPRECATION NOTICE:** The server-side `api()` method in this SDK is deprecated and will be removed in a future version. For server-side GraphQL API calls, please migrate to the official [@mondaydotcomorg/api](https://www.npmjs.com/package/@mondaydotcomorg/api) package.
 
 The monday.com SDK provides a toolset for application developers to build features and solutions on top of the monday.com Work OS platform. You'll find this SDK useful if you want to:
 
