@@ -6,6 +6,12 @@ const TOKEN_MISSING_ERROR = "Should send 'token' as an option or call mondaySdk.
 
 class MondayServerSdk {
   constructor(options = {}) {
+    console.warn(
+      "[DEPRECATION WARNING] The monday-sdk-js server SDK is deprecated and will be removed in version 1.0.0.\n" +
+        "The 'api()' method for GraphQL queries should be replaced with the official @mondaydotcomorg/api package: https://www.npmjs.com/package/@mondaydotcomorg/api\n" +
+        "For more information, visit: https://developer.monday.com/api-reference/docs/api-sdk"
+    );
+    
     this._token = options.token;
     this._apiVersion = options.apiVersion;
 
@@ -23,12 +29,6 @@ class MondayServerSdk {
   }
 
   api(query, options = {}) {
-    console.warn(
-      "[DEPRECATION WARNING] The 'api' method in monday-sdk-js is deprecated and will be removed in a future version.\n" +
-        "Please migrate to the official monday.com API package: https://www.npmjs.com/package/@mondaydotcomorg/api\n" +
-        "For more information, visit: https://developer.monday.com/api-reference/docs/api-sdk"
-    );
-
     const params = { query, variables: options.variables };
     const token = options.token || this._token;
     const apiVersion = options.apiVersion || this._apiVersion;
