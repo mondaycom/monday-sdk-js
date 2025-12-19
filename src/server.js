@@ -11,7 +11,7 @@ class MondayServerSdk {
         "The 'api()' method for GraphQL queries should be replaced with the official @mondaydotcomorg/api package: https://www.npmjs.com/package/@mondaydotcomorg/api\n" +
         "For more information, visit: https://developer.monday.com/api-reference/docs/api-sdk"
     );
-    
+
     this._token = options.token;
     this._apiVersion = options.apiVersion;
 
