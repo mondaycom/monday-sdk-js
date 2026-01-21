@@ -1,0 +1,34 @@
+# Project Brief: Monday.com SDK Semantic API Layer
+
+_Version: 1.0_
+_Created: 2025-01-27_
+_Last Updated: 2025-01-27_
+
+## Project Overview
+
+Create a semantic SDK layer above the existing generic execute function which executes raw GraphQL queries in the monday.com JavaScript SDK. The semantic layer should provide high-level, intuitive methods for common CRUD operations on boards, items, and columns.
+
+## User Requirements
+
+Based on your request, you want:
+
+- Multiple new files introducing a semantic layer
+- New methods on boards, items, and columns
+- CRUD capabilities: createItem, fetchItem/s, createBoard, getBoard, updateItemColumnValues, getColumns, createColumn, updateColumn
+
+## Success Criteria
+
+- Complete CRUD coverage for boards, items, and columns
+- Type safety with TypeScript definitions
+- Backward compatibility with existing SDK
+- Clear, intuitive API design
+
+## Current State
+
+- Framework initialized and reset to collaborative mode
+- Ready to begin RESEARCH phase together
+- No implementation has been started
+
+---
+
+_This document serves as the foundation for collaborative development._
