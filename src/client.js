@@ -129,7 +129,7 @@ class MondayClientSdk {
   _collectResourceMetrics() {
     if (typeof performance === "undefined") return null;
     const resourceEntries = performance.getEntriesByType("resource");
-    var origin = "";
+    let origin = "";
     try {
       origin = new URL(resourceEntries[0].name).origin;
     } catch (e) {
