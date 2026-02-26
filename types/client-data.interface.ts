@@ -120,6 +120,13 @@ export interface ClientData {
   set(type: SettableTypes, params: object): Promise<any>;
 
   /**
+   * Signals the monday.com platform that your vibe app has finished rendering and is ready for user interaction.
+   * Optionally pass custom data that will be included in the app's performance measurement.
+   * @param data Optional object with custom tracking data to include in the performance report
+   */
+  ready(data?: Record<string, unknown>): Promise<any>;
+
+  /**
    * The Storage API is in early beta stages, its API is likely to change
    *
    * The monday apps infrastructure includes a persistent, key-value database storage that developers
@@ -149,7 +156,7 @@ export interface ClientData {
      * @param {string=} options.previous_version - Use the new version of the storage (instance-less)
      * @param {number=} options.ttl - The time to live of the item in seconds
      */
-    setItem(key: string, value: any, options?: { previous_version?: string, ttl?: number }): Promise<SetResponse>;
+    setItem(key: string, value: any, options?: { previous_version?: string; ttl?: number }): Promise<SetResponse>;
     /***
      * The instance storage is a key-value database that is scoped to a specific app instance.
      * **Does not work** for instance-less apps.

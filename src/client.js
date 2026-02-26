@@ -28,6 +28,7 @@ class MondayClientSdk {
     this.get = this.get.bind(this);
     this.set = this.set.bind(this);
     this.execute = this.execute.bind(this);
+    this.ready = this.ready.bind(this);
     this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
 
@@ -104,6 +105,40 @@ class MondayClientSdk {
 
   track(name, data) {
     return this.execute("track", { name, data });
+  }
+
+  ready(data) {
+    const memoryMetrics = this._collectMemoryMetrics();
+    const resourceMetrics = this._collectResourceMetrics();
+    const enrichedData = { ...data, sdkPerformanceMetrics: { memoryMetrics, resourceMetrics } };
+    return this.execute("ready", enrichedData);
+  }
+
+  _collectMemoryMetrics() {
+    const memory = typeof performance !== "undefined" && performance.memory;
+    if (!memory) {
+      return null;
+    }
+    return {
+      usedJSHeapSize: memory.usedJSHeapSize,
+      totalJSHeapSize: memory.totalJSHeapSize,
+      jsHeapSizeLimit: memory.jsHeapSizeLimit
+    };
+  }
+
+  _collectResourceMetrics() {
+    if (typeof performance === "undefined") return null;
+    const resourceEntries = performance.getEntriesByType("resource");
+    var origin = "";
+    try {
+      origin = new URL(resourceEntries[0].name).origin;
+    } catch (e) {}
+    return resourceEntries.map(r => ({
+      n: origin ? r.name.replace(origin, "") : r.name,
+      ts: r.transferSize,
+      es: r.encodedBodySize,
+      d: Math.round(r.duration)
+    }));
   }
 
   oauth(options = {}) {
