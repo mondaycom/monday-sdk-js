@@ -132,7 +132,9 @@ class MondayClientSdk {
     var origin = "";
     try {
       origin = new URL(resourceEntries[0].name).origin;
-    } catch (e) { /* URL parsing failed, keep full name */ }
+    } catch (e) {
+      /* URL parsing failed, keep full name */
+    }
     return resourceEntries.map(r => ({
       n: origin ? r.name.replace(origin, "") : r.name,
       ts: r.transferSize,
