@@ -1,5 +1,5 @@
 const mondayApiClient = require("./monday-api-client");
-const { MONDAY_OAUTH_URL } = require("./constants.js");
+const { MONDAY_OAUTH_URL, REPORT_TIME_PHASES } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
@@ -28,7 +28,7 @@ class MondayClientSdk {
     this.get = this.get.bind(this);
     this.set = this.set.bind(this);
     this.execute = this.execute.bind(this);
-    this.ready = this.ready.bind(this);
+    this.reportTime = this.reportTime.bind(this);
     this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
 
@@ -107,11 +107,19 @@ class MondayClientSdk {
     return this.execute("track", { name, data });
   }
 
-  ready(data) {
-    const memoryMetrics = this._collectMemoryMetrics();
-    const resourceMetrics = this._collectResourceMetrics();
-    const enrichedData = { ...data, sdkPerformanceMetrics: { memoryMetrics, resourceMetrics } };
-    return this.execute("ready", enrichedData);
+  reportTime(phase, data = {}) {
+    const allowedPhases = Object.values(REPORT_TIME_PHASES);
+    if (!allowedPhases.includes(phase)) {
+      return;
+    }
+    const params = { phase, ...data };
+    if (phase === REPORT_TIME_PHASES.INTERACTIVE) {
+      params.sdkPerformanceMetrics = {
+        memoryMetrics: this._collectMemoryMetrics(),
+        resourceMetrics: this._collectResourceMetrics()
+      };
+    }
+    return this.execute("reportTime", params);
   }
 
   _collectMemoryMetrics() {
@@ -136,10 +144,10 @@ class MondayClientSdk {
       /* URL parsing failed, keep full name */
     }
     return resourceEntries.map(r => ({
-      n: origin ? r.name.replace(origin, "") : r.name,
-      ts: r.transferSize,
-      es: r.encodedBodySize,
-      d: Math.round(r.duration)
+      name: origin ? r.name.replace(origin, "") : r.name,
+      tsSize: r.transferSize,
+      encSize: r.encodedBodySize,
+      dur: Math.round(r.duration)
     }));
   }
 

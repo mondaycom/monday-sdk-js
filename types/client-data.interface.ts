@@ -120,11 +120,12 @@ export interface ClientData {
   set(type: SettableTypes, params: object): Promise<any>;
 
   /**
-   * Signals the monday.com platform that your vibe app has finished rendering and is ready for user interaction.
-   * Optionally pass custom data that will be included in the app's performance measurement.
-   * @param data Optional object with custom tracking data to include in the performance report
+   * Reports a performance time milestone to the monday.com platform.
+   * @param phase "load" when the app has rendered its initial UI, "interactive" when fully interactive
+   * @param data Optional object with custom tracking data. For "interactive", can include
+   *   `dataWaitDurationMs` (ms to subtract from the end timestamp if the app waited for data after becoming interactive)
    */
-  ready(data?: Record<string, unknown>): Promise<any>;
+  reportTime(phase: 'load' | 'interactive', data?: Record<string, unknown>): Promise<any>;
 
   /**
    * The Storage API is in early beta stages, its API is likely to change
