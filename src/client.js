@@ -113,12 +113,13 @@ class MondayClientSdk {
       return;
     }
     const params = { phase, ...data };
-    if (phase === REPORT_TIME_PHASES.INTERACTIVE) {
-      params.sdkPerformanceMetrics = {
-        memoryMetrics: this._collectMemoryMetrics(),
-        resourceMetrics: this._collectResourceMetrics()
-      };
+    const sdkPerformanceMetrics = {
+      memoryMetrics: this._collectMemoryMetrics()
+    };
+    if (phase === REPORT_TIME_PHASES.LOAD) {
+      sdkPerformanceMetrics.resourceMetrics = this._collectResourceMetrics();
     }
+    params.sdkPerformanceMetrics = sdkPerformanceMetrics;
     return this.execute("reportTime", params);
   }
 
