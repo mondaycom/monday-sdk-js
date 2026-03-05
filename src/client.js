@@ -1,5 +1,5 @@
 const mondayApiClient = require("./monday-api-client");
-const { MONDAY_OAUTH_URL } = require("./constants.js");
+const { MONDAY_OAUTH_URL, REPORT_TIME_PHASES } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
@@ -28,6 +28,7 @@ class MondayClientSdk {
     this.get = this.get.bind(this);
     this.set = this.set.bind(this);
     this.execute = this.execute.bind(this);
+    this.reportTime = this.reportTime.bind(this);
     this.oauth = this.oauth.bind(this);
     this._receiveMessage = this._receiveMessage.bind(this);
 
@@ -104,6 +105,51 @@ class MondayClientSdk {
 
   track(name, data) {
     return this.execute("track", { name, data });
+  }
+
+  reportTime(phase, data = {}) {
+    const allowedPhases = Object.values(REPORT_TIME_PHASES);
+    if (!allowedPhases.includes(phase)) {
+      return;
+    }
+    const params = { phase, ...data };
+    const sdkPerformanceMetrics = {
+      memoryMetrics: this._collectMemoryMetrics()
+    };
+    if (phase === REPORT_TIME_PHASES.LOAD) {
+      sdkPerformanceMetrics.resourceMetrics = this._collectResourceMetrics();
+    }
+    params.sdkPerformanceMetrics = sdkPerformanceMetrics;
+    return this.execute("reportTime", params);
+  }
+
+  _collectMemoryMetrics() {
+    const memory = typeof performance !== "undefined" && performance.memory;
+    if (!memory) {
+      return null;
+    }
+    return {
+      usedJSHeapSize: memory.usedJSHeapSize,
+      totalJSHeapSize: memory.totalJSHeapSize,
+      jsHeapSizeLimit: memory.jsHeapSizeLimit
+    };
+  }
+
+  _collectResourceMetrics() {
+    if (typeof performance === "undefined") return null;
+    const resourceEntries = performance.getEntriesByType("resource");
+    let origin = "";
+    try {
+      origin = new URL(resourceEntries[0].name).origin;
+    } catch (e) {
+      /* URL parsing failed, keep full name */
+    }
+    return resourceEntries.map(r => ({
+      name: origin ? r.name.replace(origin, "") : r.name,
+      tsSize: r.transferSize,
+      encSize: r.encodedBodySize,
+      dur: Math.round(r.duration)
+    }));
   }
 
   oauth(options = {}) {

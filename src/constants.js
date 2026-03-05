@@ -22,7 +22,13 @@ const MONDAY_OAUTH_URL = () => `${MONDAY_PROTOCOL()}://${MONDAY_OAUTH_SUBDOMAIN(
 const MONDAY_OAUTH_TOKEN_URL = () =>
   `${MONDAY_PROTOCOL()}://${MONDAY_OAUTH_SUBDOMAIN()}${MONDAY_DOMAIN()}/oauth2/token`;
 
+const REPORT_TIME_PHASES = {
+  LOAD: "load",
+  INTERACTIVE: "interactive"
+};
+
 module.exports = {
+  REPORT_TIME_PHASES,
   get MONDAY_DOMAIN() {
     return MONDAY_DOMAIN();
   },
