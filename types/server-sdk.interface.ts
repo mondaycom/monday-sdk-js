@@ -1,4 +1,5 @@
-import { APIOptions } from './client-api.interface';
+import { APIOptions } from "./client-api.interface";
+import { IBoardsApi, IItemsApi, IColumnsApi } from "./semantic";
 
 /**
  * @deprecated The monday-sdk-js server SDK is deprecated and will be removed in version 1.0.0.
@@ -6,11 +7,18 @@ import { APIOptions } from './client-api.interface';
  * For more information, visit: https://developer.monday.com/api-reference/docs/api-sdk
  */
 export interface MondayServerSdk {
-    setToken(token: string): void;
+  setToken(token: string): void;
 
-    setApiVersion(version: string): void;
+  setApiVersion(version: string): void;
 
-    api<T = any>(query: string, options?: APIOptions): Promise<T>;
+  api<T = any>(query: string, options?: APIOptions): Promise<T>;
 
-    oauthToken(code: string, clientId: string, clientSecret: string): Promise<any>;
+  oauthToken(code: string, clientId: string, clientSecret: string): Promise<any>;
+
+  /** Boards management API */
+  readonly boards: IBoardsApi;
+  /** Items management API */
+  readonly items: IItemsApi;
+  /** Columns management API */
+  readonly columns: IColumnsApi;
 }
