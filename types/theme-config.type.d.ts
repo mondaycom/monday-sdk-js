@@ -47,12 +47,7 @@ type ThemeCustomClassValue = {
   [key: string]: ThemeColorTokenValue | ThemeCustomClassValue;
 };
 
-export const SystemThemeClassMap: SystemThemeClassMapType = {
-  [SystemTheme.LIGHT]: "light-app-theme",
-  [SystemTheme.DARK]: "dark-app-theme",
-  [SystemTheme.BLACK]: "black-app-theme",
-  [SystemTheme.HACKER]: "hacker_theme-app-theme"
-};
+export declare const SystemThemeClassMap: SystemThemeClassMapType;
 
 type SystemThemeClassMapType = {
   [key in SystemTheme]: string;

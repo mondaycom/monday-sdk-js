@@ -3,30 +3,26 @@
   "version": "0.5.8",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
-  "main": "src/index.js",
+  "main": "dist/index.js",
   "types": "types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./server-sdk": "./server-sdk.js"
+  },
   "author": "talharamati <tal@monday.com>",
   "license": "MIT",
   "files": [
     "LICENSE",
     "README.md",
     "dist/",
-    "src/",
     "types/",
     "server-sdk.js"
   ],
-  "dependencies": {
-    "node-fetch": "^2.6.0"
-  },
   "devDependencies": {
-    "@babel/cli": "^7.6.0",
-    "@babel/core": "^7.6.0",
-    "@babel/node": "^7.6.1",
-    "@babel/preset-env": "^7.6.0",
-    "@babel/preset-react": "^7.0.0",
-    "@babel/register": "^7.6.0",
-    "@types/source-map": "^0.5.2",
-    "babel-loader": "^8.0.6",
     "chai": "^4.2.0",
     "eslint": "^6.8.0",
     "jsdom": "^16.2.0",
@@ -34,14 +30,13 @@
     "prettier": "^1.19.1",
     "sinon": "^9.0.0",
     "sinon-chai": "^3.5.0",
-    "typescript": "^4.9.5",
-    "webpack": "^4.38.0",
-    "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.7.2"
+    "tsup": "^8.5.1",
+    "typescript": "^4.9.5"
   },
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack --mode=production --env.WEBPACK_BUILD=true",
+    "start": "tsup --watch",
+    "build": "tsup",
+    "postbuild": "node -e \"const fs=require('fs');if(fs.existsSync('dist/main.global.js'))fs.renameSync('dist/main.global.js','dist/main.js')\"",
     "test": "mocha './src/**/*-test.js'",
     "test:watch": "mocha './src/**/*-test.js' --watch",
     "precommit": "yarn lint && yarn style-check",
