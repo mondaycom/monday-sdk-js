@@ -1,4 +1,4 @@
-import { APIOptions } from './client-api.interface';
+import { APIOptions } from "./client-api.interface";
 
 /**
  * @deprecated The monday-sdk-js server SDK is deprecated and will be removed in version 1.0.0.

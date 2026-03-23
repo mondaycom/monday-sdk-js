@@ -6,7 +6,9 @@ type BlockTypes = 'normal text' | 'large title' | 'medium title' | 'small title'
 /**
  * Block content in delta format
  */
-interface BlockContent { deltaFormat: Array<object> };
+interface BlockContent {
+    deltaFormat: Array<object>;
+}
 export interface ClientExecute {
     /**
      * Type fallback to account for new execute methods during the AI hackathon.
