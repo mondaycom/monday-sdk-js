@@ -19,6 +19,7 @@ export type FilterResponse = Record<string, any> & {
 type SubscribableEventsResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTypes> = {
   context: AppFeatureContextMap[AppFeatureType];
   settings: Record<string, any>;
+  /** @deprecated monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code. */
   itemIds: number[];
   events: Record<string, any>;
   location: LocationResponse;
@@ -94,6 +95,15 @@ export interface ClientData {
     type: T | string,
     params?: Record<string, any> & { appFeatureType?: AppFeatureType }
   ): Promise<Response<GetterResponse<AppFeatureType>[T] & CustomResponse>>;
+
+  /**
+   * @deprecated monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code.
+   */
+  listen(
+    typeOrTypes: 'itemIds' | ReadonlyArray<'itemIds'>,
+    callback: (res: { data: number[] }) => void,
+    params?: Record<string, any>
+  ): () => void;
 
   /**
    * Creates a listener which allows subscribing to certain types of client-side events.

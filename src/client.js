@@ -78,6 +78,13 @@ class MondayClientSdk {
 
   listen(typeOrTypes, callback, params) {
     const types = convertToArrayIfNeeded(typeOrTypes);
+
+    if (types.includes("itemIds")) {
+      console.warn(
+        "[DEPRECATION WARNING] monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code."
+      );
+    }
+
     const unsubscribes = [];
 
     types.forEach(type => {
