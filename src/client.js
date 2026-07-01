@@ -63,6 +63,11 @@ class MondayClientSdk {
   }
 
   api(query, options = {}) {
+    console.warn(
+      "[DEPRECATION WARNING] monday.api() is deprecated and will be removed in version 1.0.0.\n" +
+        "Use the official @mondaydotcomorg/api package instead: https://www.npmjs.com/package/@mondaydotcomorg/api"
+    );
+
     const params = { query, variables: options.variables };
     const token = options.token || this._apiToken;
     const apiVersion = options.apiVersion || this._apiVersion;
@@ -79,6 +84,14 @@ class MondayClientSdk {
 
   listen(typeOrTypes, callback, params) {
     const types = convertToArrayIfNeeded(typeOrTypes);
+
+    if (types.includes("itemIds")) {
+      console.warn(
+        "[DEPRECATION WARNING] monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code.\n" +
+          "Use the API to fetch item IDs instead: https://developer.monday.com/apps/docs/mondaylisten#for-large-boards-fetch-all-filtered-item-ids-via-the-api"
+      );
+    }
+
     const unsubscribes = [];
 
     types.forEach(type => {
