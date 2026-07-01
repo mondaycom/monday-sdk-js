@@ -19,7 +19,7 @@ export type FilterResponse = Record<string, any> & {
 type SubscribableEventsResponse<AppFeatureType extends AppFeatureTypes = AppFeatureTypes> = {
   context: AppFeatureContextMap[AppFeatureType];
   settings: Record<string, any>;
-  /** @deprecated monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code. */
+  /** @deprecated monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code. Use the API to fetch item IDs instead: https://developer.monday.com/apps/docs/mondaylisten#for-large-boards-fetch-all-filtered-item-ids-via-the-api */
   itemIds: number[];
   events: Record<string, any>;
   location: LocationResponse;
@@ -98,6 +98,7 @@ export interface ClientData {
 
   /**
    * @deprecated monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code.
+   * Use the API to fetch item IDs instead: https://developer.monday.com/apps/docs/mondaylisten#for-large-boards-fetch-all-filtered-item-ids-via-the-api
    */
   listen(
     typeOrTypes: 'itemIds' | ReadonlyArray<'itemIds'>,
