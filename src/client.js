@@ -7,6 +7,13 @@ const { logWarnings } = require("./helpers/monday-api-helpers");
 
 const EMPTY_ARRAY = [];
 
+function getErrorMessage(data) {
+  if (data.errorMessage) return data.errorMessage;
+  if (!Array.isArray(data.errors) || data.errors.length === 0) return null;
+
+  return data.errors.map(error => (error && error.message ? error.message : error)).join(", ");
+}
+
 const STORAGE_SEGMENT_KINDS = {
   GLOBAL: "v2",
   INSTANCE: "instance"
@@ -209,9 +216,11 @@ class MondayClientSdk {
       window.parent.postMessage({ method, args, requestId, clientId, version }, "*");
       const removeListener = this._addListener(requestId, data => {
         removeListener();
-        if (data.errorMessage) {
-          const error = new Error(data.errorMessage);
+        const errorMessage = getErrorMessage(data);
+        if (errorMessage) {
+          const error = new Error(errorMessage);
           error.data = data.data;
+          error.errors = data.errors;
           reject(error);
         } else {
           resolve(data);

@@ -197,4 +197,29 @@ describe("Monday Client Test API - Returning data", () => {
     clock.tick(5);
     window.removeEventListener("message", onPostMessage, false);
   });
+
+  it("API should reject the promise, when host raises an event with errors array", done => {
+    const clientId = "clientId";
+    const errors = [{ message: "First API error" }, { message: "Second API error" }];
+    function onPostMessage(event) {
+      const { requestId, method, type } = event.data;
+      if (method === "api" && !event.data.errors) {
+        window.postMessage({ requestId, method, type, errors }, "*");
+        //because in tests we don't have 2 different window object (parent and iframe) they are exchanging in the same
+        //events space, so here we need to stop the initial SDK event propogation to not allow SDK to react to it's own event
+        event.stopImmediatePropagation();
+      }
+    }
+    window.addEventListener("message", onPostMessage, false);
+
+    const mondayClient = initMondaySdk({ clientId });
+    mondayClient.api("query").catch(err => {
+      expect(err).to.be.ok;
+      expect(err.message).to.be.equal("First API error, Second API error");
+      expect(err.errors).to.be.equal(errors);
+      done();
+    });
+    clock.tick(5);
+    window.removeEventListener("message", onPostMessage, false);
+  });
 });
