@@ -122,6 +122,26 @@ describe("Monday Client Test", () => {
       window.removeEventListener("message", postMessageStub, false);
     });
 
+    it("should post message to parent when token is set in an embedded app", () => {
+      const originalParent = window.parent;
+      const embeddedParent = { postMessage: sinon.stub() };
+      Object.defineProperty(window, "parent", { value: embeddedParent, configurable: true });
+
+      try {
+        mondayClient.setToken("api_token");
+        mondayClient.api("query");
+
+        expect(embeddedParent.postMessage).to.be.calledWithMatch({
+          method: "api",
+          args: {
+            params: { query: "query" }
+          }
+        });
+      } finally {
+        Object.defineProperty(window, "parent", { value: originalParent, configurable: true });
+      }
+    });
+
     it("get api post message", () => {
       window.addEventListener("message", postMessageStub, false);
       mondayClient.get({ type: "type", method: "method" });

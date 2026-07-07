@@ -73,7 +73,7 @@ class MondayClientSdk {
     const apiVersion = options.apiVersion || this._apiVersion;
 
     let responsePromise;
-    if (token) {
+    if (token && !this._isEmbedded()) {
       responsePromise = mondayApiClient.execute(params, token, { apiVersion });
     } else {
       responsePromise = this._localApi("api", { params, apiVersion }).then(result => result.data);
@@ -218,6 +218,10 @@ class MondayClientSdk {
         }
       });
     });
+  }
+
+  _isEmbedded() {
+    return window.parent && window.parent !== window;
   }
 
   _receiveMessage(event) {
