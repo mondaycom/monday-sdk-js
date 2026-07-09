@@ -21,4 +21,7 @@ declare function init(
 
 export { MondayClientSdk, MondayServerSdk };
 
+// Export semantic API types for developers who want to use them directly
+export * from "./semantic";
+
 export default init;
