@@ -1,9 +1,7 @@
-const mondayApiClient = require("./monday-api-client");
 const { MONDAY_OAUTH_URL } = require("./constants.js");
 const { convertToArrayIfNeeded } = require("./helpers");
 const { initScrollHelperIfNeeded } = require("./helpers/ui-helpers");
 const { initBackgroundTracking } = require("./services/background-tracking-service");
-const { logWarnings } = require("./helpers/monday-api-helpers");
 
 const EMPTY_ARRAY = [];
 
@@ -15,15 +13,10 @@ const STORAGE_SEGMENT_KINDS = {
 class MondayClientSdk {
   constructor(options = {}) {
     this._clientId = options.clientId;
-    this._apiToken = options.apiToken;
-    this._apiVersion = options.apiVersion;
 
     this.listeners = {};
 
     this.setClientId = this.setClientId.bind(this);
-    this.setToken = this.setToken.bind(this);
-    this.setApiVersion = this.setApiVersion.bind(this);
-    this.api = this.api.bind(this);
     this.listen = this.listen.bind(this);
     this.get = this.get.bind(this);
     this.set = this.set.bind(this);
@@ -53,44 +46,8 @@ class MondayClientSdk {
     this._clientId = clientId;
   }
 
-  setToken(token) {
-    this._apiToken = token;
-  }
-
-  setApiVersion(apiVersion) {
-    this._apiVersion = apiVersion;
-  }
-
-  api(query, options = {}) {
-    console.warn(
-      "[DEPRECATION WARNING] monday.api() is deprecated and will be removed in version 1.0.0-beta.\n" +
-        "Use the official @mondaydotcomorg/api package instead: https://www.npmjs.com/package/@mondaydotcomorg/api"
-    );
-
-    const params = { query, variables: options.variables };
-    const token = options.token || this._apiToken;
-    const apiVersion = options.apiVersion || this._apiVersion;
-
-    let responsePromise;
-    if (token) {
-      responsePromise = mondayApiClient.execute(params, token, { apiVersion });
-    } else {
-      responsePromise = this._localApi("api", { params, apiVersion }).then(result => result.data);
-    }
-
-    return responsePromise.then(logWarnings);
-  }
-
   listen(typeOrTypes, callback, params) {
     const types = convertToArrayIfNeeded(typeOrTypes);
-
-    if (types.includes("itemIds")) {
-      console.warn(
-        "[DEPRECATION WARNING] monday.listen('itemIds') is deprecated and considered legacy. Avoid using it in new code.\n" +
-          "Use the API to fetch item IDs instead: https://developer.monday.com/apps/docs/mondaylisten#for-large-boards-fetch-all-filtered-item-ids-via-the-api"
-      );
-    }
-
     const unsubscribes = [];
 
     types.forEach(type => {
