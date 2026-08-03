@@ -63,7 +63,7 @@ class MondayClientSdk {
 
   api(query, options = {}) {
     console.warn(
-      "[DEPRECATION WARNING] monday.api() is deprecated and will be removed in version 1.0.0.\n" +
+      "[DEPRECATION WARNING] monday.api() is deprecated and will be removed in version 1.0.0-beta.\n" +
         "Use the official @mondaydotcomorg/api package instead: https://www.npmjs.com/package/@mondaydotcomorg/api"
     );
 

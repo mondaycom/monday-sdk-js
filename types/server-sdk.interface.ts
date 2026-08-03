@@ -1,7 +1,7 @@
 import { APIOptions } from './client-api.interface';
 
 /**
- * @deprecated The monday-sdk-js server SDK is deprecated and will be removed in version 1.0.0.
+ * @deprecated The monday-sdk-js server SDK is deprecated and will be removed in version 1.0.0-beta.
  * The api() method for GraphQL queries should be replaced with @mondaydotcomorg/api: https://www.npmjs.com/package/@mondaydotcomorg/api
  * For more information, visit: https://developer.monday.com/api-reference/docs/api-sdk
  */

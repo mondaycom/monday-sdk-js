@@ -32,6 +32,9 @@ interface OAuthOptions {
 
 export interface ClientApi {
     /**
+     * @deprecated monday.api() is deprecated and will be removed in version 1.0.0-beta.
+     * Use the official @mondaydotcomorg/api package instead: https://www.npmjs.com/package/@mondaydotcomorg/api
+     *
      * Used for querying the monday.com GraphQL API seamlessly on behalf of the connected user, or using a provided API token.
      * For more information about the GraphQL API and all queries and mutations possible, read the [API Documentation](https://monday.com/developers/v2)
      * @param query A [GraphQL](https://graphql.org/) query, can be either a query (retrieval operation) or a mutation (creation/update/deletion operation).
