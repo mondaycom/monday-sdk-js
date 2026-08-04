@@ -6,7 +6,6 @@ export as namespace mondaySdk;
 declare function init(
   config?: Partial<{
     clientId: string;
-    apiVersion: string;
   }>
 ): MondayClientSdk;
 

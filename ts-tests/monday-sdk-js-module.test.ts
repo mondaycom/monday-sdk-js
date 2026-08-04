@@ -1,8 +1,6 @@
 import mondaySdk from "../types";
 const monday = mondaySdk();
 
-mondaySdk({ apiVersion: "2023-10" });
-
 monday.get("context", { appFeatureType: "AppFeatureBoardView" }).then(res => {
   const { data }: { data: { app: { id: number }; theme: string; boardId: number; viewMode: string } } = res;
 });
