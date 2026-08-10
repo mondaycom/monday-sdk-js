@@ -1,14 +1,6 @@
 import mondaySdk from "../types";
 const monday = mondaySdk();
 
-monday.api("test");
-
-monday.setApiVersion("2023-10");
-mondaySdk({ apiVersion: "2023-10" });
-monday.api("test", { apiVersion: "2023-07" });
-
-monday.setToken("test");
-
 monday.get("context", { appFeatureType: "AppFeatureBoardView" }).then(res => {
   const { data }: { data: { app: { id: number }; theme: string; boardId: number; viewMode: string } } = res;
 });
@@ -151,14 +143,3 @@ monday.storage.setItem("test", "123").then(res => {
 monday.storage.deleteItem("test").then(res => {
   const { data }: { data: { error?: string; success: boolean }; errorMessage?: string } = res;
 });
-
-const mondayServer = mondaySdk({ token: "123", apiVersion: "2023-10" });
-
-mondayServer.setToken("123");
-mondayServer.setApiVersion("2023-10");
-mondayServer.api("test");
-mondayServer.api("test", { token: "test" });
-mondayServer.api("test", { variables: { variable1: "test" } });
-mondayServer.api("test", { token: "test", variables: { variable1: "test" } });
-mondayServer.api("test", { token: "test", apiVersion: "2023-07" });
-mondayServer.oauthToken("test", "test", "test");

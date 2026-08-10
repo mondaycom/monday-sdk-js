@@ -1,5 +1,4 @@
-const { isBrowser } = require("./helpers");
-const init = isBrowser ? require("./client") : require("./server");
+const init = require("./client");
 
 (function(root, factory) {
   if (typeof define === "function" && define.amd) {

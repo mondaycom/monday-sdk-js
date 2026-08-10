@@ -1,6 +1,6 @@
 {
   "name": "monday-sdk-js",
-  "version": "0.5.9",
+  "version": "1.0.0-beta",
   "private": false,
   "repository": "https://github.com/mondaycom/monday-sdk-js",
   "main": "src/index.js",
@@ -12,8 +12,7 @@
     "README.md",
     "dist/",
     "src/",
-    "types/",
-    "server-sdk.js"
+    "types/"
   ],
   "dependencies": {
     "node-fetch": "^2.6.0"
